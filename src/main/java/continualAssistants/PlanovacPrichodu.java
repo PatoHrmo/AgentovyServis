@@ -3,6 +3,7 @@ package continualAssistants;
 import OSPABA.*;
 import simulation.*;
 import agents.*;
+import entity.Cinnosti;
 import entity.Zakaznik;
 
 //meta! id="23"
@@ -38,6 +39,7 @@ public class PlanovacPrichodu extends Scheduler
 			
 			Zakaznik zak = new Zakaznik();
 			((MyMessage)message).setZakaznik(zak);
+			((MyMessage)message).setCinnostZakaznika(Cinnosti.cakaPredRampou);
 			assistantFinished(message);
 		}
 	}

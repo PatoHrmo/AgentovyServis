@@ -5,6 +5,7 @@ import OSPABA.Manager;
 import OSPABA.MessageForm;
 import OSPABA.Simulation;
 import agents.AgentServisu;
+import entity.Cinnosti;
 import simulation.Id;
 import simulation.Mc;
 import simulation.MyMessage;
@@ -33,6 +34,8 @@ public class ManagerServisu extends Manager
 	//meta! sender="AgentOpravary", id="65", type="Request"
 	public void processDajAutoZParkoviska1(MessageForm message)
 	{
+		((MyMessage)message).setZakaznik(myAgent().getZakaznikPredOpravovnou());
+		response(message);
 	}
 
 	//meta! sender="AgentModelu", id="11", type="Request"
@@ -65,7 +68,7 @@ public class ManagerServisu extends Manager
 	//meta! sender="PrejazdRampou", id="37", type="Finish"
 	public void processFinishPrejazdRampou(MessageForm message)
 	{
-		((MyMessage)message).setCasPrejdeniaRampou(mySim().currentTime());
+		((MyMessage)message).setCasZaciatkuJazdy(mySim().currentTime());
 		message.setAddressee(Id.prejazdRampaServis);
 		startContinualAssistant(message);
 		myAgent().setNaRampeSmeromDnuNiektoJe(false);
@@ -83,7 +86,6 @@ public class ManagerServisu extends Manager
 	}
 
 	//meta! sender="PrejazdRampaServis", id="55", type="Finish"
-	@SuppressWarnings("unused")
 	public void processFinishPrejazdRampaServis(MessageForm message)
 	{
 		myAgent().getFrontaPredZadavanimObjednavky().enqueue((MyMessage)message);
@@ -96,11 +98,21 @@ public class ManagerServisu extends Manager
 	//meta! sender="AgentVybavovaci", id="62", type="Notice"
 	public void processAutoBoloPreparkovaneNaParkovisko1(MessageForm message)
 	{
+		myAgent().pridajAutoDoFrontyPredOpravovnou((MyMessage)message);
+		message.setAddressee(Id.agentOpravary);
+		message.setCode(Mc.prichodAutaNaParkovisko1);
+		notice(message);
 	}
 
 	//meta! sender="AgentVybavovaci", id="58", type="Request"
 	public void processVypytajMiestoParkoviska1(MessageForm message)
 	{
+		if(myAgent().existujeNerezervovaneMiestoParkoviska1()){
+			myAgent().rezervujMiestoParkoviska1();
+			response(message);
+		} else {
+			myAgent().pridajRobotnikaCakajucehoNaParkovisko1(message);
+		}
 	}
 
 	//meta! sender="AgentOpravary", id="66", type="Request"
@@ -114,6 +126,14 @@ public class ManagerServisu extends Manager
 		switch (message.code())
 		{
 		}
+	}
+
+	//meta! sender="AgentVybavovaci", id="70", type="Request"
+	public void processDajZakaznikaCakajucehoNaZadanieObjeddnavky(MessageForm message)
+	{
+		MyMessage mes = myAgent().getFrontaPredZadavanimObjednavky().dequeue();
+		((MyMessage)message).setZakaznik(mes.getZakaznik());
+		response(message);
 	}
 
 	//meta! userInfo="Generated code: do not modify", tag="begin"
@@ -165,6 +185,10 @@ public class ManagerServisu extends Manager
 
 		case Mc.dajAutoZParkoviska1:
 			processDajAutoZParkoviska1(message);
+		break;
+
+		case Mc.dajZakaznikaCakajucehoNaZadanieObjeddnavky:
+			processDajZakaznikaCakajucehoNaZadanieObjeddnavky(message);
 		break;
 
 		case Mc.autoBoloPreparkovaneNaParkovisko1:

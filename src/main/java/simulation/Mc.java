@@ -9,6 +9,7 @@ public class Mc extends IdList
 	public static final int dajAutoZParkoviska1 = 1023;
 	public static final int vypytajMiestoParkoviska2 = 1024;
 	public static final int prichodAutaNaParkovisko2 = 1025;
+	public static final int dajZakaznikaCakajucehoNaZadanieObjeddnavky = 1026;
 	public static final int stustiTok = 1001;
 	public static final int prichodZakaznika = 1002;
 	public static final int odchodZakaznika = 1003;
@@ -22,5 +23,10 @@ public class Mc extends IdList
 	public static final int novyZakaznik = 2;
 	public static final int prechodCezRampu = 3;
 	public static final int prichodOdRampyNaParkovisko1 = 4;
+	public static final int koniecZadavaniaObjednavky = 5;
+	public static final int koniecPreberaniaAutaOdZakaznika = 6;
+	public static final int koniecPreparkovaniaNaParkovisko1 = 7;
+	public static final int koniecOpravy = 7;
 	// 1..1000 range reserved for user
+	
 }

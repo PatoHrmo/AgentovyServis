@@ -7,6 +7,7 @@ import OSPABA.Simulation;
 import agents.AgentVybavovaci;
 import simulation.Id;
 import simulation.Mc;
+import simulation.MyMessage;
 
 //meta! id="15"
 public class ManagerVybavovaci extends Manager
@@ -43,7 +44,10 @@ public class ManagerVybavovaci extends Manager
 	public void processPrisielZakaznik(MessageForm message)
 	{
 		if(myAgent().jeVolnyPracovnik()) {
-			
+			message.setAddressee(Id.agentServisu);
+			message.setCode(Mc.dajZakaznikaCakajucehoNaZadanieObjeddnavky);
+			((MyMessage)message).setRobotnik(myAgent().getVolnyRobotnik());
+			request(message);
 		} else {
 			myAgent().zvysPocetLudiCakajucichNaZadanieObjednavky();
 		}
@@ -52,11 +56,33 @@ public class ManagerVybavovaci extends Manager
 	//meta! sender="PreparkovanieNaPark1", id="44", type="Finish"
 	public void processFinishPreparkovanieNaPark1(MessageForm message)
 	{
+		
+		myAgent().uvolnenieRobotnika(((MyMessage)message));
+		cinnostPriUvolneniRobotnika();
+		message.setAddressee(Id.agentServisu);
+		message.setCode(Mc.autoBoloPreparkovaneNaParkovisko1);
+		notice(message);
+	}
+
+	private void cinnostPriUvolneniRobotnika() {
+		if(myAgent().niektoCakaNaZadanieObjednavky()) {
+			MyMessage message = new MyMessage(_mySim, null);
+			message.setAddressee(Id.agentServisu);
+			message.setCode(Mc.dajZakaznikaCakajucehoNaZadanieObjeddnavky);
+			((MyMessage)message).setRobotnik(myAgent().getVolnyRobotnik());
+			request(message);
+		} else {
+			
+		}
+		
 	}
 
 	//meta! sender="ZadavanieObjednavky", id="42", type="Finish"
 	public void processFinishZadavanieObjednavky(MessageForm message)
 	{
+		message.setAddressee(Id.agentServisu);
+		message.setCode(Mc.vypytajMiestoParkoviska1);
+		request(message);
 	}
 
 	//meta! sender="PreparkovaniePredServis", id="46", type="Finish"
@@ -72,6 +98,9 @@ public class ManagerVybavovaci extends Manager
 	//meta! sender="AgentServisu", id="58", type="Response"
 	public void processVypytajMiestoParkoviska1(MessageForm message)
 	{
+		message.setAddressee(Id.preparkovanieNaPark1);
+		((MyMessage)message).setCasZaciatkuJazdy(mySim().currentTime());
+		startContinualAssistant(message);
 	}
 
 	//meta! userInfo="Process messages defined in code", id="0"
@@ -80,6 +109,13 @@ public class ManagerVybavovaci extends Manager
 		switch (message.code())
 		{
 		}
+	}
+
+	//meta! sender="AgentServisu", id="70", type="Response"
+	public void processDajZakaznikaCakajucehoNaZadanieObjeddnavky(MessageForm message)
+	{
+		message.setAddressee(Id.zadavanieObjednavky);
+		startContinualAssistant(message);
 	}
 
 	//meta! userInfo="Generated code: do not modify", tag="begin"
@@ -123,6 +159,10 @@ public class ManagerVybavovaci extends Manager
 
 		case Mc.prisielZakaznik:
 			processPrisielZakaznik(message);
+		break;
+
+		case Mc.dajZakaznikaCakajucehoNaZadanieObjeddnavky:
+			processDajZakaznikaCakajucehoNaZadanieObjeddnavky(message);
 		break;
 
 		case Mc.dajAutoZParkoviska2:

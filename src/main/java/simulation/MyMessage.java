@@ -1,12 +1,14 @@
 package simulation;
 
 import OSPABA.*;
+import entity.Robotnik;
 import entity.Zakaznik;
 
 public class MyMessage extends MessageForm
 {	
 	private Zakaznik zakaznik;
-	private double casPrejdeniaRampou;
+	private Robotnik robotnik;
+	private double casZaciatkuJazdy;
 
 	public MyMessage(Simulation sim, Zakaznik zak)
 	{
@@ -18,7 +20,7 @@ public class MyMessage extends MessageForm
 	{
 		super(original);
 		zakaznik = original.zakaznik;
-		casPrejdeniaRampou = original.casPrejdeniaRampou;
+		
 	}
 
 	@Override
@@ -42,11 +44,28 @@ public class MyMessage extends MessageForm
 		this.zakaznik = zakaznik;
 	}
 
-	public double getCasPrejdeniaRampou() {
-		return casPrejdeniaRampou;
+	
+
+	public void setRobotnik(Robotnik volnyRobotnik) {
+		this.robotnik = volnyRobotnik;
+		
 	}
 
-	public void setCasPrejdeniaRampou(double casPrejdeniaRampou) {
-		this.casPrejdeniaRampou = casPrejdeniaRampou;
+	public void setCasZaciatkuJazdy(double cas) {
+		casZaciatkuJazdy = cas;
+	}
+
+	public Robotnik getRobotnik() {
+		return robotnik;
+	}
+
+	public void setCinnostZakaznika(String cinnost) {
+		zakaznik.setCinnost(cinnost);
+		
+	}
+
+	public void setCinnostRobotnika(String cinnost) {
+		robotnik.setCinnost(cinnost);
+		
 	}
 }

@@ -14,19 +14,27 @@ import simulation.Mc;
 //meta! id="17"
 public class AgentOpravary extends Agent
 {	
-	private List<Robotnik> volnyPracovnici;
-	private List<Robotnik> pracujuciPracovnici;
+	private List<Robotnik> volnyPracovnici; 
+	private List<Robotnik> vsetciPracovnici;
+	private int pocetAutPredOpravovnou;
 	public AgentOpravary(int id, Simulation mySim, Agent parent)
 	{
 		super(id, mySim, parent);
 		init();
+		addOwnMessage(Mc.koniecOpravy);
 		volnyPracovnici = new LinkedList<>();
-		pracujuciPracovnici = new LinkedList<>();
+		vsetciPracovnici = new LinkedList<>();
+		pocetAutPredOpravovnou = 0;
 	}
 	public void nastavPocetPracovnikov(int pocetPracovnikov) {
 		for(int i = 0; i<pocetPracovnikov;i++) {
-			volnyPracovnici.add(new Robotnik(mySim()));
+			Robotnik rob = new Robotnik(mySim(),i);
+			volnyPracovnici.add(rob);
+			vsetciPracovnici.add(rob);
 		}
+	}
+	public List<Robotnik> getVsetciPracovnici() {
+		return vsetciPracovnici;
 	}
 	public boolean jeVolnyPracovnik() {
 		return !volnyPracovnici.isEmpty();
@@ -48,4 +56,16 @@ public class AgentOpravary extends Agent
 		addOwnMessage(Mc.vypytajMiestoParkoviska2);
 	}
 	//meta! tag="end"
+	public void zvysPocetAutPredOpravovnou() {
+		pocetAutPredOpravovnou++;
+	}
+	public void znizPocetAutPredOpravovnou() {
+		pocetAutPredOpravovnou--;
+	}
+	public int getPocetAutPredOpravovnou() {
+		return pocetAutPredOpravovnou;
+	}
+	public Robotnik getVolnyPracovnik() {
+		return volnyPracovnici.remove(0);
+	}
 }

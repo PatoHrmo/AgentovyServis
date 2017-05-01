@@ -5,7 +5,9 @@ import OSPABA.Manager;
 import OSPABA.MessageForm;
 import OSPABA.Simulation;
 import agents.AgentOpravary;
+import simulation.Id;
 import simulation.Mc;
+import simulation.MyMessage;
 
 //meta! id="17"
 public class ManagerOpravary extends Manager
@@ -31,16 +33,27 @@ public class ManagerOpravary extends Manager
 	//meta! sender="AgentServisu", id="65", type="Response"
 	public void processDajAutoZParkoviska1(MessageForm message)
 	{
+		message.setAddressee(Id.oprava);
+		startContinualAssistant(message);
 	}
 
 	//meta! sender="AgentServisu", id="64", type="Notice"
 	public void processPrichodAutaNaParkovisko1(MessageForm message)
 	{
+		if(myAgent().jeVolnyPracovnik()) {
+			message.setAddressee(Id.agentServisu);
+			message.setCode(Mc.dajAutoZParkoviska1);
+			((MyMessage)message).setRobotnik(myAgent().getVolnyPracovnik());
+			request(message);
+		} else {
+			myAgent().zvysPocetAutPredOpravovnou();
+		}
 	}
 
 	//meta! sender="Oprava", id="51", type="Finish"
 	public void processFinish(MessageForm message)
 	{
+		
 	}
 
 	//meta! sender="AgentServisu", id="66", type="Response"

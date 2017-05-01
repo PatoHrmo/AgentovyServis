@@ -3,6 +3,7 @@ package continualAssistants;
 import OSPABA.*;
 import simulation.*;
 import agents.*;
+import entity.Cinnosti;
 import OSPABA.Process;
 
 //meta! id="54"
@@ -24,6 +25,7 @@ public class PrejazdRampaServis extends Process
 	public void processStart(MessageForm message)
 	{
 		message.setCode(Mc.prichodOdRampyNaParkovisko1);
+		((MyMessage)message).setCinnostZakaznika(Cinnosti.ideOdRampyDoServisu);
 		hold(13.32,message);
 	}
 
@@ -32,6 +34,7 @@ public class PrejazdRampaServis extends Process
 	{
 		switch (message.code())
 		{	case Mc.prichodOdRampyNaParkovisko1:
+			((MyMessage)message).setCinnostZakaznika(Cinnosti.cakaNaZadanieObjednavky);
 			assistantFinished(message);
 		}
 	}

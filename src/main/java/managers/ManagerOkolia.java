@@ -7,6 +7,7 @@ import OSPABA.Simulation;
 import agents.AgentOkolia;
 import simulation.Id;
 import simulation.Mc;
+import simulation.MyMessage;
 
 //meta! id="3"
 public class ManagerOkolia extends Manager
@@ -39,7 +40,7 @@ public class ManagerOkolia extends Manager
 	{
 		message.setAddressee(Id.agentModelu);
 		message.setCode(Mc.prichodZakaznika);
-		
+		myAgent().pridajZakaznikaDoSystemu(((MyMessage)message).getZakaznik());
 		notice(message);
 	}
 

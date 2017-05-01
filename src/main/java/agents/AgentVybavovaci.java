@@ -13,19 +13,23 @@ import entity.Robotnik;
 import managers.ManagerVybavovaci;
 import simulation.Id;
 import simulation.Mc;
+import simulation.MyMessage;
 
 //meta! id="15"
 public class AgentVybavovaci extends Agent
 {	
 	private List<Robotnik> volnyPracovnici;
-	private List<Robotnik> pracujuciPracovnici;
+	private List<Robotnik> vsetciPracovnici;
 	private int pocetLudiCakajucichNaZadanieObjednavky;
 	public AgentVybavovaci(int id, Simulation mySim, Agent parent)
 	{
 		super(id, mySim, parent);
 		init();
+		addOwnMessage(Mc.koniecZadavaniaObjednavky);
+		addOwnMessage(Mc.koniecPreberaniaAutaOdZakaznika);
+		addOwnMessage(Mc.koniecPreparkovaniaNaParkovisko1);
 		volnyPracovnici = new LinkedList<>();
-		pracujuciPracovnici = new LinkedList<>();
+		vsetciPracovnici = new LinkedList<>();
 		pocetLudiCakajucichNaZadanieObjednavky = 0;
 	}
 
@@ -47,14 +51,20 @@ public class AgentVybavovaci extends Agent
 		addOwnMessage(Mc.dajAutoZParkoviska2);
 		addOwnMessage(Mc.prichodAutaNaParkovisko2);
 		addOwnMessage(Mc.prisielZakaznik);
+		addOwnMessage(Mc.dajZakaznikaCakajucehoNaZadanieObjeddnavky);
 		addOwnMessage(Mc.vypytajMiestoParkoviska1);
 	}
 	//meta! tag="end"
 
 	public void nastavPocetPracovnikov(int pocetPracovnikov) {
 		for(int i = 0; i<pocetPracovnikov;i++) {
-			volnyPracovnici.add(new Robotnik(mySim()));
+			Robotnik rob = new Robotnik(mySim(),i);
+			volnyPracovnici.add(rob);
+			vsetciPracovnici.add(rob);
 		}
+	}
+	public List<Robotnik> getVsetciPracovnici() {
+		return vsetciPracovnici;
 	}
 
 	public boolean jeVolnyPracovnik() {
@@ -71,5 +81,20 @@ public class AgentVybavovaci extends Agent
 		if(pocetLudiCakajucichNaZadanieObjednavky==0)
 			return false;
 		return true;
+	}
+	/**
+	 * metoda vrati volneho robotnika - odoberie ho zo zonamu volnychPracovnikov
+	 * @return robotnik ktory je volny
+	 */
+	public Robotnik getVolnyRobotnik() {
+		Robotnik robotnik = volnyPracovnici.remove(0);
+		
+		return robotnik;
+	}
+
+	public void uvolnenieRobotnika(MyMessage myMessage) {
+		volnyPracovnici.add(myMessage.getRobotnik());
+		myMessage.setRobotnik(null);
+		
 	}
 }
