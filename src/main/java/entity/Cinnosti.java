@@ -22,5 +22,9 @@ public class Cinnosti {
 	public static final String jeVOpravovni = "je v opravovni";
 	public static final String cakaNaUvolnenieParkoviska2 = "èaká na uvolnenie parkoviska 2";
 	public static final String cakaVOpravovniNaParkovisko2 ="èaká v opravovni na uvolnenie parkoviska2";
+	public static final String cakaNaParkovisku2 = "èaká na parkovisku 2";
+	public static final String preparkuvavaPredServis = "preparkuváva opravené auto pred servis";
+	public static final String idOdParkoviska2PredServis = "ide od parkoviska 2 pred servis";
+	public static final String preberaOpraveneAuto = "preberá opravené auto";
 	
 }

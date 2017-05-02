@@ -3,6 +3,7 @@ package continualAssistants;
 import OSPABA.*;
 import simulation.*;
 import agents.*;
+import entity.Cinnosti;
 import OSPABA.Process;
 
 //meta! id="45"
@@ -23,6 +24,11 @@ public class PreparkovaniePredServis extends Process
 	//meta! sender="AgentVybavovaci", id="46", type="Start"
 	public void processStart(MessageForm message)
 	{
+		((MyMessage)message).setCasZaciatkuJazdy(mySim().currentTime());
+		((MyMessage)message).setCinnostRobotnika(Cinnosti.preparkuvavaPredServis);
+		((MyMessage)message).setCinnostZakaznika(Cinnosti.idOdParkoviska2PredServis);
+		message.setCode(Mc.koniecPreparkovaniaNaParkoviskoPredServisom);
+		hold(110.16,message);
 	}
 
 	//meta! userInfo="Process messages defined in code", id="0"
@@ -30,6 +36,8 @@ public class PreparkovaniePredServis extends Process
 	{
 		switch (message.code())
 		{
+		case Mc.koniecPreparkovaniaNaParkoviskoPredServisom :
+			assistantFinished(message);
 		}
 	}
 

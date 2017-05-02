@@ -21,7 +21,10 @@ public class AgentServisu extends Agent
 	private SimQueue<MyMessage> frontaPredZadavanimObjednavky;
 	private SimQueue<MyMessage> frontaAutPredOpravovnou;
 	private SimQueue<MyMessage> frontaRobotnikovCakajucichNaUvolnenieParkoviska1;
+	private SimQueue<MyMessage> frontaRobotnikovCakajucichNaUvolnenieParkoviska2;
+	private SimQueue<MyMessage> frontaAutCakajucichNaOdovzdanie;
 	private final int velkostParkoviska1 = 6;
+	private final int velkostParkoviska2 = 10;
 	private int pocetRezervovanychMiestNaParkovisku1;
 	private boolean naRampeSmeromDnuNiektoJe;
 	public AgentServisu(int id, Simulation mySim, Agent parent)
@@ -34,8 +37,12 @@ public class AgentServisu extends Agent
 		frontaPredZadavanimObjednavky = new SimQueue<>(new WStat(_mySim));
 		frontaAutPredOpravovnou = new SimQueue<>(new WStat(_mySim));
 		frontaRobotnikovCakajucichNaUvolnenieParkoviska1 = new SimQueue<>(new WStat(_mySim));
+		frontaAutCakajucichNaOdovzdanie = new SimQueue<>(new WStat(_mySim));
+		frontaRobotnikovCakajucichNaUvolnenieParkoviska2 = new SimQueue<>(new WStat(_mySim));
+		
 		naRampeSmeromDnuNiektoJe = false;
 		pocetRezervovanychMiestNaParkovisku1 = 0;
+		
 		
 	}
 
@@ -104,5 +111,36 @@ public class AgentServisu extends Agent
 
 	public Zakaznik getZakaznikPredOpravovnou() {
 		return frontaAutPredOpravovnou.dequeue().getZakaznik();
+	}
+
+	public boolean jeVolneMiestoNaParkovisku2() {
+		if(frontaAutCakajucichNaOdovzdanie.size()<velkostParkoviska2) {
+			return true;
+		}
+		return false;
+	}
+	public void pridajAutoNaParkovisko2(MyMessage message) {
+		frontaAutCakajucichNaOdovzdanie.enqueue(message);
+	}
+	public void pridajRobotnikaCakajucehoNaParkovisko2(MyMessage message) {
+		frontaRobotnikovCakajucichNaUvolnenieParkoviska2.enqueue(message);
+	}
+	public MyMessage getCakajucehoPracovnikaNaParkovisko1() {
+		return frontaRobotnikovCakajucichNaUvolnenieParkoviska1.dequeue();
+	}
+	public int getPocetPracovnikov1CakajucichNaParkovisko1() {
+		return frontaRobotnikovCakajucichNaUvolnenieParkoviska1.size();
+	}
+
+	public Zakaznik getOpraveneAuto() {
+		return frontaAutCakajucichNaOdovzdanie.dequeue().getZakaznik();
+	}
+
+	public MyMessage getCakajucehoPracovnikaNaParkovisko2() {
+		return frontaRobotnikovCakajucichNaUvolnenieParkoviska2.dequeue();
+	}
+
+	public int getPocetPracovnikovCakajucichNaParkovisko2() {
+		return frontaRobotnikovCakajucichNaUvolnenieParkoviska2.size();
 	}
 }

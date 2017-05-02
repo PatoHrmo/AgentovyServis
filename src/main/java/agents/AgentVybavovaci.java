@@ -21,6 +21,7 @@ public class AgentVybavovaci extends Agent
 	private List<Robotnik> volnyPracovnici;
 	private List<Robotnik> vsetciPracovnici;
 	private int pocetLudiCakajucichNaZadanieObjednavky;
+	private int pocetAutNaParkovisku2;
 	public AgentVybavovaci(int id, Simulation mySim, Agent parent)
 	{
 		super(id, mySim, parent);
@@ -28,9 +29,12 @@ public class AgentVybavovaci extends Agent
 		addOwnMessage(Mc.koniecZadavaniaObjednavky);
 		addOwnMessage(Mc.koniecPreberaniaAutaOdZakaznika);
 		addOwnMessage(Mc.koniecPreparkovaniaNaParkovisko1);
+		addOwnMessage(Mc.koniecPreparkovaniaNaParkoviskoPredServisom);
+		addOwnMessage(Mc.koniecOdovzdaniaOpravenehoAuta);
 		volnyPracovnici = new LinkedList<>();
 		vsetciPracovnici = new LinkedList<>();
 		pocetLudiCakajucichNaZadanieObjednavky = 0;
+		pocetAutNaParkovisku2 = 0;
 	}
 
 	@Override
@@ -75,7 +79,7 @@ public class AgentVybavovaci extends Agent
 		pocetLudiCakajucichNaZadanieObjednavky++;
 	}
 	public void znizPocetLudiCakajucichNaZadanieObjednavky() {
-		pocetLudiCakajucichNaZadanieObjednavky++;
+		pocetLudiCakajucichNaZadanieObjednavky--;
 	}
 	public boolean niektoCakaNaZadanieObjednavky() {
 		if(pocetLudiCakajucichNaZadanieObjednavky==0)
@@ -96,5 +100,15 @@ public class AgentVybavovaci extends Agent
 		volnyPracovnici.add(myMessage.getRobotnik());
 		myMessage.setRobotnik(null);
 		
+	}
+
+	public void zvysPocetAutNaParkovisku2() {
+		pocetAutNaParkovisku2++;
+	}
+	public void znizPocetAutNaParkovisku2() {
+		pocetAutNaParkovisku2--;
+	}
+	public int getPocetLudiNaParkovisku2() {
+		return pocetAutNaParkovisku2;
 	}
 }

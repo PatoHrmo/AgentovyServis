@@ -33,11 +33,21 @@ public class ManagerVybavovaci extends Manager
 	//meta! sender="AgentServisu", id="61", type="Response"
 	public void processDajAutoZParkoviska2(MessageForm message)
 	{
+		((MyMessage)message).setAddressee(Id.preparkovaniePredServis);
+		startContinualAssistant(message);
 	}
 
 	//meta! sender="AgentServisu", id="63", type="Notice"
 	public void processPrichodAutaNaParkovisko2(MessageForm message)
 	{
+		if(myAgent().jeVolnyPracovnik()) {
+			((MyMessage)message).setRobotnik(myAgent().getVolnyRobotnik());
+			message.setAddressee(Id.agentServisu);
+			message.setCode(Mc.dajAutoZParkoviska2);
+			request(message);
+		} else {
+			myAgent().zvysPocetAutNaParkovisku2();
+		}
 	}
 
 	//meta! sender="AgentServisu", id="39", type="Notice"
@@ -66,13 +76,19 @@ public class ManagerVybavovaci extends Manager
 
 	private void cinnostPriUvolneniRobotnika() {
 		if(myAgent().niektoCakaNaZadanieObjednavky()) {
+			myAgent().znizPocetLudiCakajucichNaZadanieObjednavky();
 			MyMessage message = new MyMessage(_mySim, null);
 			message.setAddressee(Id.agentServisu);
 			message.setCode(Mc.dajZakaznikaCakajucehoNaZadanieObjeddnavky);
 			((MyMessage)message).setRobotnik(myAgent().getVolnyRobotnik());
 			request(message);
-		} else {
-			
+		} else if(myAgent().getPocetLudiNaParkovisku2()>0) {
+			myAgent().znizPocetAutNaParkovisku2();
+			MyMessage message = new MyMessage(_mySim, null);
+			message.setAddressee(Id.agentServisu);
+			message.setCode(Mc.dajAutoZParkoviska2);
+			((MyMessage)message).setRobotnik(myAgent().getVolnyRobotnik());
+			request(message);
 		}
 		
 	}
@@ -88,11 +104,18 @@ public class ManagerVybavovaci extends Manager
 	//meta! sender="PreparkovaniePredServis", id="46", type="Finish"
 	public void processFinishPreparkovaniePredServis(MessageForm message)
 	{
+		message.setAddressee(Id.odovzdavanieHotoveho);
+		startContinualAssistant(message);
 	}
 
 	//meta! sender="OdovzdavanieHotoveho", id="48", type="Finish"
 	public void processFinishOdovzdavanieHotoveho(MessageForm message)
 	{
+		myAgent().uvolnenieRobotnika(((MyMessage)message));
+		cinnostPriUvolneniRobotnika();
+		message.setAddressee(Id.agentModelu);
+		message.setCode(Mc.odchodObsluzenehoZakaznika);
+		notice(message);
 	}
 
 	//meta! sender="AgentServisu", id="58", type="Response"

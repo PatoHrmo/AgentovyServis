@@ -3,14 +3,18 @@ package continualAssistants;
 import OSPABA.*;
 import simulation.*;
 import agents.*;
+import entity.Cinnosti;
 import OSPABA.Process;
+import OSPRNG.UniformContinuousRNG;
 
 //meta! id="47"
 public class OdovzdavanieHotoveho extends Process
 {
+	private UniformContinuousRNG genDlzkyOdovzdavania;
 	public OdovzdavanieHotoveho(int id, Simulation mySim, CommonAgent myAgent)
 	{
 		super(id, mySim, myAgent);
+		genDlzkyOdovzdavania = new UniformContinuousRNG(123d, 257d);
 	}
 
 	@Override
@@ -23,6 +27,10 @@ public class OdovzdavanieHotoveho extends Process
 	//meta! sender="AgentVybavovaci", id="48", type="Start"
 	public void processStart(MessageForm message)
 	{
+		((MyMessage)message).setCinnostRobotnika(Cinnosti.odovzdavaAuto);
+		((MyMessage)message).setCinnostZakaznika(Cinnosti.preberaOpraveneAuto);
+		message.setCode(Mc.koniecOdovzdaniaOpravenehoAuta);
+		hold(genDlzkyOdovzdavania.sample(),message);
 	}
 
 	//meta! userInfo="Process messages defined in code", id="0"
@@ -30,6 +38,9 @@ public class OdovzdavanieHotoveho extends Process
 	{
 		switch (message.code())
 		{
+		case Mc.koniecOdovzdaniaOpravenehoAuta:
+			((MyMessage)message).setCinnostRobotnika(Cinnosti.necinny);
+			assistantFinished(message);
 		}
 	}
 

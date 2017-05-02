@@ -36,6 +36,10 @@ public class ManagerServisu extends Manager
 	{
 		((MyMessage)message).setZakaznik(myAgent().getZakaznikPredOpravovnou());
 		response(message);
+		if(myAgent().getPocetPracovnikov1CakajucichNaParkovisko1()>0) {
+			response(myAgent().getCakajucehoPracovnikaNaParkovisko1());
+		}
+		
 	}
 
 	//meta! sender="AgentModelu", id="11", type="Request"
@@ -53,11 +57,21 @@ public class ManagerServisu extends Manager
 	//meta! sender="AgentVybavovaci", id="61", type="Request"
 	public void processDajAutoZParkoviska2(MessageForm message)
 	{
+		((MyMessage)message).setZakaznik(myAgent().getOpraveneAuto());
+		response(message);
+		if(myAgent().getPocetPracovnikovCakajucichNaParkovisko2()>0) {
+			MyMessage mes = myAgent().getCakajucehoPracovnikaNaParkovisko2();
+			response(mes);
+		}
 	}
 
 	//meta! sender="AgentOpravary", id="67", type="Notice"
 	public void processPrichodAutaNaParkovisko2(MessageForm message)
 	{
+		myAgent().pridajAutoNaParkovisko2((MyMessage)message);
+		message.setAddressee(Id.agentVybavovaci);
+		message.setCode(Mc.prichodAutaNaParkovisko2);
+		notice(message);
 	}
 
 	//meta! sender="AgentVybavovaci", id="60", type="Notice"
@@ -118,6 +132,11 @@ public class ManagerServisu extends Manager
 	//meta! sender="AgentOpravary", id="66", type="Request"
 	public void processVypytajMiestoParkoviska2(MessageForm message)
 	{
+		if(myAgent().jeVolneMiestoNaParkovisku2()) {
+			response(message);
+		} else {
+			myAgent().pridajRobotnikaCakajucehoNaParkovisko2((MyMessage)message);
+		}
 	}
 
 	//meta! userInfo="Process messages defined in code", id="0"

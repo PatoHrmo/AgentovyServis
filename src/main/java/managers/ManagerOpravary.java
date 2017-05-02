@@ -53,12 +53,27 @@ public class ManagerOpravary extends Manager
 	//meta! sender="Oprava", id="51", type="Finish"
 	public void processFinish(MessageForm message)
 	{
+		message.setAddressee(Id.agentServisu);
+		message.setCode(Mc.vypytajMiestoParkoviska2);
+		request(message);
 		
 	}
 
 	//meta! sender="AgentServisu", id="66", type="Response"
 	public void processVypytajMiestoParkoviska2(MessageForm message)
 	{
+		myAgent().uvolniPracovnika((MyMessage)message);
+		message.setAddressee(Id.agentServisu);
+		message.setCode(Mc.prichodAutaNaParkovisko2);
+		notice(message);
+		if(myAgent().getPocetAutPredOpravovnou()>0) {
+			MyMessage mes = new MyMessage(_mySim, null);
+			mes.setAddressee(Id.agentServisu);
+			mes.setCode(Mc.dajAutoZParkoviska1);
+			mes.setRobotnik(myAgent().getVolnyPracovnik());
+			request(mes);
+		}
+		
 	}
 
 	//meta! userInfo="Process messages defined in code", id="0"

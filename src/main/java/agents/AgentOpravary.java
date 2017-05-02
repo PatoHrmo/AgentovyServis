@@ -6,10 +6,12 @@ import java.util.List;
 import OSPABA.Agent;
 import OSPABA.Simulation;
 import continualAssistants.Oprava;
+import entity.Cinnosti;
 import entity.Robotnik;
 import managers.ManagerOpravary;
 import simulation.Id;
 import simulation.Mc;
+import simulation.MyMessage;
 
 //meta! id="17"
 public class AgentOpravary extends Agent
@@ -67,5 +69,11 @@ public class AgentOpravary extends Agent
 	}
 	public Robotnik getVolnyPracovnik() {
 		return volnyPracovnici.remove(0);
+	}
+	public void uvolniPracovnika(MyMessage message) {
+		message.getRobotnik().setCinnost(Cinnosti.necinny);
+		message.getZakaznik().setCinnost(Cinnosti.cakaNaParkovisku2);
+		volnyPracovnici.add(message.getRobotnik());
+		message.setRobotnik(null);
 	}
 }

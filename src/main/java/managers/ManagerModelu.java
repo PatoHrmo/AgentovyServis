@@ -34,6 +34,7 @@ public class ManagerModelu extends Manager
 	//meta! sender="AgentServisu", id="11", type="Response"
 	public void processObsluzZakaznika(MessageForm message)
 	{
+		System.out.println("vyblulalo to");
 	}
 
 	//meta! sender="AgentOkolia", id="9", type="Notice"
