@@ -51,14 +51,13 @@ public class AgentVybavovaci extends Agent
 	private void init()
 	{
 		new ManagerVybavovaci(Id.managerVybavovaci, mySim(), this);
-		new ZadavanieObjednavky(Id.zadavanieObjednavky, mySim(), this);
-		new PreparkovanieNaPark1(Id.preparkovanieNaPark1, mySim(), this);
 		new OdovzdavanieHotoveho(Id.odovzdavanieHotoveho, mySim(), this);
+		new ZadavanieObjednavky(Id.zadavanieObjednavky, mySim(), this);
 		new PreparkovaniePredServis(Id.preparkovaniePredServis, mySim(), this);
+		new PreparkovanieNaPark1(Id.preparkovanieNaPark1, mySim(), this);
 		addOwnMessage(Mc.dajAutoZParkoviska2);
 		addOwnMessage(Mc.prichodAutaNaParkovisko2);
 		addOwnMessage(Mc.prisielZakaznik);
-		addOwnMessage(Mc.dajZakaznikaCakajucehoNaZadanieObjeddnavky);
 		addOwnMessage(Mc.vypytajMiestoParkoviska1);
 	}
 	//meta! tag="end"

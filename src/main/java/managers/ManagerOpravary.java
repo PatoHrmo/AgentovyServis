@@ -98,16 +98,16 @@ public class ManagerOpravary extends Manager
 			processDajAutoZParkoviska1(message);
 		break;
 
-		case Mc.prichodAutaNaParkovisko1:
-			processPrichodAutaNaParkovisko1(message);
+		case Mc.vypytajMiestoParkoviska2:
+			processVypytajMiestoParkoviska2(message);
 		break;
 
 		case Mc.finish:
 			processFinish(message);
 		break;
 
-		case Mc.vypytajMiestoParkoviska2:
-			processVypytajMiestoParkoviska2(message);
+		case Mc.prichodAutaNaParkovisko1:
+			processPrichodAutaNaParkovisko1(message);
 		break;
 
 		default:

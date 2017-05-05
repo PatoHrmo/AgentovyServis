@@ -146,7 +146,7 @@ public class ManagerVybavovaci extends Manager
 		}
 	}
 
-	//meta! sender="AgentServisu", id="70", type="Response"
+	//meta! userInfo="Removed from model"
 	public void processDajZakaznikaCakajucehoNaZadanieObjeddnavky(MessageForm message)
 	{
 		message.setAddressee(Id.zadavanieObjednavky);
@@ -166,14 +166,6 @@ public class ManagerVybavovaci extends Manager
 		case Mc.finish:
 			switch (message.sender().id())
 			{
-			case Id.preparkovanieNaPark1:
-				processFinishPreparkovanieNaPark1(message);
-			break;
-
-			case Id.zadavanieObjednavky:
-				processFinishZadavanieObjednavky(message);
-			break;
-
 			case Id.preparkovaniePredServis:
 				processFinishPreparkovaniePredServis(message);
 			break;
@@ -181,7 +173,23 @@ public class ManagerVybavovaci extends Manager
 			case Id.odovzdavanieHotoveho:
 				processFinishOdovzdavanieHotoveho(message);
 			break;
+
+			case Id.zadavanieObjednavky:
+				processFinishZadavanieObjednavky(message);
+			break;
+
+			case Id.preparkovanieNaPark1:
+				processFinishPreparkovanieNaPark1(message);
+			break;
 			}
+		break;
+
+		case Mc.dajAutoZParkoviska2:
+			processDajAutoZParkoviska2(message);
+		break;
+
+		case Mc.prisielZakaznik:
+			processPrisielZakaznik(message);
 		break;
 
 		case Mc.vypytajMiestoParkoviska1:
@@ -190,18 +198,6 @@ public class ManagerVybavovaci extends Manager
 
 		case Mc.prichodAutaNaParkovisko2:
 			processPrichodAutaNaParkovisko2(message);
-		break;
-
-		case Mc.prisielZakaznik:
-			processPrisielZakaznik(message);
-		break;
-
-		case Mc.dajZakaznikaCakajucehoNaZadanieObjeddnavky:
-			processDajZakaznikaCakajucehoNaZadanieObjeddnavky(message);
-		break;
-
-		case Mc.dajAutoZParkoviska2:
-			processDajAutoZParkoviska2(message);
 		break;
 
 		default:

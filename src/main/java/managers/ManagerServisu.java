@@ -147,7 +147,7 @@ public class ManagerServisu extends Manager
 		}
 	}
 
-	//meta! sender="AgentVybavovaci", id="70", type="Request"
+	//meta! userInfo="Removed from model"
 	public void processDajZakaznikaCakajucehoNaZadanieObjeddnavky(MessageForm message)
 	{
 		//MyMessage mes = myAgent().getFrontaPredZadavanimObjednavky().dequeue();
@@ -165,35 +165,23 @@ public class ManagerServisu extends Manager
 	{
 		switch (message.code())
 		{
-		case Mc.vypytajMiestoParkoviska1:
-			processVypytajMiestoParkoviska1(message);
-		break;
-
-		case Mc.obsluzZakaznika:
-			processObsluzZakaznika(message);
-		break;
-
-		case Mc.prichodAutaNaParkovisko2:
-			processPrichodAutaNaParkovisko2(message);
-		break;
-
-		case Mc.odchodObsluzenehoZakaznika:
-			processOdchodObsluzenehoZakaznika(message);
+		case Mc.dajAutoZParkoviska1:
+			processDajAutoZParkoviska1(message);
 		break;
 
 		case Mc.finish:
 			switch (message.sender().id())
 			{
-			case Id.prejazdRampou:
-				processFinishPrejazdRampou(message);
+			case Id.prejazdRampaServis:
+				processFinishPrejazdRampaServis(message);
 			break;
 
 			case Id.odchodPoDlhomCakani:
 				processFinishOdchodPoDlhomCakani(message);
 			break;
 
-			case Id.prejazdRampaServis:
-				processFinishPrejazdRampaServis(message);
+			case Id.prejazdRampou:
+				processFinishPrejazdRampou(message);
 			break;
 			}
 		break;
@@ -202,20 +190,28 @@ public class ManagerServisu extends Manager
 			processVypytajMiestoParkoviska2(message);
 		break;
 
-		case Mc.dajAutoZParkoviska1:
-			processDajAutoZParkoviska1(message);
-		break;
-
-		case Mc.dajZakaznikaCakajucehoNaZadanieObjeddnavky:
-			processDajZakaznikaCakajucehoNaZadanieObjeddnavky(message);
+		case Mc.obsluzZakaznika:
+			processObsluzZakaznika(message);
 		break;
 
 		case Mc.autoBoloPreparkovaneNaParkovisko1:
 			processAutoBoloPreparkovaneNaParkovisko1(message);
 		break;
 
+		case Mc.prichodAutaNaParkovisko2:
+			processPrichodAutaNaParkovisko2(message);
+		break;
+
 		case Mc.dajAutoZParkoviska2:
 			processDajAutoZParkoviska2(message);
+		break;
+
+		case Mc.odchodObsluzenehoZakaznika:
+			processOdchodObsluzenehoZakaznika(message);
+		break;
+
+		case Mc.vypytajMiestoParkoviska1:
+			processVypytajMiestoParkoviska1(message);
 		break;
 
 		default:

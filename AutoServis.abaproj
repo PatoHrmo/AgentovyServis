@@ -2,32 +2,6 @@
 <ABAsim>
   <Agents>
     <Agent>
-      <SimId>1</SimId>
-      <InternalId>1</InternalId>
-      <Name>AgentModelu</Name>
-      <Bounds>564,100,180,180</Bounds>
-      <Reasoner>ManagerModelu</Reasoner>
-      <ReasonerBounds>74,25,32,25</ReasonerBounds>
-      <UsePetriNet>false</UsePetriNet>
-    </Agent>
-    <Agent>
-      <SimId>8</SimId>
-      <InternalId>17</InternalId>
-      <Name>AgentOpravary</Name>
-      <Bounds>1504,786,180,180</Bounds>
-      <Reasoner>ManagerOpravary</Reasoner>
-      <ReasonerBounds>74,25,32,25</ReasonerBounds>
-      <UsePetriNet>false</UsePetriNet>
-      <Components>
-        <Process>
-          <SimId>1007</SimId>
-          <InternalId>50</InternalId>
-          <Name>Oprava</Name>
-          <Bounds>24,91,35,18</Bounds>
-        </Process>
-      </Components>
-    </Agent>
-    <Agent>
       <SimId>3</SimId>
       <InternalId>3</InternalId>
       <Name>AgentOkolia</Name>
@@ -43,6 +17,50 @@
           <Bounds>27,89,35,13</Bounds>
         </Scheduler>
       </Components>
+    </Agent>
+    <Agent>
+      <SimId>6</SimId>
+      <InternalId>15</InternalId>
+      <Name>AgentVybavovaci</Name>
+      <Bounds>348,984,180,180</Bounds>
+      <Reasoner>ManagerVybavovaci</Reasoner>
+      <ReasonerBounds>74,25,32,25</ReasonerBounds>
+      <UsePetriNet>false</UsePetriNet>
+      <Components>
+        <Process>
+          <SimId>1006</SimId>
+          <InternalId>47</InternalId>
+          <Name>OdovzdavanieHotoveho</Name>
+          <Bounds>35,134,35,18</Bounds>
+        </Process>
+        <Process>
+          <SimId>1003</SimId>
+          <InternalId>41</InternalId>
+          <Name>ZadavanieObjednavky</Name>
+          <Bounds>28,75,35,18</Bounds>
+        </Process>
+        <Process>
+          <SimId>1005</SimId>
+          <InternalId>45</InternalId>
+          <Name>PreparkovaniePredServis</Name>
+          <Bounds>117,86,35,18</Bounds>
+        </Process>
+        <Process>
+          <SimId>1004</SimId>
+          <InternalId>43</InternalId>
+          <Name>PreparkovanieNaPark1</Name>
+          <Bounds>70,95,35,18</Bounds>
+        </Process>
+      </Components>
+    </Agent>
+    <Agent>
+      <SimId>1</SimId>
+      <InternalId>1</InternalId>
+      <Name>AgentModelu</Name>
+      <Bounds>564,100,180,180</Bounds>
+      <Reasoner>ManagerModelu</Reasoner>
+      <ReasonerBounds>74,25,32,25</ReasonerBounds>
+      <UsePetriNet>false</UsePetriNet>
     </Agent>
     <Agent>
       <SimId>4</SimId>
@@ -74,37 +92,19 @@
       </Components>
     </Agent>
     <Agent>
-      <SimId>6</SimId>
-      <InternalId>15</InternalId>
-      <Name>AgentVybavovaci</Name>
-      <Bounds>348,984,180,180</Bounds>
-      <Reasoner>ManagerVybavovaci</Reasoner>
+      <SimId>8</SimId>
+      <InternalId>17</InternalId>
+      <Name>AgentOpravary</Name>
+      <Bounds>1504,786,180,180</Bounds>
+      <Reasoner>ManagerOpravary</Reasoner>
       <ReasonerBounds>74,25,32,25</ReasonerBounds>
       <UsePetriNet>false</UsePetriNet>
       <Components>
         <Process>
-          <SimId>1003</SimId>
-          <InternalId>41</InternalId>
-          <Name>ZadavanieObjednavky</Name>
-          <Bounds>28,75,35,18</Bounds>
-        </Process>
-        <Process>
-          <SimId>1004</SimId>
-          <InternalId>43</InternalId>
-          <Name>PreparkovanieNaPark1</Name>
-          <Bounds>70,95,35,18</Bounds>
-        </Process>
-        <Process>
-          <SimId>1006</SimId>
-          <InternalId>47</InternalId>
-          <Name>OdovzdavanieHotoveho</Name>
-          <Bounds>35,134,35,18</Bounds>
-        </Process>
-        <Process>
-          <SimId>1005</SimId>
-          <InternalId>45</InternalId>
-          <Name>PreparkovaniePredServis</Name>
-          <Bounds>117,86,35,18</Bounds>
+          <SimId>1007</SimId>
+          <InternalId>50</InternalId>
+          <Name>Oprava</Name>
+          <Bounds>24,91,35,18</Bounds>
         </Process>
       </Components>
     </Agent>
@@ -153,14 +153,6 @@
       <Type>Parent</Type>
       <Source>4</Source>
       <Destination>1</Destination>
-    </Message>
-    <Message>
-      <SimId>1026</SimId>
-      <InternalId>70</InternalId>
-      <Name>DajZakaznikaCakajucehoNaZadanieObjeddnavky</Name>
-      <Type>RequestResponse</Type>
-      <Source>15</Source>
-      <Destination>4</Destination>
     </Message>
     <Message>
       <SimId>1001</SimId>
@@ -309,5 +301,5 @@
       <Destination>15</Destination>
     </Message>
   </Messages>
-  <IID>73</IID>
+  <IID>75</IID>
 </ABAsim>
