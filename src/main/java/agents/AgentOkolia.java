@@ -29,6 +29,12 @@ public class AgentOkolia extends Agent
 		super.prepareReplication();
 		// Setup component for the next replication
 	}
+	public void pridajZakaznikaDoSystemu(Zakaznik zak) {
+		vsetciZakazniciAktualneVSysteme.add(zak);
+	}
+	public List<Zakaznik> getZakaznikovVSysteme() {
+		return vsetciZakazniciAktualneVSysteme;
+	}
 
 	//meta! userInfo="Generated code: do not modify", tag="begin"
 	private void init()
@@ -37,15 +43,6 @@ public class AgentOkolia extends Agent
 		new PlanovacPrichodu(Id.planovacPrichodu, mySim(), this);
 		addOwnMessage(Mc.odchodZakaznika);
 		addOwnMessage(Mc.stustiTok);
-	}
-	public List<Zakaznik> getZakaznikovVSysteme() {
-		return vsetciZakazniciAktualneVSysteme;
-	}
-	public void pridajZakaznikaDoSystemu(Zakaznik zak) {
-		vsetciZakazniciAktualneVSysteme.add(zak);
-	}
-	public void odoberZakaznikaZoSystemu(Zakaznik zak){
-		vsetciZakazniciAktualneVSysteme.remove(zak);
 	}
 	//meta! tag="end"
 }
