@@ -34,13 +34,16 @@ public class SledovacieOkno extends JDialog implements ISimDelegate {
 	private JTextArea textAreaPracovnici1;
 	private JScrollPane scrollPane_2;
 	private JTextArea textAreaPracovnici2;
+	private SledovacieOkno self;
+	private JButton btnPauza;
+	private JButton btnPokracuj;
+	private JButton btnStop;
 
 	/**
 	 * Create the dialog.
 	 */
 	public SledovacieOkno() {
-		simulacia = new MySimulation(5,5);
-		simulacia.registerDelegate(this);
+		self = this;
 		setTitle("Sledovacie okno");
 		setBounds(100, 100, 1000, 500);
 		setLocationRelativeTo(null);
@@ -49,35 +52,38 @@ public class SledovacieOkno extends JDialog implements ISimDelegate {
 		btntart = new JButton("\u0160tart");
 		btntart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				simulacia = new MySimulation(5,5);
+				simulacia.registerDelegate(self);
 				simulacia.simulateAsync(5,60*60*24*10d);
 				simulacia.setSimSpeed(1000, 1);
+				btntart.setEnabled(false);
 			}
 		});
 		btntart.setBounds(10, 11, 89, 23);
 		getContentPane().add(btntart);
 		
 		lblPoetLudPred = new JLabel("Ve\u013Ekos\u0165 fronty pred rampov:");
-		lblPoetLudPred.setBounds(178, 15, 227, 14);
+		lblPoetLudPred.setBounds(273, 11, 227, 14);
 		getContentPane().add(lblPoetLudPred);
 		
 		lblVelkostFrontyPredRampou = new JLabel("");
-		lblVelkostFrontyPredRampou.setBounds(415, 15, 46, 14);
+		lblVelkostFrontyPredRampou.setBounds(510, 11, 46, 14);
 		getContentPane().add(lblVelkostFrontyPredRampou);
 		
 		JLabel lblPoetZkaznkovakajcich = new JLabel("Po\u010Det z\u00E1kazn\u00EDkov \u010Dakaj\u00FAcich na obsluhu:");
-		lblPoetZkaznkovakajcich.setBounds(178, 40, 227, 14);
+		lblPoetZkaznkovakajcich.setBounds(273, 36, 227, 14);
 		getContentPane().add(lblPoetZkaznkovakajcich);
 		
 		lblPocetLudiCakajucichNaObsluhu = new JLabel("");
-		lblPocetLudiCakajucichNaObsluhu.setBounds(415, 40, 46, 14);
+		lblPocetLudiCakajucichNaObsluhu.setBounds(510, 36, 46, 14);
 		getContentPane().add(lblPocetLudiCakajucichNaObsluhu);
 		
 		JLabel lblas = new JLabel("\u010Das:");
-		lblas.setBounds(178, 65, 46, 14);
+		lblas.setBounds(273, 61, 46, 14);
 		getContentPane().add(lblas);
 		
 		lblCasSimulacie = new JLabel("");
-		lblCasSimulacie.setBounds(255, 65, 46, 14);
+		lblCasSimulacie.setBounds(350, 61, 46, 14);
 		getContentPane().add(lblCasSimulacie);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -108,6 +114,40 @@ public class SledovacieOkno extends JDialog implements ISimDelegate {
 		
 		textAreaPracovnici2 = new JTextArea();
 		scrollPane_2.setViewportView(textAreaPracovnici2);
+		
+		JLabel lblNewLabel = new JLabel("Pracovnici 2:");
+		lblNewLabel.setBounds(501, 89, 116, 14);
+		getContentPane().add(lblNewLabel);
+		
+		btnPauza = new JButton("pauza");
+		btnPauza.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				simulacia.pauseSimulation();
+				btnPauza.setEnabled(false);
+				btnPokracuj.setEnabled(true);
+			}
+		});
+		btnPauza.setBounds(10, 36, 89, 23);
+		getContentPane().add(btnPauza);
+		
+		btnStop = new JButton("stop");
+		btnStop.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnStop.setBounds(10, 61, 89, 23);
+		getContentPane().add(btnStop);
+		
+		btnPokracuj = new JButton("pokracuj");
+		btnPokracuj.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnPauza.setEnabled(true);
+				btnPokracuj.setEnabled(false);
+				simulacia.resumeSimulation();
+			}
+		});
+		btnPokracuj.setBounds(109, 36, 89, 23);
+		getContentPane().add(btnPokracuj);
 		
 	}
 

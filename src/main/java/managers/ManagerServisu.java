@@ -77,6 +77,7 @@ public class ManagerServisu extends Manager
 	//meta! sender="AgentVybavovaci", id="60", type="Notice"
 	public void processOdchodObsluzenehoZakaznika(MessageForm message)
 	{
+		response(message);
 	}
 
 	//meta! sender="PrejazdRampou", id="37", type="Finish"

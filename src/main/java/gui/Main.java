@@ -36,14 +36,14 @@ public class Main extends JFrame {
 	public Main() {
 		setTitle("Simul\u00E1cia servisu");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 635, 428);
+		setBounds(100, 100, 306, 273);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JButton btnSledovanie = new JButton("Sledovanie");
+		JButton btnSledovanie = new JButton("m\u00F3d sledovania");
 		btnSledovanie.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				sledovacieOkno = new SledovacieOkno();
@@ -51,7 +51,7 @@ public class Main extends JFrame {
 				sledovacieOkno.setVisible(true);
 			}
 		});
-		btnSledovanie.setBounds(182, 34, 89, 23);
+		btnSledovanie.setBounds(44, 11, 197, 84);
 		contentPane.add(btnSledovanie);
 	}
 }

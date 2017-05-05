@@ -75,18 +75,33 @@ public class ManagerVybavovaci extends Manager
 	}
 
 	private void cinnostPriUvolneniRobotnika() {
-		if(myAgent().niektoCakaNaZadanieObjednavky()) {
-			myAgent().znizPocetLudiCakajucichNaZadanieObjednavky();
-			MyMessage message = new MyMessage(_mySim, null);
-			message.setAddressee(Id.agentServisu);
-			message.setCode(Mc.dajZakaznikaCakajucehoNaZadanieObjeddnavky);
-			((MyMessage)message).setRobotnik(myAgent().getVolnyRobotnik());
-			request(message);
-		} else if(myAgent().getPocetLudiNaParkovisku2()>0) {
+//		if(myAgent().niektoCakaNaZadanieObjednavky()) {
+//			myAgent().znizPocetLudiCakajucichNaZadanieObjednavky();
+//			MyMessage message = new MyMessage(_mySim, null);
+//			message.setAddressee(Id.agentServisu);
+//			message.setCode(Mc.dajZakaznikaCakajucehoNaZadanieObjeddnavky);
+//			((MyMessage)message).setRobotnik(myAgent().getVolnyRobotnik());
+//			request(message);
+//		} else if(myAgent().getPocetLudiNaParkovisku2()>0) {
+//			myAgent().znizPocetAutNaParkovisku2();
+//			MyMessage message = new MyMessage(_mySim, null);
+//			message.setAddressee(Id.agentServisu);
+//			message.setCode(Mc.dajAutoZParkoviska2);
+//			((MyMessage)message).setRobotnik(myAgent().getVolnyRobotnik());
+//			request(message);
+//		}
+		if(myAgent().getPocetLudiNaParkovisku2()>0) {
 			myAgent().znizPocetAutNaParkovisku2();
 			MyMessage message = new MyMessage(_mySim, null);
 			message.setAddressee(Id.agentServisu);
 			message.setCode(Mc.dajAutoZParkoviska2);
+			((MyMessage)message).setRobotnik(myAgent().getVolnyRobotnik());
+			request(message);
+		} else if(myAgent().niektoCakaNaZadanieObjednavky()) {
+			myAgent().znizPocetLudiCakajucichNaZadanieObjednavky();
+			MyMessage message = new MyMessage(_mySim, null);
+			message.setAddressee(Id.agentServisu);
+			message.setCode(Mc.dajZakaznikaCakajucehoNaZadanieObjeddnavky);
 			((MyMessage)message).setRobotnik(myAgent().getVolnyRobotnik());
 			request(message);
 		}
