@@ -7,14 +7,14 @@ import entity.Cinnosti;
 import OSPABA.Process;
 import OSPRNG.UniformContinuousRNG;
 
-//meta! id="41"
-public class ZadavanieObjednavky extends Process
-{
-	private UniformContinuousRNG genDobyZadavaniaObjednavky;
-	public ZadavanieObjednavky(int id, Simulation mySim, CommonAgent myAgent)
+//meta! id="94"
+public class PreberanieAuta extends Process
+{	
+	private UniformContinuousRNG genDlzkyPreberania;
+	public PreberanieAuta(int id, Simulation mySim, CommonAgent myAgent)
 	{
 		super(id, mySim, myAgent);
-		genDobyZadavaniaObjednavky = new UniformContinuousRNG(70d, 310d);
+		genDlzkyPreberania = new UniformContinuousRNG(80d, 160d);
 	}
 
 	@Override
@@ -24,13 +24,13 @@ public class ZadavanieObjednavky extends Process
 		// Setup component for the next replication
 	}
 
-	//meta! sender="AgentVybavovaci", id="42", type="Start"
+	//meta! sender="AgentVybavovaci", id="95", type="Start"
 	public void processStart(MessageForm message)
 	{
-		message.setCode(Mc.koniecZadavaniaObjednavky);
-		((MyMessage)message).setCinnostZakaznika(Cinnosti.diktujeObjednavku);
-		((MyMessage)message).setCinnostRobotnika(Cinnosti.zapisujeObjednavku);
-		hold(genDobyZadavaniaObjednavky.sample(),message);
+		message.setCode(Mc.koniecPreberaniaAutaOdZakaznika);
+		((MyMessage)message).setCinnostRobotnika(Cinnosti.preberaAutoOdZakaznika);
+		((MyMessage)message).setCinnostZakaznika(Cinnosti.odovzdavaAuto);
+		hold(genDlzkyPreberania.sample(),message);
 	}
 
 	//meta! userInfo="Process messages defined in code", id="0"
@@ -38,12 +38,8 @@ public class ZadavanieObjednavky extends Process
 	{
 		switch (message.code())
 		{
-		case Mc.koniecZadavaniaObjednavky :
-			message.setCode(Mc.koniecPreberaniaAutaOdZakaznika);
-			((MyMessage)message).setCinnostZakaznika(Cinnosti.cakaNaUvolnenieParkoviska1);
-			((MyMessage)message).setCinnostRobotnika(Cinnosti.cakaNaUvolnenieParkoviska1);
+		case Mc.koniecPreberaniaAutaOdZakaznika:
 			assistantFinished(message);
-			
 		}
 	}
 

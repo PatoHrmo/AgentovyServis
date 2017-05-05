@@ -7,6 +7,7 @@ import OSPABA.Agent;
 import OSPABA.Simulation;
 import OSPDataStruct.SimQueue;
 import continualAssistants.OdovzdavanieHotoveho;
+import continualAssistants.PreberanieAuta;
 import continualAssistants.PreparkovanieNaPark1;
 import continualAssistants.PreparkovaniePredServis;
 import continualAssistants.ZadavanieObjednavky;
@@ -49,6 +50,7 @@ public class AgentVybavovaci extends Agent
 	private void init()
 	{
 		new ManagerVybavovaci(Id.managerVybavovaci, mySim(), this);
+		new PreberanieAuta(Id.preberanieAuta, mySim(), this);
 		new OdovzdavanieHotoveho(Id.odovzdavanieHotoveho, mySim(), this);
 		new ZadavanieObjednavky(Id.zadavanieObjednavky, mySim(), this);
 		new PreparkovaniePredServis(Id.preparkovaniePredServis, mySim(), this);
@@ -56,7 +58,8 @@ public class AgentVybavovaci extends Agent
 		addOwnMessage(Mc.dajAutoZParkoviska2);
 		addOwnMessage(Mc.prichodAutaNaParkovisko2);
 		addOwnMessage(Mc.prisielZakaznik);
-		addOwnMessage(Mc.vypytajMiestoParkoviska1);
+		addOwnMessage(Mc.rezervujMiestoParkoviska1);
+		addOwnMessage(Mc.preparkujNaParkovisko1);
 	}
 	//meta! tag="end"
 

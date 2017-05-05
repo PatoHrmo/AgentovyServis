@@ -62,9 +62,10 @@ public class AgentServisu extends Agent
 		addOwnMessage(Mc.obsluzZakaznika);
 		addOwnMessage(Mc.dajAutoZParkoviska2);
 		addOwnMessage(Mc.prichodAutaNaParkovisko2);
+		addOwnMessage(Mc.rezervujMiestoParkoviska1);
 		addOwnMessage(Mc.odchodObsluzenehoZakaznika);
+		addOwnMessage(Mc.preparkujNaParkovisko1);
 		addOwnMessage(Mc.autoBoloPreparkovaneNaParkovisko1);
-		addOwnMessage(Mc.vypytajMiestoParkoviska1);
 		addOwnMessage(Mc.vypytajMiestoParkoviska2);
 	}
 	//meta! tag="end"

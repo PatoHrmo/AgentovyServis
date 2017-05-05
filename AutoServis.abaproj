@@ -5,7 +5,7 @@
       <SimId>3</SimId>
       <InternalId>3</InternalId>
       <Name>AgentOkolia</Name>
-      <Bounds>162,457,180,180</Bounds>
+      <Bounds>94,115,180,180</Bounds>
       <Reasoner>ManagerOkolia</Reasoner>
       <ReasonerBounds>74,25,32,25</ReasonerBounds>
       <UsePetriNet>false</UsePetriNet>
@@ -22,11 +22,17 @@
       <SimId>6</SimId>
       <InternalId>15</InternalId>
       <Name>AgentVybavovaci</Name>
-      <Bounds>348,984,180,180</Bounds>
+      <Bounds>78,815,180,180</Bounds>
       <Reasoner>ManagerVybavovaci</Reasoner>
       <ReasonerBounds>74,25,32,25</ReasonerBounds>
       <UsePetriNet>false</UsePetriNet>
       <Components>
+        <Process>
+          <SimId>1010</SimId>
+          <InternalId>94</InternalId>
+          <Name>PreberanieAuta</Name>
+          <Bounds>92,122,35,18</Bounds>
+        </Process>
         <Process>
           <SimId>1006</SimId>
           <InternalId>47</InternalId>
@@ -54,6 +60,14 @@
       </Components>
     </Agent>
     <Agent>
+      <SimId>10</SimId>
+      <InternalId>77</InternalId>
+      <Name>AgentParkovisk</Name>
+      <Bounds>1083,1067,180,180</Bounds>
+      <Reasoner>ManagerParkovisk</Reasoner>
+      <UsePetriNet>false</UsePetriNet>
+    </Agent>
+    <Agent>
       <SimId>1</SimId>
       <InternalId>1</InternalId>
       <Name>AgentModelu</Name>
@@ -63,10 +77,45 @@
       <UsePetriNet>false</UsePetriNet>
     </Agent>
     <Agent>
+      <SimId>11</SimId>
+      <InternalId>83</InternalId>
+      <Name>AgentPohybu</Name>
+      <Bounds>1537,798,180,180</Bounds>
+      <Reasoner>ManagerPohybu</Reasoner>
+      <ReasonerBounds>74,25,32,25</ReasonerBounds>
+      <UsePetriNet>false</UsePetriNet>
+      <Components>
+        <Process>
+          <SimId>1012</SimId>
+          <InternalId>99</InternalId>
+          <Name>PreparkujPark2PredServis</Name>
+          <Bounds>85,97,35,18</Bounds>
+        </Process>
+        <Process>
+          <SimId>1013</SimId>
+          <InternalId>101</InternalId>
+          <Name>ChojOdRampyKServisu</Name>
+          <Bounds>128,85,35,18</Bounds>
+        </Process>
+        <Process>
+          <SimId>1014</SimId>
+          <InternalId>103</InternalId>
+          <Name>ChojOdServisuKRampe</Name>
+          <Bounds>19,64,35,18</Bounds>
+        </Process>
+        <Process>
+          <SimId>1011</SimId>
+          <InternalId>97</InternalId>
+          <Name>PreparkujServisDoPark1</Name>
+          <Bounds>35,98,35,18</Bounds>
+        </Process>
+      </Components>
+    </Agent>
+    <Agent>
       <SimId>4</SimId>
       <InternalId>4</InternalId>
       <Name>AgentServisu</Name>
-      <Bounds>1029,348,180,180</Bounds>
+      <Bounds>757,502,180,180</Bounds>
       <Reasoner>ManagerServisu</Reasoner>
       <ReasonerBounds>74,25,32,25</ReasonerBounds>
       <UsePetriNet>false</UsePetriNet>
@@ -95,7 +144,7 @@
       <SimId>8</SimId>
       <InternalId>17</InternalId>
       <Name>AgentOpravary</Name>
-      <Bounds>1504,786,180,180</Bounds>
+      <Bounds>1314,210,180,180</Bounds>
       <Reasoner>ManagerOpravary</Reasoner>
       <ReasonerBounds>74,25,32,25</ReasonerBounds>
       <UsePetriNet>false</UsePetriNet>
@@ -187,6 +236,20 @@
       <Destination>4</Destination>
     </Message>
     <Message>
+      <InternalId>78</InternalId>
+      <Type>Parent</Type>
+      <Source>77</Source>
+      <Destination>4</Destination>
+    </Message>
+    <Message>
+      <SimId>1027</SimId>
+      <InternalId>80</InternalId>
+      <Name>RezervujMiestoParkoviska1</Name>
+      <Type>RequestResponse</Type>
+      <Source>4</Source>
+      <Destination>77</Destination>
+    </Message>
+    <Message>
       <InternalId>19</InternalId>
       <Type>Parent</Type>
       <Source>15</Source>
@@ -199,10 +262,66 @@
       <Destination>4</Destination>
     </Message>
     <Message>
+      <InternalId>84</InternalId>
+      <Type>Parent</Type>
+      <Source>83</Source>
+      <Destination>4</Destination>
+    </Message>
+    <Message>
+      <SimId>1029</SimId>
+      <InternalId>85</InternalId>
+      <Name>PreparkujNaParkovisko1</Name>
+      <Type>RequestResponse</Type>
+      <Source>4</Source>
+      <Destination>83</Destination>
+    </Message>
+    <Message>
       <InternalId>24</InternalId>
       <Type>StartFinish</Type>
       <Source>3</Source>
       <Destination>23</Destination>
+    </Message>
+    <Message>
+      <SimId>1031</SimId>
+      <InternalId>88</InternalId>
+      <Name>DajAutoZParkoviska1</Name>
+      <Type>RequestResponse</Type>
+      <Source>4</Source>
+      <Destination>77</Destination>
+    </Message>
+    <Message>
+      <SimId>1032</SimId>
+      <InternalId>89</InternalId>
+      <Name>PreparkujNaParkovisko1</Name>
+      <Type>RequestResponse</Type>
+      <Source>15</Source>
+      <Destination>4</Destination>
+    </Message>
+    <Message>
+      <SimId>1033</SimId>
+      <InternalId>90</InternalId>
+      <Name>PrichodAutaNaParkovisko1</Name>
+      <Type>Notice</Type>
+      <Source>4</Source>
+      <Destination>77</Destination>
+    </Message>
+    <Message>
+      <InternalId>95</InternalId>
+      <Type>StartFinish</Type>
+      <Source>15</Source>
+      <Destination>94</Destination>
+    </Message>
+    <Message>
+      <InternalId>98</InternalId>
+      <Type>StartFinish</Type>
+      <Source>83</Source>
+      <Destination>97</Destination>
+    </Message>
+    <Message>
+      <InternalId>100</InternalId>
+      <Type>StartFinish</Type>
+      <Source>83</Source>
+      <Destination>99</Destination>
     </Message>
     <Message>
       <InternalId>37</InternalId>
@@ -211,12 +330,24 @@
       <Destination>36</Destination>
     </Message>
     <Message>
+      <InternalId>102</InternalId>
+      <Type>StartFinish</Type>
+      <Source>83</Source>
+      <Destination>101</Destination>
+    </Message>
+    <Message>
       <SimId>1013</SimId>
       <InternalId>39</InternalId>
       <Name>PrisielZakaznik</Name>
       <Type>Notice</Type>
       <Source>4</Source>
       <Destination>15</Destination>
+    </Message>
+    <Message>
+      <InternalId>104</InternalId>
+      <Type>StartFinish</Type>
+      <Source>83</Source>
+      <Destination>103</Destination>
     </Message>
     <Message>
       <InternalId>42</InternalId>
@@ -263,7 +394,7 @@
     <Message>
       <SimId>1016</SimId>
       <InternalId>58</InternalId>
-      <Name>VypytajMiestoParkoviska1</Name>
+      <Name>RezervujMiestoParkoviska1</Name>
       <Type>RequestResponse</Type>
       <Source>15</Source>
       <Destination>4</Destination>
@@ -301,5 +432,5 @@
       <Destination>15</Destination>
     </Message>
   </Messages>
-  <IID>76</IID>
+  <IID>105</IID>
 </ABAsim>

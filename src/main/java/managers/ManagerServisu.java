@@ -32,7 +32,7 @@ public class ManagerServisu extends Manager
 	}
 
 	//meta! sender="AgentOpravary", id="65", type="Request"
-	public void processDajAutoZParkoviska1(MessageForm message)
+	public void processDajAutoZParkoviska1AgentOpravary(MessageForm message)
 	{
 		((MyMessage)message).setZakaznik(myAgent().getZakaznikPredOpravovnou());
 		response(message);
@@ -119,14 +119,11 @@ public class ManagerServisu extends Manager
 	}
 
 	//meta! sender="AgentVybavovaci", id="58", type="Request"
-	public void processVypytajMiestoParkoviska1(MessageForm message)
+	public void processRezervujMiestoParkoviska1AgentVybavovaci(MessageForm message)
 	{
-		if(myAgent().existujeNerezervovaneMiestoParkoviska1()){
-			myAgent().rezervujMiestoParkoviska1();
-			response(message);
-		} else {
-			myAgent().pridajRobotnikaCakajucehoNaParkovisko1(message);
-		}
+		message.setAddressee(Id.agentParkovisk);
+		message.setCode(Mc.rezervujMiestoParkoviska1);
+		request(message);
 	}
 
 	//meta! sender="AgentOpravary", id="66", type="Request"
@@ -152,7 +149,31 @@ public class ManagerServisu extends Manager
 	{
 		//MyMessage mes = myAgent().getFrontaPredZadavanimObjednavky().dequeue();
 		//((MyMessage)message).setZakaznik(mes.getZakaznik());
+		//response(message);
+	}
+
+	//meta! sender="AgentParkovisk", id="88", type="Response"
+	public void processDajAutoZParkoviska1AgentParkovisk(MessageForm message)
+	{
+	}
+
+	//meta! sender="AgentParkovisk", id="80", type="Response"
+	public void processRezervujMiestoParkoviska1AgentParkovisk(MessageForm message)
+	{
 		response(message);
+	}
+
+	//meta! sender="AgentVybavovaci", id="89", type="Request"
+	public void processPreparkujNaParkovisko1AgentVybavovaci(MessageForm message)
+	{
+		message.setAddressee(Id.agentPohybu);
+		message.setCode(Mc.preparkujNaParkovisko1);
+		request(message);
+	}
+
+	//meta! sender="AgentPohybu", id="85", type="Response"
+	public void processPreparkujNaParkovisko1AgentPohybu(MessageForm message)
+	{
 	}
 
 	//meta! userInfo="Generated code: do not modify", tag="begin"
@@ -165,8 +186,30 @@ public class ManagerServisu extends Manager
 	{
 		switch (message.code())
 		{
+		case Mc.preparkujNaParkovisko1:
+			switch (message.sender().id())
+			{
+			case Id.agentVybavovaci:
+				processPreparkujNaParkovisko1AgentVybavovaci(message);
+			break;
+
+			case Id.agentPohybu:
+				processPreparkujNaParkovisko1AgentPohybu(message);
+			break;
+			}
+		break;
+
 		case Mc.dajAutoZParkoviska1:
-			processDajAutoZParkoviska1(message);
+			switch (message.sender().id())
+			{
+			case Id.agentOpravary:
+				processDajAutoZParkoviska1AgentOpravary(message);
+			break;
+
+			case Id.agentParkovisk:
+				processDajAutoZParkoviska1AgentParkovisk(message);
+			break;
+			}
 		break;
 
 		case Mc.finish:
@@ -198,6 +241,19 @@ public class ManagerServisu extends Manager
 			processAutoBoloPreparkovaneNaParkovisko1(message);
 		break;
 
+		case Mc.rezervujMiestoParkoviska1:
+			switch (message.sender().id())
+			{
+			case Id.agentParkovisk:
+				processRezervujMiestoParkoviska1AgentParkovisk(message);
+			break;
+
+			case Id.agentVybavovaci:
+				processRezervujMiestoParkoviska1AgentVybavovaci(message);
+			break;
+			}
+		break;
+
 		case Mc.prichodAutaNaParkovisko2:
 			processPrichodAutaNaParkovisko2(message);
 		break;
@@ -208,10 +264,6 @@ public class ManagerServisu extends Manager
 
 		case Mc.odchodObsluzenehoZakaznika:
 			processOdchodObsluzenehoZakaznika(message);
-		break;
-
-		case Mc.vypytajMiestoParkoviska1:
-			processVypytajMiestoParkoviska1(message);
 		break;
 
 		default:

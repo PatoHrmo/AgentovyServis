@@ -47,8 +47,10 @@ public class MySimulation extends Simulation
 		setAgentModelu(new AgentModelu(Id.agentModelu, this, null));
 		setAgentOkolia(new AgentOkolia(Id.agentOkolia, this, agentModelu()));
 		setAgentServisu(new AgentServisu(Id.agentServisu, this, agentModelu()));
+		setAgentParkovisk(new AgentParkovisk(Id.agentParkovisk, this, agentServisu()));
 		setAgentVybavovaci(new AgentVybavovaci(Id.agentVybavovaci, this, agentServisu()));
 		setAgentOpravary(new AgentOpravary(Id.agentOpravary, this, agentServisu()));
+		setAgentPohybu(new AgentPohybu(Id.agentPohybu, this, agentServisu()));
 	}
 
 	private AgentModelu _agentModelu;
@@ -75,6 +77,14 @@ public AgentServisu agentServisu()
 	public void setAgentServisu(AgentServisu agentServisu)
 	{_agentServisu = agentServisu; }
 
+	private AgentParkovisk _agentParkovisk;
+
+public AgentParkovisk agentParkovisk()
+	{ return _agentParkovisk; }
+
+	public void setAgentParkovisk(AgentParkovisk agentParkovisk)
+	{_agentParkovisk = agentParkovisk; }
+
 	private AgentVybavovaci _agentVybavovaci;
 
 public AgentVybavovaci agentVybavovaci()
@@ -90,6 +100,14 @@ public AgentOpravary agentOpravary()
 
 	public void setAgentOpravary(AgentOpravary agentOpravary)
 	{_agentOpravary = agentOpravary; }
+
+	private AgentPohybu _agentPohybu;
+
+public AgentPohybu agentPohybu()
+	{ return _agentPohybu; }
+
+	public void setAgentPohybu(AgentPohybu agentPohybu)
+	{_agentPohybu = agentPohybu; }
 	//meta! tag="end"
 
 	public int getPocetLudiCakajucichNaObsluhu() {

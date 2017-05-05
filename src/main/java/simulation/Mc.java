@@ -13,8 +13,9 @@ public class Mc extends IdList
 	public static final int prichodZakaznika = 1002;
 	public static final int odchodZakaznika = 1003;
 	public static final int obsluzZakaznika = 1004;
+	public static final int rezervujMiestoParkoviska1 = 1027;
+	public static final int preparkujNaParkovisko1 = 1029;
 	public static final int prisielZakaznik = 1013;
-	public static final int vypytajMiestoParkoviska1 = 1016;
 	public static final int odchodObsluzenehoZakaznika = 1018;
 	public static final int dajAutoZParkoviska2 = 1019;
 	public static final int autoBoloPreparkovaneNaParkovisko1 = 1020;

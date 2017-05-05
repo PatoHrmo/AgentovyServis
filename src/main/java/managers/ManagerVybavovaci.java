@@ -109,7 +109,7 @@ public class ManagerVybavovaci extends Manager
 	public void processFinishZadavanieObjednavky(MessageForm message)
 	{
 		message.setAddressee(Id.agentServisu);
-		message.setCode(Mc.vypytajMiestoParkoviska1);
+		message.setCode(Mc.rezervujMiestoParkoviska1);
 		request(message);
 	}
 
@@ -131,10 +131,9 @@ public class ManagerVybavovaci extends Manager
 	}
 
 	//meta! sender="AgentServisu", id="58", type="Response"
-	public void processVypytajMiestoParkoviska1(MessageForm message)
+	public void processRezervujMiestoParkoviska1(MessageForm message)
 	{
-		message.setAddressee(Id.preparkovanieNaPark1);
-		((MyMessage)message).setCasZaciatkuJazdy(mySim().currentTime());
+		message.setAddressee(Id.preberanieAuta);
 		startContinualAssistant(message);
 	}
 
@@ -153,6 +152,19 @@ public class ManagerVybavovaci extends Manager
 		startContinualAssistant(message);
 	}
 
+	//meta! sender="AgentServisu", id="89", type="Response"
+	public void processPreparkujNaParkovisko1(MessageForm message)
+	{
+	}
+
+	//meta! sender="PreberanieAuta", id="95", type="Finish"
+	public void processFinishPreberanieAuta(MessageForm message)
+	{
+		message.setAddressee(Id.agentServisu);
+		message.setCode(Mc.preparkujNaParkovisko1);
+		request(message);
+	}
+
 	//meta! userInfo="Generated code: do not modify", tag="begin"
 	public void init()
 	{
@@ -163,9 +175,21 @@ public class ManagerVybavovaci extends Manager
 	{
 		switch (message.code())
 		{
+		case Mc.preparkujNaParkovisko1:
+			processPreparkujNaParkovisko1(message);
+		break;
+
+		case Mc.prisielZakaznik:
+			processPrisielZakaznik(message);
+		break;
+
 		case Mc.finish:
 			switch (message.sender().id())
 			{
+			case Id.preberanieAuta:
+				processFinishPreberanieAuta(message);
+			break;
+
 			case Id.preparkovaniePredServis:
 				processFinishPreparkovaniePredServis(message);
 			break;
@@ -188,12 +212,8 @@ public class ManagerVybavovaci extends Manager
 			processDajAutoZParkoviska2(message);
 		break;
 
-		case Mc.prisielZakaznik:
-			processPrisielZakaznik(message);
-		break;
-
-		case Mc.vypytajMiestoParkoviska1:
-			processVypytajMiestoParkoviska1(message);
+		case Mc.rezervujMiestoParkoviska1:
+			processRezervujMiestoParkoviska1(message);
 		break;
 
 		case Mc.prichodAutaNaParkovisko2:
