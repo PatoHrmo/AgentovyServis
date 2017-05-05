@@ -103,7 +103,6 @@ public class ManagerServisu extends Manager
 	//meta! sender="PrejazdRampaServis", id="55", type="Finish"
 	public void processFinishPrejazdRampaServis(MessageForm message)
 	{
-		myAgent().getFrontaPredZadavanimObjednavky().enqueue((MyMessage)message);
 		message.setAddressee(Id.agentVybavovaci);
 		message.setCode(Mc.prisielZakaznik);
 		notice(message);
@@ -151,8 +150,8 @@ public class ManagerServisu extends Manager
 	//meta! sender="AgentVybavovaci", id="70", type="Request"
 	public void processDajZakaznikaCakajucehoNaZadanieObjeddnavky(MessageForm message)
 	{
-		MyMessage mes = myAgent().getFrontaPredZadavanimObjednavky().dequeue();
-		((MyMessage)message).setZakaznik(mes.getZakaznik());
+		//MyMessage mes = myAgent().getFrontaPredZadavanimObjednavky().dequeue();
+		//((MyMessage)message).setZakaznik(mes.getZakaznik());
 		response(message);
 	}
 

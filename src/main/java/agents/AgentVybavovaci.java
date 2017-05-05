@@ -5,6 +5,7 @@ import java.util.List;
 
 import OSPABA.Agent;
 import OSPABA.Simulation;
+import OSPDataStruct.SimQueue;
 import continualAssistants.OdovzdavanieHotoveho;
 import continualAssistants.PreparkovanieNaPark1;
 import continualAssistants.PreparkovaniePredServis;
@@ -20,6 +21,7 @@ public class AgentVybavovaci extends Agent
 {	
 	private List<Robotnik> volnyPracovnici;
 	private List<Robotnik> vsetciPracovnici;
+	SimQueue<MyMessage> frontZakaznikovNaZadavanieObjednavky;
 	private int pocetLudiCakajucichNaZadanieObjednavky;
 	private int pocetAutNaParkovisku2;
 	public AgentVybavovaci(int id, Simulation mySim, Agent parent)
@@ -35,6 +37,7 @@ public class AgentVybavovaci extends Agent
 		vsetciPracovnici = new LinkedList<>();
 		pocetLudiCakajucichNaZadanieObjednavky = 0;
 		pocetAutNaParkovisku2 = 0;
+		frontZakaznikovNaZadavanieObjednavky = new SimQueue<>();
 	}
 
 	@Override
@@ -75,16 +78,8 @@ public class AgentVybavovaci extends Agent
 		return !volnyPracovnici.isEmpty();
 	}
 
-	public void zvysPocetLudiCakajucichNaZadanieObjednavky() {
-		pocetLudiCakajucichNaZadanieObjednavky++;
-	}
-	public void znizPocetLudiCakajucichNaZadanieObjednavky() {
-		pocetLudiCakajucichNaZadanieObjednavky--;
-	}
-	public boolean niektoCakaNaZadanieObjednavky() {
-		if(pocetLudiCakajucichNaZadanieObjednavky==0)
-			return false;
-		return true;
+	public SimQueue<MyMessage> getFrontaLudiNaZadavanieObjednavky() {
+		return frontZakaznikovNaZadavanieObjednavky;
 	}
 	/**
 	 * metoda vrati volneho robotnika - odoberie ho zo zonamu volnychPracovnikov

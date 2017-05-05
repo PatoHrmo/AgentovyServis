@@ -18,7 +18,6 @@ import simulation.MyMessage;
 public class AgentServisu extends Agent
 {	
 	private SimQueue<MyMessage> frontaPredRampou;
-	private SimQueue<MyMessage> frontaPredZadavanimObjednavky;
 	private SimQueue<MyMessage> frontaAutPredOpravovnou;
 	private SimQueue<MyMessage> frontaRobotnikovCakajucichNaUvolnenieParkoviska1;
 	private SimQueue<MyMessage> frontaRobotnikovCakajucichNaUvolnenieParkoviska2;
@@ -34,7 +33,6 @@ public class AgentServisu extends Agent
 		addOwnMessage(Mc.prechodCezRampu);
 		addOwnMessage(Mc.prichodOdRampyNaParkovisko1);
 		frontaPredRampou = new SimQueue<>(new WStat(_mySim));
-		frontaPredZadavanimObjednavky = new SimQueue<>(new WStat(_mySim));
 		frontaAutPredOpravovnou = new SimQueue<>(new WStat(_mySim));
 		frontaRobotnikovCakajucichNaUvolnenieParkoviska1 = new SimQueue<>(new WStat(_mySim));
 		frontaAutCakajucichNaOdovzdanie = new SimQueue<>(new WStat(_mySim));
@@ -76,9 +74,6 @@ public class AgentServisu extends Agent
 		return frontaPredRampou;
 	}
 
-	public SimQueue<MyMessage> getFrontaPredZadavanimObjednavky() {
-		return frontaPredZadavanimObjednavky;
-	}
 
 	public boolean isNaRampeSmeromDnuNiektoJe() {
 		return naRampeSmeromDnuNiektoJe;

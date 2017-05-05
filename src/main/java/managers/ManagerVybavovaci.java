@@ -54,12 +54,11 @@ public class ManagerVybavovaci extends Manager
 	public void processPrisielZakaznik(MessageForm message)
 	{
 		if(myAgent().jeVolnyPracovnik()) {
-			message.setAddressee(Id.agentServisu);
-			message.setCode(Mc.dajZakaznikaCakajucehoNaZadanieObjeddnavky);
+			message.setAddressee(Id.zadavanieObjednavky);
 			((MyMessage)message).setRobotnik(myAgent().getVolnyRobotnik());
-			request(message);
+			startContinualAssistant(message);
 		} else {
-			myAgent().zvysPocetLudiCakajucichNaZadanieObjednavky();
+			myAgent().getFrontaLudiNaZadavanieObjednavky().enqueue((MyMessage)message);;
 		}
 	}
 
@@ -97,13 +96,11 @@ public class ManagerVybavovaci extends Manager
 			message.setCode(Mc.dajAutoZParkoviska2);
 			((MyMessage)message).setRobotnik(myAgent().getVolnyRobotnik());
 			request(message);
-		} else if(myAgent().niektoCakaNaZadanieObjednavky()) {
-			myAgent().znizPocetLudiCakajucichNaZadanieObjednavky();
-			MyMessage message = new MyMessage(_mySim, null);
-			message.setAddressee(Id.agentServisu);
-			message.setCode(Mc.dajZakaznikaCakajucehoNaZadanieObjeddnavky);
+		} else if(myAgent().getFrontaLudiNaZadavanieObjednavky().size()>0) {
+			MyMessage message = myAgent().getFrontaLudiNaZadavanieObjednavky().dequeue();
+			message.setAddressee(Id.zadavanieObjednavky);
 			((MyMessage)message).setRobotnik(myAgent().getVolnyRobotnik());
-			request(message);
+			startContinualAssistant(message);
 		}
 		
 	}

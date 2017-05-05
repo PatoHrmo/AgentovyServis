@@ -94,7 +94,7 @@ public AgentOpravary agentOpravary()
 
 	public int getPocetLudiCakajucichNaObsluhu() {
 		// TODO Auto-generated method stub
-		return agentServisu().getFrontaPredZadavanimObjednavky().size();
+		return agentVybavovaci().getFrontaLudiNaZadavanieObjednavky().size();
 	}
 
 	public int getVelkostFrontuPredRampou() {
