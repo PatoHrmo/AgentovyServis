@@ -23,6 +23,7 @@ public class AgentVybavovaci extends Agent
 	private List<Robotnik> volnyPracovnici;
 	private List<Robotnik> vsetciPracovnici;
 	SimQueue<MyMessage> frontZakaznikovNaZadavanieObjednavky;
+	SimQueue<MyMessage> frontaZakaznikovSOpravenymAutom;
 	private int pocetAutNaParkovisku2;
 	public AgentVybavovaci(int id, Simulation mySim, Agent parent)
 	{
@@ -37,6 +38,7 @@ public class AgentVybavovaci extends Agent
 		vsetciPracovnici = new LinkedList<>();
 		pocetAutNaParkovisku2 = 0;
 		frontZakaznikovNaZadavanieObjednavky = new SimQueue<>();
+		frontaZakaznikovSOpravenymAutom = new SimQueue<>();
 	}
 
 	@Override
@@ -50,11 +52,11 @@ public class AgentVybavovaci extends Agent
 	private void init()
 	{
 		new ManagerVybavovaci(Id.managerVybavovaci, mySim(), this);
-		new PreberanieAuta(Id.preberanieAuta, mySim(), this);
-		new OdovzdavanieHotoveho(Id.odovzdavanieHotoveho, mySim(), this);
 		new ZadavanieObjednavky(Id.zadavanieObjednavky, mySim(), this);
+		new OdovzdavanieHotoveho(Id.odovzdavanieHotoveho, mySim(), this);
 		new PreparkovaniePredServis(Id.preparkovaniePredServis, mySim(), this);
 		new PreparkovanieNaPark1(Id.preparkovanieNaPark1, mySim(), this);
+		new PreberanieAuta(Id.preberanieAuta, mySim(), this);
 		addOwnMessage(Mc.dajAutoZParkoviska2);
 		addOwnMessage(Mc.prichodAutaNaParkovisko2);
 		addOwnMessage(Mc.prisielZakaznik);
@@ -105,5 +107,9 @@ public class AgentVybavovaci extends Agent
 	}
 	public int getPocetLudiNaParkovisku2() {
 		return pocetAutNaParkovisku2;
+	}
+
+	public void pridajZakaznikaSOpravenymAutom(MyMessage message) {
+		frontaZakaznikovSOpravenymAutom.enqueue(message);
 	}
 }

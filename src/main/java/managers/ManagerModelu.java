@@ -63,12 +63,12 @@ public class ManagerModelu extends Manager
 	{
 		switch (message.code())
 		{
-		case Mc.prichodZakaznika:
-			processPrichodZakaznika(message);
-		break;
-
 		case Mc.obsluzZakaznika:
 			processObsluzZakaznika(message);
+		break;
+
+		case Mc.prichodZakaznika:
+			processPrichodZakaznika(message);
 		break;
 
 		default:

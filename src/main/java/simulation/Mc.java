@@ -7,7 +7,7 @@ public class Mc extends IdList
 	//meta! userInfo="Generated code: do not modify", tag="begin"
 	public static final int prichodAutaNaParkovisko1 = 1022;
 	public static final int dajAutoZParkoviska1 = 1023;
-	public static final int vypytajMiestoParkoviska2 = 1024;
+	public static final int dajAutoNaParkovisko2 = 1024;
 	public static final int prichodAutaNaParkovisko2 = 1025;
 	public static final int stustiTok = 1001;
 	public static final int prichodZakaznika = 1002;
@@ -16,6 +16,7 @@ public class Mc extends IdList
 	public static final int rezervujMiestoParkoviska1 = 1027;
 	public static final int preparkujNaParkovisko1 = 1029;
 	public static final int prisielZakaznik = 1013;
+	public static final int umietniAutoNaParkovisko1 = 1034;
 	public static final int odchodObsluzenehoZakaznika = 1018;
 	public static final int dajAutoZParkoviska2 = 1019;
 	public static final int autoBoloPreparkovaneNaParkovisko1 = 1020;

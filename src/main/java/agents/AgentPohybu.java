@@ -45,10 +45,10 @@ public class AgentPohybu extends Agent
 	private void init()
 	{
 		new ManagerPohybu(Id.managerPohybu, mySim(), this);
-		new PreparkujPark2PredServis(Id.preparkujPark2PredServis, mySim(), this);
-		new ChojOdRampyKServisu(Id.chojOdRampyKServisu, mySim(), this);
 		new ChojOdServisuKRampe(Id.chojOdServisuKRampe, mySim(), this);
 		new PreparkujServisDoPark1(Id.preparkujServisDoPark1, mySim(), this);
+		new ChojOdRampyKServisu(Id.chojOdRampyKServisu, mySim(), this);
+		new PreparkujPark2PredServis(Id.preparkujPark2PredServis, mySim(), this);
 		addOwnMessage(Mc.preparkujNaParkovisko1);
 	}
 	//meta! tag="end"

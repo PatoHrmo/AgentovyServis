@@ -55,18 +55,19 @@ public class AgentServisu extends Agent
 	private void init()
 	{
 		new ManagerServisu(Id.managerServisu, mySim(), this);
+		new PrejazdRampaServis(Id.prejazdRampaServis, mySim(), this);
 		new OdchodPoDlhomCakani(Id.odchodPoDlhomCakani, mySim(), this);
 		new PrejazdRampou(Id.prejazdRampou, mySim(), this);
-		new PrejazdRampaServis(Id.prejazdRampaServis, mySim(), this);
 		addOwnMessage(Mc.dajAutoZParkoviska1);
 		addOwnMessage(Mc.obsluzZakaznika);
 		addOwnMessage(Mc.dajAutoZParkoviska2);
 		addOwnMessage(Mc.prichodAutaNaParkovisko2);
+		addOwnMessage(Mc.dajAutoNaParkovisko2);
+		addOwnMessage(Mc.umietniAutoNaParkovisko1);
 		addOwnMessage(Mc.rezervujMiestoParkoviska1);
 		addOwnMessage(Mc.odchodObsluzenehoZakaznika);
-		addOwnMessage(Mc.preparkujNaParkovisko1);
 		addOwnMessage(Mc.autoBoloPreparkovaneNaParkovisko1);
-		addOwnMessage(Mc.vypytajMiestoParkoviska2);
+		addOwnMessage(Mc.preparkujNaParkovisko1);
 	}
 	//meta! tag="end"
 

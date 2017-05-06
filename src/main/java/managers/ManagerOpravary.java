@@ -12,6 +12,7 @@ import simulation.MyMessage;
 //meta! id="17"
 public class ManagerOpravary extends Manager
 {
+	
 	public ManagerOpravary(int id, Simulation mySim, Agent myAgent)
 	{
 		super(id, mySim, myAgent);
@@ -34,6 +35,7 @@ public class ManagerOpravary extends Manager
 	public void processDajAutoZParkoviska1(MessageForm message)
 	{
 		message.setAddressee(Id.oprava);
+		((MyMessage)message).setRobotnik(myAgent().getVolnyPracovnik());
 		startContinualAssistant(message);
 	}
 
@@ -43,10 +45,9 @@ public class ManagerOpravary extends Manager
 		if(myAgent().jeVolnyPracovnik()) {
 			message.setAddressee(Id.agentServisu);
 			message.setCode(Mc.dajAutoZParkoviska1);
-			((MyMessage)message).setRobotnik(myAgent().getVolnyPracovnik());
 			request(message);
 		} else {
-			myAgent().zvysPocetAutPredOpravovnou();
+			myAgent().pridajZakaznikaCakajucehoNaOpravu(message);
 		}
 	}
 
@@ -54,23 +55,23 @@ public class ManagerOpravary extends Manager
 	public void processFinish(MessageForm message)
 	{
 		message.setAddressee(Id.agentServisu);
-		message.setCode(Mc.vypytajMiestoParkoviska2);
+		message.setCode(Mc.dajAutoNaParkovisko2);
 		request(message);
+		
 		
 	}
 
 	//meta! sender="AgentServisu", id="66", type="Response"
-	public void processVypytajMiestoParkoviska2(MessageForm message)
+	public void processDajAutoNaParkovisko2(MessageForm message)
 	{
 		myAgent().uvolniPracovnika((MyMessage)message);
 		message.setAddressee(Id.agentServisu);
 		message.setCode(Mc.prichodAutaNaParkovisko2);
 		notice(message);
 		if(myAgent().getPocetAutPredOpravovnou()>0) {
-			MyMessage mes = new MyMessage(_mySim, null);
+			MyMessage mes = myAgent().getZakaznikaCakajucehoNaOpravu();
 			mes.setAddressee(Id.agentServisu);
 			mes.setCode(Mc.dajAutoZParkoviska1);
-			mes.setRobotnik(myAgent().getVolnyPracovnik());
 			request(mes);
 		}
 		
@@ -98,16 +99,16 @@ public class ManagerOpravary extends Manager
 			processDajAutoZParkoviska1(message);
 		break;
 
-		case Mc.vypytajMiestoParkoviska2:
-			processVypytajMiestoParkoviska2(message);
+		case Mc.prichodAutaNaParkovisko1:
+			processPrichodAutaNaParkovisko1(message);
+		break;
+
+		case Mc.dajAutoNaParkovisko2:
+			processDajAutoNaParkovisko2(message);
 		break;
 
 		case Mc.finish:
 			processFinish(message);
-		break;
-
-		case Mc.prichodAutaNaParkovisko1:
-			processPrichodAutaNaParkovisko1(message);
 		break;
 
 		default:

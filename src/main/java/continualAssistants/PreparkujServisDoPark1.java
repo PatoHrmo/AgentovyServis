@@ -38,6 +38,7 @@ public class PreparkujServisDoPark1 extends Process
 		{
 		case Mc.koniecPreparkovaniaNaParkovisko1 :
 			((MyMessage)message).setCinnostZakaznika(Cinnosti.cakaNaParkovisku1);
+			((MyMessage)message).setCinnostRobotnika(Cinnosti.necinny);
 			assistantFinished(message);
 		}
 	}

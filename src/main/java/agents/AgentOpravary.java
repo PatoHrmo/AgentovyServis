@@ -4,7 +4,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import OSPABA.Agent;
+import OSPABA.MessageForm;
 import OSPABA.Simulation;
+import OSPDataStruct.SimQueue;
 import continualAssistants.Oprava;
 import entity.Cinnosti;
 import entity.Robotnik;
@@ -16,9 +18,9 @@ import simulation.MyMessage;
 //meta! id="17"
 public class AgentOpravary extends Agent
 {	
+	private SimQueue<MyMessage> zakazniciCakajuciNaOpravu;
 	private List<Robotnik> volnyPracovnici; 
 	private List<Robotnik> vsetciPracovnici;
-	private int pocetAutPredOpravovnou;
 	public AgentOpravary(int id, Simulation mySim, Agent parent)
 	{
 		super(id, mySim, parent);
@@ -26,7 +28,7 @@ public class AgentOpravary extends Agent
 		addOwnMessage(Mc.koniecOpravy);
 		volnyPracovnici = new LinkedList<>();
 		vsetciPracovnici = new LinkedList<>();
-		pocetAutPredOpravovnou = 0;
+		zakazniciCakajuciNaOpravu = new SimQueue<>();
 	}
 	public void nastavPocetPracovnikov(int pocetPracovnikov) {
 		for(int i = 0; i<pocetPracovnikov;i++) {
@@ -55,18 +57,10 @@ public class AgentOpravary extends Agent
 		new Oprava(Id.oprava, mySim(), this);
 		addOwnMessage(Mc.dajAutoZParkoviska1);
 		addOwnMessage(Mc.prichodAutaNaParkovisko1);
-		addOwnMessage(Mc.vypytajMiestoParkoviska2);
+		addOwnMessage(Mc.dajAutoNaParkovisko2);
 	}
 	//meta! tag="end"
-	public void zvysPocetAutPredOpravovnou() {
-		pocetAutPredOpravovnou++;
-	}
-	public void znizPocetAutPredOpravovnou() {
-		pocetAutPredOpravovnou--;
-	}
-	public int getPocetAutPredOpravovnou() {
-		return pocetAutPredOpravovnou;
-	}
+	
 	public Robotnik getVolnyPracovnik() {
 		return volnyPracovnici.remove(0);
 	}
@@ -75,5 +69,14 @@ public class AgentOpravary extends Agent
 		message.getZakaznik().setCinnost(Cinnosti.cakaNaParkovisku2);
 		volnyPracovnici.add(message.getRobotnik());
 		message.setRobotnik(null);
+	}
+	public void pridajZakaznikaCakajucehoNaOpravu(MessageForm message) {
+		zakazniciCakajuciNaOpravu.enqueue((MyMessage)message);
+	}
+	public int getPocetAutPredOpravovnou() {
+		return zakazniciCakajuciNaOpravu.size();
+	}
+	public MyMessage getZakaznikaCakajucehoNaOpravu() {
+		return zakazniciCakajuciNaOpravu.dequeue();
 	}
 }

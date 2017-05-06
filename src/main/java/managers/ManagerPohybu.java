@@ -51,7 +51,8 @@ public class ManagerPohybu extends Manager
 	//meta! sender="PreparkujServisDoPark1", id="98", type="Finish"
 	public void processFinishPreparkujServisDoPark1(MessageForm message)
 	{
-		System.out.println("som tu");
+		message.setCode(Mc.preparkujNaParkovisko1);
+		response(message);
 	}
 
 	//meta! sender="ChojOdRampyKServisu", id="102", type="Finish"
@@ -77,10 +78,6 @@ public class ManagerPohybu extends Manager
 		case Mc.finish:
 			switch (message.sender().id())
 			{
-			case Id.preparkujPark2PredServis:
-				processFinishPreparkujPark2PredServis(message);
-			break;
-
 			case Id.preparkujServisDoPark1:
 				processFinishPreparkujServisDoPark1(message);
 			break;
@@ -91,6 +88,10 @@ public class ManagerPohybu extends Manager
 
 			case Id.chojOdServisuKRampe:
 				processFinishChojOdServisuKRampe(message);
+			break;
+
+			case Id.preparkujPark2PredServis:
+				processFinishPreparkujPark2PredServis(message);
 			break;
 			}
 		break;
