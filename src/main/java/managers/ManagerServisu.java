@@ -52,7 +52,7 @@ public class ManagerServisu extends Manager
 	}
 
 	//meta! sender="AgentVybavovaci", id="61", type="Request"
-	public void processDajAutoZParkoviska2(MessageForm message)
+	public void processDajAutoZParkoviska2AgentVybavovaci(MessageForm message)
 	{
 		message.setAddressee(Id.agentParkovisk);
 		request(message);
@@ -69,7 +69,9 @@ public class ManagerServisu extends Manager
 	//meta! sender="AgentVybavovaci", id="60", type="Notice"
 	public void processOdchodObsluzenehoZakaznika(MessageForm message)
 	{
-		response(message);
+		message.setAddressee(Id.agentPohybu);
+		message.setCode(Mc.preparkujServisRampa);
+		request(message);
 	}
 
 	//meta! sender="PrejazdRampou", id="37", type="Finish"
@@ -188,6 +190,33 @@ public class ManagerServisu extends Manager
 		response(message);
 	}
 
+	//meta! sender="AgentParkovisk", id="112", type="Response"
+	public void processDajAutoZParkoviska2AgentParkovisk(MessageForm message)
+	{
+		message.setAddressee(Id.agentPohybu);
+		message.setCode(Mc.preparkujParkovisko2PredServis);
+		request(message);
+	}
+
+	//meta! sender="AgentPohybu", id="115", type="Response"
+	public void processPreparkujRampaServis(MessageForm message)
+	{
+	}
+
+	//meta! sender="AgentPohybu", id="116", type="Response"
+	public void processPreparkujServisRampa(MessageForm message)
+	{
+		message.setCode(Mc.obsluzZakaznika);
+		response(message);
+	}
+
+	//meta! sender="AgentPohybu", id="114", type="Response"
+	public void processPreparkujParkovisko2PredServis(MessageForm message)
+	{
+		message.setCode(Mc.dajAutoZParkoviska2);
+		response(message);
+	}
+
 	//meta! userInfo="Generated code: do not modify", tag="begin"
 	public void init()
 	{
@@ -219,46 +248,12 @@ public class ManagerServisu extends Manager
 			processObsluzZakaznika(message);
 		break;
 
-		case Mc.autoBoloPreparkovaneNaParkovisko1:
-			processAutoBoloPreparkovaneNaParkovisko1(message);
+		case Mc.odchodObsluzenehoZakaznika:
+			processOdchodObsluzenehoZakaznika(message);
 		break;
 
 		case Mc.umietniAutoNaParkovisko1:
 			processUmietniAutoNaParkovisko1(message);
-		break;
-
-		case Mc.dajAutoZParkoviska2:
-			processDajAutoZParkoviska2(message);
-		break;
-
-		case Mc.dajAutoZParkoviska1:
-			switch (message.sender().id())
-			{
-			case Id.agentOpravary:
-				processDajAutoZParkoviska1AgentOpravary(message);
-			break;
-
-			case Id.agentParkovisk:
-				processDajAutoZParkoviska1AgentParkovisk(message);
-			break;
-			}
-		break;
-
-		case Mc.dajAutoNaParkovisko2:
-			switch (message.sender().id())
-			{
-			case Id.agentParkovisk:
-				processDajAutoNaParkovisko2AgentParkovisk(message);
-			break;
-
-			case Id.agentOpravary:
-				processDajAutoNaParkovisko2AgentOpravary(message);
-			break;
-			}
-		break;
-
-		case Mc.prichodAutaNaParkovisko2:
-			processPrichodAutaNaParkovisko2(message);
 		break;
 
 		case Mc.rezervujMiestoParkoviska1:
@@ -274,6 +269,48 @@ public class ManagerServisu extends Manager
 			}
 		break;
 
+		case Mc.dajAutoZParkoviska1:
+			switch (message.sender().id())
+			{
+			case Id.agentOpravary:
+				processDajAutoZParkoviska1AgentOpravary(message);
+			break;
+
+			case Id.agentParkovisk:
+				processDajAutoZParkoviska1AgentParkovisk(message);
+			break;
+			}
+		break;
+
+		case Mc.dajAutoZParkoviska2:
+			switch (message.sender().id())
+			{
+			case Id.agentParkovisk:
+				processDajAutoZParkoviska2AgentParkovisk(message);
+			break;
+
+			case Id.agentVybavovaci:
+				processDajAutoZParkoviska2AgentVybavovaci(message);
+			break;
+			}
+		break;
+
+		case Mc.preparkujServisRampa:
+			processPreparkujServisRampa(message);
+		break;
+
+		case Mc.prichodAutaNaParkovisko2:
+			processPrichodAutaNaParkovisko2(message);
+		break;
+
+		case Mc.preparkujRampaServis:
+			processPreparkujRampaServis(message);
+		break;
+
+		case Mc.autoBoloPreparkovaneNaParkovisko1:
+			processAutoBoloPreparkovaneNaParkovisko1(message);
+		break;
+
 		case Mc.preparkujNaParkovisko1:
 			switch (message.sender().id())
 			{
@@ -287,8 +324,21 @@ public class ManagerServisu extends Manager
 			}
 		break;
 
-		case Mc.odchodObsluzenehoZakaznika:
-			processOdchodObsluzenehoZakaznika(message);
+		case Mc.dajAutoNaParkovisko2:
+			switch (message.sender().id())
+			{
+			case Id.agentOpravary:
+				processDajAutoNaParkovisko2AgentOpravary(message);
+			break;
+
+			case Id.agentParkovisk:
+				processDajAutoNaParkovisko2AgentParkovisk(message);
+			break;
+			}
+		break;
+
+		case Mc.preparkujParkovisko2PredServis:
+			processPreparkujParkovisko2PredServis(message);
 		break;
 
 		default:

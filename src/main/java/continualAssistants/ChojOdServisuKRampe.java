@@ -3,6 +3,7 @@ package continualAssistants;
 import OSPABA.*;
 import simulation.*;
 import agents.*;
+import entity.Cinnosti;
 import OSPABA.Process;
 
 //meta! id="103"
@@ -23,6 +24,9 @@ public class ChojOdServisuKRampe extends Process
 	//meta! sender="AgentPohybu", id="104", type="Start"
 	public void processStart(MessageForm message)
 	{
+		((MyMessage)message).setCinnostZakaznika(Cinnosti.ideKuRampeVon);
+		message.setCode(Mc.koniecPreparkovaniaServisRampa);
+		hold(myAgent().casPrechoduRampaServis(),message);
 	}
 
 	//meta! userInfo="Process messages defined in code", id="0"
@@ -30,6 +34,9 @@ public class ChojOdServisuKRampe extends Process
 	{
 		switch (message.code())
 		{
+		case Mc.koniecPreparkovaniaServisRampa:
+			((MyMessage)message).setCinnostZakaznika(Cinnosti.cakNaRampeVon);
+			assistantFinished(message);
 		}
 	}
 

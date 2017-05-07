@@ -26,5 +26,7 @@ public class Cinnosti {
 	public static final String preparkuvavaPredServis = "preparkuváva opravené auto pred servis";
 	public static final String idOdParkoviska2PredServis = "ide od parkoviska 2 pred servis";
 	public static final String preberaOpraveneAuto = "preberá opravené auto";
+	public static final String ideKuRampeVon = "ide ku rampe von zo servisu";
+	public static final String cakNaRampeVon = "èaká na rampe smerom von";
 	
 }

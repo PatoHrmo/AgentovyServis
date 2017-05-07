@@ -82,6 +82,19 @@ public class ManagerParkovisk extends Manager
 		}
 	}
 
+	//meta! sender="AgentServisu", id="112", type="Request"
+	public void processDajAutoZParkoviska2(MessageForm message)
+	{
+		Zakaznik zak = myAgent().getAutoZParkoviska2();
+		((MyMessage)message).setZakaznik(zak);
+		response(message);
+		if(myAgent().niektoCakaNaParkovisko2()) {
+			MyMessage mess = myAgent().getCakajucehoNaParkovisko2();
+			myAgent().pridajAutoNaPark2(mess);
+			response(mess);
+		}
+	}
+
 	//meta! userInfo="Generated code: do not modify", tag="begin"
 	public void init()
 	{
@@ -94,6 +107,10 @@ public class ManagerParkovisk extends Manager
 		{
 		case Mc.dajAutoNaParkovisko2:
 			processDajAutoNaParkovisko2(message);
+		break;
+
+		case Mc.dajAutoZParkoviska2:
+			processDajAutoZParkoviska2(message);
 		break;
 
 		case Mc.umietniAutoNaParkovisko1:

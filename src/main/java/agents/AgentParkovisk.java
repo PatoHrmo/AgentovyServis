@@ -49,6 +49,7 @@ public class AgentParkovisk extends Agent
 	{
 		new ManagerParkovisk(Id.managerParkovisk, mySim(), this);
 		addOwnMessage(Mc.dajAutoZParkoviska1);
+		addOwnMessage(Mc.dajAutoZParkoviska2);
 		addOwnMessage(Mc.dajAutoNaParkovisko2);
 		addOwnMessage(Mc.umietniAutoNaParkovisko1);
 		addOwnMessage(Mc.rezervujMiestoParkoviska1);
@@ -94,5 +95,18 @@ public class AgentParkovisk extends Agent
 
 	public void pridajPracovnika2CakajucehoNaUvolneniePark2(MyMessage message) {
 		frontaCakajucichNaUvolnenieParkoviska2.enqueue(message);
+	}
+
+	public Zakaznik getAutoZParkoviska2() {
+		// TODO Auto-generated method stub
+		return frontaParkovisko2.dequeue().getZakaznik();
+	}
+
+	public boolean niektoCakaNaParkovisko2() {
+		return !frontaCakajucichNaUvolnenieParkoviska2.isEmpty();
+	}
+
+	public MyMessage getCakajucehoNaParkovisko2() {
+		return frontaCakajucichNaUvolnenieParkoviska2.dequeue();
 	}
 }

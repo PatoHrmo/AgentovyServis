@@ -18,6 +18,9 @@ public class AgentPohybu extends Agent
 		super(id, mySim, parent);
 		init();
 		addOwnMessage(Mc.koniecPreparkovaniaNaParkovisko1);
+		addOwnMessage(Mc.koniecPreparkovaniaPark2PredServis);
+		addOwnMessage(Mc.koniecPreparkovaniaRampaServis);
+		addOwnMessage(Mc.koniecPreparkovaniaServisRampa);
 	}
 
 	@Override
@@ -45,15 +48,26 @@ public class AgentPohybu extends Agent
 	private void init()
 	{
 		new ManagerPohybu(Id.managerPohybu, mySim(), this);
-		new ChojOdServisuKRampe(Id.chojOdServisuKRampe, mySim(), this);
 		new PreparkujServisDoPark1(Id.preparkujServisDoPark1, mySim(), this);
-		new ChojOdRampyKServisu(Id.chojOdRampyKServisu, mySim(), this);
 		new PreparkujPark2PredServis(Id.preparkujPark2PredServis, mySim(), this);
+		new ChojOdRampyKServisu(Id.chojOdRampyKServisu, mySim(), this);
+		new ChojOdServisuKRampe(Id.chojOdServisuKRampe, mySim(), this);
+		addOwnMessage(Mc.preparkujRampaServis);
 		addOwnMessage(Mc.preparkujNaParkovisko1);
+		addOwnMessage(Mc.preparkujParkovisko2PredServis);
+		addOwnMessage(Mc.preparkujServisRampa);
 	}
 	//meta! tag="end"
 
 	public double casPreparkovaniaServisParkovisko1() {
 		return pocetSekundNaPrejdenieMetra*vzdialenostPredservisDoPark1;
+	}
+
+	public double casPreparkovaniaPark2PredServis() {
+		return pocetSekundNaPrejdenieMetra*vzdialenostPark2PredServis;
+	}
+
+	public double casPrechoduRampaServis() {
+		return pocetSekundNaPrejdenieMetra*vzdialenostRampaPredServis;
 	}
 }

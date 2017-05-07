@@ -17,8 +17,11 @@ public class Mc extends IdList
 	public static final int preparkujNaParkovisko1 = 1029;
 	public static final int prisielZakaznik = 1013;
 	public static final int umietniAutoNaParkovisko1 = 1034;
+	public static final int dajAutoZParkoviska2 = 1036;
+	public static final int preparkujParkovisko2PredServis = 1037;
+	public static final int preparkujRampaServis = 1038;
+	public static final int preparkujServisRampa = 1039;
 	public static final int odchodObsluzenehoZakaznika = 1018;
-	public static final int dajAutoZParkoviska2 = 1019;
 	public static final int autoBoloPreparkovaneNaParkovisko1 = 1020;
 	//meta! tag="end"
 	public static final int novyZakaznik = 2;
@@ -30,7 +33,12 @@ public class Mc extends IdList
 	public static final int koniecOpravy = 8;
 	public static final int koniecPreparkovaniaNaParkoviskoPredServisom = 9;
 	public static final int koniecOdovzdaniaOpravenehoAuta = 10;
+	public static final int koniecPreparkovaniaPark2PredServis = 11;
+	public static final int koniecPreparkovaniaServisRampa = 12;
+	public static final int koniecPreparkovaniaRampaServis = 13;
 	// 1..1000 range reserved for user
+	
+	
 	
 	
 	

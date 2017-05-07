@@ -33,7 +33,7 @@ public class ManagerVybavovaci extends Manager
 	//meta! sender="AgentServisu", id="61", type="Response"
 	public void processDajAutoZParkoviska2(MessageForm message)
 	{
-		((MyMessage)message).setAddressee(Id.preparkovaniePredServis);
+		((MyMessage)message).setAddressee(Id.odovzdavanieHotoveho);
 		startContinualAssistant(message);
 	}
 
@@ -90,11 +90,10 @@ public class ManagerVybavovaci extends Manager
 //			request(message);
 //		}
 		if(myAgent().getPocetLudiNaParkovisku2()>0) {
-			myAgent().znizPocetAutNaParkovisku2();
-			MyMessage message = new MyMessage(_mySim, null);
+			MyMessage message = myAgent().getZakaznikaCakajucehoSOpravenymAutom();
+			((MyMessage)message).setRobotnik(myAgent().getVolnyRobotnik());
 			message.setAddressee(Id.agentServisu);
 			message.setCode(Mc.dajAutoZParkoviska2);
-			((MyMessage)message).setRobotnik(myAgent().getVolnyRobotnik());
 			request(message);
 		} else if(myAgent().getFrontaLudiNaZadavanieObjednavky().size()>0) {
 			MyMessage message = myAgent().getFrontaLudiNaZadavanieObjednavky().dequeue();
@@ -188,10 +187,6 @@ public class ManagerVybavovaci extends Manager
 				processFinishPreparkovanieNaPark1(message);
 			break;
 
-			case Id.odovzdavanieHotoveho:
-				processFinishOdovzdavanieHotoveho(message);
-			break;
-
 			case Id.preparkovaniePredServis:
 				processFinishPreparkovaniePredServis(message);
 			break;
@@ -199,11 +194,19 @@ public class ManagerVybavovaci extends Manager
 			case Id.preberanieAuta:
 				processFinishPreberanieAuta(message);
 			break;
+
+			case Id.odovzdavanieHotoveho:
+				processFinishOdovzdavanieHotoveho(message);
+			break;
 			}
 		break;
 
-		case Mc.dajAutoZParkoviska2:
-			processDajAutoZParkoviska2(message);
+		case Mc.prichodAutaNaParkovisko2:
+			processPrichodAutaNaParkovisko2(message);
+		break;
+
+		case Mc.rezervujMiestoParkoviska1:
+			processRezervujMiestoParkoviska1(message);
 		break;
 
 		case Mc.prisielZakaznik:
@@ -214,12 +217,8 @@ public class ManagerVybavovaci extends Manager
 			processPreparkujNaParkovisko1(message);
 		break;
 
-		case Mc.prichodAutaNaParkovisko2:
-			processPrichodAutaNaParkovisko2(message);
-		break;
-
-		case Mc.rezervujMiestoParkoviska1:
-			processRezervujMiestoParkoviska1(message);
+		case Mc.dajAutoZParkoviska2:
+			processDajAutoZParkoviska2(message);
 		break;
 
 		default:

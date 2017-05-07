@@ -52,10 +52,10 @@ public class AgentVybavovaci extends Agent
 	private void init()
 	{
 		new ManagerVybavovaci(Id.managerVybavovaci, mySim(), this);
+		new PreparkovanieNaPark1(Id.preparkovanieNaPark1, mySim(), this);
 		new ZadavanieObjednavky(Id.zadavanieObjednavky, mySim(), this);
 		new OdovzdavanieHotoveho(Id.odovzdavanieHotoveho, mySim(), this);
 		new PreparkovaniePredServis(Id.preparkovaniePredServis, mySim(), this);
-		new PreparkovanieNaPark1(Id.preparkovanieNaPark1, mySim(), this);
 		new PreberanieAuta(Id.preberanieAuta, mySim(), this);
 		addOwnMessage(Mc.dajAutoZParkoviska2);
 		addOwnMessage(Mc.prichodAutaNaParkovisko2);
@@ -106,9 +106,11 @@ public class AgentVybavovaci extends Agent
 		pocetAutNaParkovisku2--;
 	}
 	public int getPocetLudiNaParkovisku2() {
-		return pocetAutNaParkovisku2;
+		return frontaZakaznikovSOpravenymAutom.size();
 	}
-
+	public MyMessage getZakaznikaCakajucehoSOpravenymAutom() {
+		return frontaZakaznikovSOpravenymAutom.dequeue();
+	}
 	public void pridajZakaznikaSOpravenymAutom(MyMessage message) {
 		frontaZakaznikovSOpravenymAutom.enqueue(message);
 	}

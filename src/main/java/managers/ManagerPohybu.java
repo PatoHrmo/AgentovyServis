@@ -46,6 +46,8 @@ public class ManagerPohybu extends Manager
 	//meta! sender="PreparkujPark2PredServis", id="100", type="Finish"
 	public void processFinishPreparkujPark2PredServis(MessageForm message)
 	{
+		message.setCode(Mc.preparkujParkovisko2PredServis);
+		response(message);
 	}
 
 	//meta! sender="PreparkujServisDoPark1", id="98", type="Finish"
@@ -63,6 +65,27 @@ public class ManagerPohybu extends Manager
 	//meta! sender="ChojOdServisuKRampe", id="104", type="Finish"
 	public void processFinishChojOdServisuKRampe(MessageForm message)
 	{
+		message.setCode(Mc.preparkujServisRampa);
+		response(message);
+	}
+
+	//meta! sender="AgentServisu", id="115", type="Request"
+	public void processPreparkujRampaServis(MessageForm message)
+	{
+	}
+
+	//meta! sender="AgentServisu", id="114", type="Request"
+	public void processPreparkujParkovisko2PredServis(MessageForm message)
+	{
+		message.setAddressee(Id.preparkujPark2PredServis);
+		startContinualAssistant(message);
+	}
+
+	//meta! sender="AgentServisu", id="116", type="Request"
+	public void processPreparkujServisRampa(MessageForm message)
+	{
+		message.setAddressee(Id.chojOdServisuKRampe);
+		startContinualAssistant(message);
 	}
 
 	//meta! userInfo="Generated code: do not modify", tag="begin"
@@ -96,8 +119,20 @@ public class ManagerPohybu extends Manager
 			}
 		break;
 
+		case Mc.preparkujRampaServis:
+			processPreparkujRampaServis(message);
+		break;
+
 		case Mc.preparkujNaParkovisko1:
 			processPreparkujNaParkovisko1(message);
+		break;
+
+		case Mc.preparkujParkovisko2PredServis:
+			processPreparkujParkovisko2PredServis(message);
+		break;
+
+		case Mc.preparkujServisRampa:
+			processPreparkujServisRampa(message);
 		break;
 
 		default:
