@@ -39,18 +39,6 @@ public class ManagerServisu extends Manager
 		request(message);
 	}
 
-	//meta! sender="AgentModelu", id="11", type="Request"
-	public void processObsluzZakaznika(MessageForm message)
-	{
-		if(myAgent().getFrontaPredRampou().isEmpty() && !myAgent().isNaRampeSmeromDnuNiektoJe()) {
-			message.setAddressee(Id.prejazdRampou);
-			myAgent().setNaRampeSmeromDnuNiektoJe(true);
-			startContinualAssistant(message);
-		} else {
-			myAgent().getFrontaPredRampou().enqueue((MyMessage)message);
-		}
-	}
-
 	//meta! sender="AgentVybavovaci", id="61", type="Request"
 	public void processDajAutoZParkoviska2AgentVybavovaci(MessageForm message)
 	{
@@ -201,6 +189,9 @@ public class ManagerServisu extends Manager
 	//meta! sender="AgentPohybu", id="115", type="Response"
 	public void processPreparkujRampaServis(MessageForm message)
 	{
+		message.setAddressee(Id.agentVybavovaci);
+		message.setCode(Mc.prisielZakaznik);
+		notice(message);
 	}
 
 	//meta! sender="AgentPohybu", id="116", type="Response"
@@ -215,6 +206,14 @@ public class ManagerServisu extends Manager
 	{
 		message.setCode(Mc.dajAutoZParkoviska2);
 		response(message);
+	}
+
+	//meta! sender="AgentRampy", id="124", type="Request"
+	public void processObsluzZakaznika(MessageForm message)
+	{
+		message.setAddressee(Id.agentPohybu);
+		message.setCode(Mc.preparkujRampaServis);
+		request(message);
 	}
 
 	//meta! userInfo="Generated code: do not modify", tag="begin"

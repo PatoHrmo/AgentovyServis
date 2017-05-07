@@ -3,13 +3,12 @@ package continualAssistants;
 import OSPABA.*;
 import simulation.*;
 import agents.*;
-import entity.Cinnosti;
 import OSPABA.Process;
 
-//meta! id="101"
-public class ChojOdRampyKServisu extends Process
+//meta! id="126"
+public class PrechodRampouVon extends Process
 {
-	public ChojOdRampyKServisu(int id, Simulation mySim, CommonAgent myAgent)
+	public PrechodRampouVon(int id, Simulation mySim, CommonAgent myAgent)
 	{
 		super(id, mySim, myAgent);
 	}
@@ -21,12 +20,9 @@ public class ChojOdRampyKServisu extends Process
 		// Setup component for the next replication
 	}
 
-	//meta! sender="AgentPohybu", id="102", type="Start"
+	//meta! sender="AgentRampy", id="127", type="Start"
 	public void processStart(MessageForm message)
 	{
-		((MyMessage)message).setCinnostZakaznika(Cinnosti.ideOdRampyDoServisu);
-		message.setCode(Mc.koniecPreparkovaniaRampaServis);
-		hold(myAgent().casPrechoduRampaServis(),message);
 	}
 
 	//meta! userInfo="Process messages defined in code", id="0"
@@ -34,9 +30,6 @@ public class ChojOdRampyKServisu extends Process
 	{
 		switch (message.code())
 		{
-		case Mc.koniecPreparkovaniaRampaServis:
-			((MyMessage)message).setCinnostZakaznika(Cinnosti.cakaNaZadanieObjednavky);
-			assistantFinished(message);
 		}
 	}
 
@@ -58,9 +51,9 @@ public class ChojOdRampyKServisu extends Process
 	//meta! tag="end"
 
 	@Override
-	public AgentPohybu myAgent()
+	public AgentRampy myAgent()
 	{
-		return (AgentPohybu)super.myAgent();
+		return (AgentRampy)super.myAgent();
 	}
 
 }

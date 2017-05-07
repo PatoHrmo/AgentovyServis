@@ -60,6 +60,8 @@ public class ManagerPohybu extends Manager
 	//meta! sender="ChojOdRampyKServisu", id="102", type="Finish"
 	public void processFinishChojOdRampyKServisu(MessageForm message)
 	{
+		message.setCode(Mc.preparkujRampaServis);
+		response(message);
 	}
 
 	//meta! sender="ChojOdServisuKRampe", id="104", type="Finish"
@@ -72,6 +74,8 @@ public class ManagerPohybu extends Manager
 	//meta! sender="AgentServisu", id="115", type="Request"
 	public void processPreparkujRampaServis(MessageForm message)
 	{
+		message.setAddressee(Id.chojOdRampyKServisu);
+		startContinualAssistant(message);
 	}
 
 	//meta! sender="AgentServisu", id="114", type="Request"
@@ -98,6 +102,10 @@ public class ManagerPohybu extends Manager
 	{
 		switch (message.code())
 		{
+		case Mc.preparkujRampaServis:
+			processPreparkujRampaServis(message);
+		break;
+
 		case Mc.finish:
 			switch (message.sender().id())
 			{
@@ -117,10 +125,6 @@ public class ManagerPohybu extends Manager
 				processFinishPreparkujPark2PredServis(message);
 			break;
 			}
-		break;
-
-		case Mc.preparkujRampaServis:
-			processPreparkujRampaServis(message);
 		break;
 
 		case Mc.preparkujNaParkovisko1:

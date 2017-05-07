@@ -31,16 +31,19 @@ public class ManagerModelu extends Manager
 		}
 	}
 
-	//meta! sender="AgentServisu", id="11", type="Response"
+	//meta! sender="AgentRampy", id="122", type="Response"
 	public void processObsluzZakaznika(MessageForm message)
 	{
-		System.out.println("vyblulalo to");
+		System.out.println("buble to");
+		message.setAddressee(Id.agentOkolia);
+		message.setCode(Mc.odchodZakaznika);
+		notice(message);
 	}
 
 	//meta! sender="AgentOkolia", id="9", type="Notice"
 	public void processPrichodZakaznika(MessageForm message)
 	{
-		message.setAddressee(Id.agentServisu);
+		message.setAddressee(Id.agentRampy);
 		message.setCode(Mc.obsluzZakaznika);
 		request(message);
 	}
@@ -63,12 +66,12 @@ public class ManagerModelu extends Manager
 	{
 		switch (message.code())
 		{
-		case Mc.obsluzZakaznika:
-			processObsluzZakaznika(message);
-		break;
-
 		case Mc.prichodZakaznika:
 			processPrichodZakaznika(message);
+		break;
+
+		case Mc.obsluzZakaznika:
+			processObsluzZakaznika(message);
 		break;
 
 		default:

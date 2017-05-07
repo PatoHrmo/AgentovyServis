@@ -46,7 +46,8 @@ public class MySimulation extends Simulation
 	{
 		setAgentModelu(new AgentModelu(Id.agentModelu, this, null));
 		setAgentOkolia(new AgentOkolia(Id.agentOkolia, this, agentModelu()));
-		setAgentServisu(new AgentServisu(Id.agentServisu, this, agentModelu()));
+		setAgentRampy(new AgentRampy(Id.agentRampy, this, agentModelu()));
+		setAgentServisu(new AgentServisu(Id.agentServisu, this, agentRampy()));
 		setAgentParkovisk(new AgentParkovisk(Id.agentParkovisk, this, agentServisu()));
 		setAgentVybavovaci(new AgentVybavovaci(Id.agentVybavovaci, this, agentServisu()));
 		setAgentOpravary(new AgentOpravary(Id.agentOpravary, this, agentServisu()));
@@ -68,6 +69,14 @@ public AgentOkolia agentOkolia()
 
 	public void setAgentOkolia(AgentOkolia agentOkolia)
 	{_agentOkolia = agentOkolia; }
+
+	private AgentRampy _agentRampy;
+
+public AgentRampy agentRampy()
+	{ return _agentRampy; }
+
+	public void setAgentRampy(AgentRampy agentRampy)
+	{_agentRampy = agentRampy; }
 
 	private AgentServisu _agentServisu;
 
