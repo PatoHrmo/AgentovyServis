@@ -38,7 +38,9 @@ public class Mc extends IdList
 	public static final int koniecPreparkovaniaRampaServis = 13;
 	public static final int koniecPrejazduRampouDnu = 14;
 	public static final int koniecPrejazduRampouVon = 15;
+	public static final int koniecTolerancieCakania = 16;
 	// 1..1000 range reserved for user
+	
 	
 	
 	

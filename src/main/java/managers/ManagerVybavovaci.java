@@ -60,7 +60,12 @@ public class ManagerVybavovaci extends Manager
 			startContinualAssistant(message);
 		} else {
 			((MyMessage)message).setCinnostZakaznika(Cinnosti.cakaNaZadanieObjednavky);
-			
+			//FIXME pre fungovanie staci odstranit nasledovna dva riadky
+//			message.setAddressee(Id.odchodPoDlhomCakani);
+//			startContinualAssistant(message);
+			MyMessage mess = new MyMessage((MyMessage)message);
+			mess.setAddressee(Id.odchodPoDlhomCakani);
+			startContinualAssistant(mess);
 			myAgent().getFrontaLudiNaZadavanieObjednavky().enqueue((MyMessage)message);
 		}
 	}
@@ -127,9 +132,10 @@ public class ManagerVybavovaci extends Manager
 	{
 		myAgent().uvolnenieRobotnika(((MyMessage)message));
 		cinnostPriUvolneniRobotnika();
-		message.setAddressee(Id.agentModelu);
+		message.setAddressee(Id.agentServisu);
 		message.setCode(Mc.odchodObsluzenehoZakaznika);
 		notice(message);
+		
 	}
 
 	//meta! sender="AgentServisu", id="58", type="Response"
@@ -137,6 +143,15 @@ public class ManagerVybavovaci extends Manager
 	{
 		message.setAddressee(Id.preberanieAuta);
 		startContinualAssistant(message);
+	}
+	private void processFinishOdchodPoDlhomCakani(MessageForm message) {
+		MyMessage mess = myAgent().getZakaznikaKtoremuDoslaTrpezlivost(((MyMessage)message));
+		if(mess!=null) {
+			mess.setAddressee(Id.agentServisu);
+			mess.setCode(Mc.odchodObsluzenehoZakaznika);
+			notice(mess);
+		}
+		
 	}
 
 	//meta! userInfo="Process messages defined in code", id="0"
@@ -201,6 +216,9 @@ public class ManagerVybavovaci extends Manager
 			case Id.odovzdavanieHotoveho:
 				processFinishOdovzdavanieHotoveho(message);
 			break;
+			case Id.odchodPoDlhomCakani:
+				processFinishOdchodPoDlhomCakani(message);
+			break;
 			}
 		break;
 
@@ -230,6 +248,8 @@ public class ManagerVybavovaci extends Manager
 		}
 	}
 	//meta! tag="end"
+
+	
 
 	@Override
 	public AgentVybavovaci myAgent()

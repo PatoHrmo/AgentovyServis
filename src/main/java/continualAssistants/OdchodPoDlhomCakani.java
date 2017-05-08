@@ -8,6 +8,7 @@ import OSPABA.Process;
 //meta! id="52"
 public class OdchodPoDlhomCakani extends Process
 {
+	private final double pocetSekundTolerancieCakania = 600;
 	public OdchodPoDlhomCakani(int id, Simulation mySim, CommonAgent myAgent)
 	{
 		super(id, mySim, myAgent);
@@ -23,6 +24,8 @@ public class OdchodPoDlhomCakani extends Process
 	//meta! sender="AgentServisu", id="53", type="Start"
 	public void processStart(MessageForm message)
 	{
+		message.setCode(Mc.koniecTolerancieCakania);
+		hold(pocetSekundTolerancieCakania, message);
 	}
 
 	//meta! userInfo="Process messages defined in code", id="0"
@@ -30,6 +33,8 @@ public class OdchodPoDlhomCakani extends Process
 	{
 		switch (message.code())
 		{
+		case Mc.koniecTolerancieCakania:
+			assistantFinished(message);
 		}
 	}
 
@@ -51,9 +56,9 @@ public class OdchodPoDlhomCakani extends Process
 	//meta! tag="end"
 
 	@Override
-	public AgentServisu myAgent()
+	public AgentVybavovaci myAgent()
 	{
-		return (AgentServisu)super.myAgent();
+		return (AgentVybavovaci)super.myAgent();
 	}
 
 }

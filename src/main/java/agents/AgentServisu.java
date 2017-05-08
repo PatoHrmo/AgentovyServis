@@ -36,9 +36,6 @@ public class AgentServisu extends Agent
 	private void init()
 	{
 		new ManagerServisu(Id.managerServisu, mySim(), this);
-		new PrejazdRampaServis(Id.prejazdRampaServis, mySim(), this);
-		new OdchodPoDlhomCakani(Id.odchodPoDlhomCakani, mySim(), this);
-		new PrejazdRampou(Id.prejazdRampou, mySim(), this);
 		addOwnMessage(Mc.dajAutoZParkoviska1);
 		addOwnMessage(Mc.obsluzZakaznika);
 		addOwnMessage(Mc.dajAutoZParkoviska2);

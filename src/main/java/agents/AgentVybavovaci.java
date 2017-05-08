@@ -6,6 +6,7 @@ import java.util.List;
 import OSPABA.Agent;
 import OSPABA.Simulation;
 import OSPDataStruct.SimQueue;
+import continualAssistants.OdchodPoDlhomCakani;
 import continualAssistants.OdovzdavanieHotoveho;
 import continualAssistants.PreberanieAuta;
 import continualAssistants.PreparkovanieNaPark1;
@@ -33,6 +34,7 @@ public class AgentVybavovaci extends Agent
 		addOwnMessage(Mc.koniecPreparkovaniaNaParkovisko1);
 		addOwnMessage(Mc.koniecPreparkovaniaNaParkoviskoPredServisom);
 		addOwnMessage(Mc.koniecOdovzdaniaOpravenehoAuta);
+		addOwnMessage(Mc.koniecTolerancieCakania);
 		volnyPracovnici = new LinkedList<>();
 		vsetciPracovnici = new LinkedList<>();
 		frontZakaznikovNaZadavanieObjednavky = new SimQueue<>();
@@ -55,6 +57,7 @@ public class AgentVybavovaci extends Agent
 		new OdovzdavanieHotoveho(Id.odovzdavanieHotoveho, mySim(), this);
 		new PreparkovaniePredServis(Id.preparkovaniePredServis, mySim(), this);
 		new PreberanieAuta(Id.preberanieAuta, mySim(), this);
+		new OdchodPoDlhomCakani(Id.odchodPoDlhomCakani, mySim(), this);
 		addOwnMessage(Mc.dajAutoZParkoviska2);
 		addOwnMessage(Mc.prichodAutaNaParkovisko2);
 		addOwnMessage(Mc.prisielZakaznik);
@@ -106,5 +109,15 @@ public class AgentVybavovaci extends Agent
 	}
 	public void pridajZakaznikaSOpravenymAutom(MyMessage message) {
 		frontaZakaznikovSOpravenymAutom.enqueue(message);
+	}
+
+	public MyMessage getZakaznikaKtoremuDoslaTrpezlivost(MyMessage myMessage) {
+		for(MyMessage zakaznikCakajuciNaObsluhu : frontZakaznikovNaZadavanieObjednavky) {
+			if(zakaznikCakajuciNaObsluhu.getZakaznik().getId()== myMessage.getZakaznik().getId()) {
+				frontZakaznikovNaZadavanieObjednavky.remove(zakaznikCakajuciNaObsluhu);
+				return zakaznikCakajuciNaObsluhu;
+			}
+		}
+		return null;
 	}
 }

@@ -1,6 +1,7 @@
 package continualAssistants;
 
 import OSPABA.*;
+import OSPRNG.ExponentialRNG;
 import simulation.*;
 import agents.*;
 import entity.Cinnosti;
@@ -9,9 +10,13 @@ import entity.Zakaznik;
 //meta! id="23"
 public class PlanovacPrichodu extends Scheduler
 {
+	private double casPrichoduZakaznikov;
+	private ExponentialRNG dobaPrichodu;
 	public PlanovacPrichodu(int id, Simulation mySim, CommonAgent myAgent)
 	{
 		super(id, mySim, myAgent);
+		casPrichoduZakaznikov = 20;
+		dobaPrichodu = new ExponentialRNG(casPrichoduZakaznikov);
 	}
 
 	@Override
@@ -25,7 +30,7 @@ public class PlanovacPrichodu extends Scheduler
 	public void processStart(MessageForm message)
 	{
 		message.setCode(Mc.novyZakaznik);
-		hold(5,message);
+		hold(dobaPrichodu.sample(),message);
 	}
 
 	//meta! userInfo="Process messages defined in code", id="0"
@@ -35,7 +40,7 @@ public class PlanovacPrichodu extends Scheduler
 		{
 		case Mc.novyZakaznik:
 			MyMessage novaSprava = new MyMessage((MyMessage)message);
-			hold(5,novaSprava);
+			hold(dobaPrichodu.sample(),novaSprava);
 			
 			Zakaznik zak = new Zakaznik();
 			((MyMessage)message).setZakaznik(zak);

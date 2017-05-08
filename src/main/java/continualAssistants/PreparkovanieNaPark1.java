@@ -24,10 +24,10 @@ public class PreparkovanieNaPark1 extends Process
 	//meta! sender="AgentVybavovaci", id="44", type="Start"
 	public void processStart(MessageForm message)
 	{
-		message.setCode(Mc.koniecPreparkovaniaNaParkovisko1);
-		((MyMessage)message).setCinnostZakaznika(Cinnosti.ideNaParkovisko1);
-		((MyMessage)message).setCinnostRobotnika(Cinnosti.preparkuvavaPredParkovisko1);
-		hold(84.24,message);
+//		message.setCode(Mc.koniecPreparkovaniaNaParkovisko1);
+//		((MyMessage)message).setCinnostZakaznika(Cinnosti.ideNaParkovisko1);
+//		((MyMessage)message).setCinnostRobotnika(Cinnosti.preparkuvavaPredParkovisko1);
+//		hold(84.24,message);
 	}
 
 	//meta! userInfo="Process messages defined in code", id="0"
