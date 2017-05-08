@@ -34,7 +34,6 @@ public class ManagerModelu extends Manager
 	//meta! sender="AgentRampy", id="122", type="Response"
 	public void processObsluzZakaznika(MessageForm message)
 	{
-		System.out.println("buble to");
 		message.setAddressee(Id.agentOkolia);
 		message.setCode(Mc.odchodZakaznika);
 		notice(message);

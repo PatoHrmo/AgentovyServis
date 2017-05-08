@@ -45,4 +45,9 @@ public class AgentOkolia extends Agent
 		addOwnMessage(Mc.stustiTok);
 	}
 	//meta! tag="end"
+
+	public void vymazZakaznikaZoSystemu(Zakaznik zakaznik) {
+		vsetciZakazniciAktualneVSysteme.remove(zakaznik);
+		
+	}
 }

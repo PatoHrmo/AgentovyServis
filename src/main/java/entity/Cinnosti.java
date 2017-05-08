@@ -28,5 +28,7 @@ public class Cinnosti {
 	public static final String preberaOpraveneAuto = "preberá opravené auto";
 	public static final String ideKuRampeVon = "ide ku rampe von zo servisu";
 	public static final String cakNaRampeVon = "èaká na rampe smerom von";
+	public static final String prechadzaRampouDnu ="prechádza rampou do servisu";
+	public static final String prechadzaRampouVon ="prechádza rampou von zo servisu";
 	
 }

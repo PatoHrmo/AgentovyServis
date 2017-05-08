@@ -30,26 +30,57 @@ public class ManagerRampy extends Manager
 	//meta! sender="AgentServisu", id="124", type="Response"
 	public void processObsluzZakaznikaAgentServisu(MessageForm message)
 	{
-		message.setCode(Mc.obsluzZakaznika);
-		response(message);
+		if(myAgent().rampaVonJeVolna()) {
+			myAgent().obsadRampuVon();
+			message.setAddressee(Id.prechodRampouVon);
+			startContinualAssistant(message);
+		} else {
+			myAgent().pridajZakaznikaDoFrontyPredRampouVon((MyMessage)message);
+		}
+		
+		
 	}
 
 	//meta! sender="AgentModelu", id="122", type="Request"
 	public void processObsluzZakaznikaAgentModelu(MessageForm message)
 	{
-		message.setAddressee(Id.agentServisu);
-		message.setCode(Mc.obsluzZakaznika);
-		request(message);
+		if(myAgent().rampaDnuJeVolna()) {
+			message.setAddressee(Id.prechodRampouDnu);
+			startContinualAssistant(message);
+			myAgent().obsadRampuDnu();
+		} else {
+			myAgent().pridajZakaznikaDoFrontyPredRampouDnu((MyMessage)message);
+		}
+		
 	}
 
 	//meta! sender="PrechodRampouDnu", id="129", type="Finish"
 	public void processFinishPrechodRampouDnu(MessageForm message)
 	{
+		message.setAddressee(Id.agentServisu);
+		message.setCode(Mc.obsluzZakaznika);
+		request(message);
+		if(myAgent().predRampouDnuNiektoJe()) {
+			MyMessage mess = myAgent().getZakaznikPredRampouDnu();
+			mess.setAddressee(Id.prechodRampouDnu);
+			startContinualAssistant(mess);
+		} else {
+			myAgent().uvolniRampuDnu();
+		}
 	}
 
 	//meta! sender="PrechodRampouVon", id="127", type="Finish"
 	public void processFinishPrechodRampouVon(MessageForm message)
 	{
+		message.setCode(Mc.obsluzZakaznika);
+		response(message);
+		if(myAgent().predRampouVonNiektoJe()) {
+			MyMessage mess = myAgent().getZakaznikPredRampouVon();
+			mess.setAddressee(Id.prechodRampouVon);
+			startContinualAssistant(mess);
+		} else {
+			myAgent().uvolniRampuVon();
+		}
 	}
 
 	//meta! userInfo="Process messages defined in code", id="0"

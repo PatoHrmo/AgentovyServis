@@ -3,11 +3,13 @@ package continualAssistants;
 import OSPABA.*;
 import simulation.*;
 import agents.*;
+import entity.Cinnosti;
 import OSPABA.Process;
 
 //meta! id="128"
 public class PrechodRampouDnu extends Process
 {
+	private final int dlzkaPrechoduRampou = 7;
 	public PrechodRampouDnu(int id, Simulation mySim, CommonAgent myAgent)
 	{
 		super(id, mySim, myAgent);
@@ -23,6 +25,9 @@ public class PrechodRampouDnu extends Process
 	//meta! sender="AgentRampy", id="129", type="Start"
 	public void processStart(MessageForm message)
 	{
+		((MyMessage)message).setCode(Mc.koniecPreparkovaniaRampaServis);
+		((MyMessage)message).setCinnostZakaznika(Cinnosti.prechadzaRampouDnu);
+		hold(dlzkaPrechoduRampou,message);
 	}
 
 	//meta! userInfo="Process messages defined in code", id="0"
@@ -30,6 +35,8 @@ public class PrechodRampouDnu extends Process
 	{
 		switch (message.code())
 		{
+		case Mc.koniecPreparkovaniaRampaServis :
+			assistantFinished(message);
 		}
 	}
 

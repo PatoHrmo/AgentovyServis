@@ -33,6 +33,8 @@ public class ManagerOkolia extends Manager
 	//meta! sender="AgentModelu", id="10", type="Notice"
 	public void processOdchodZakaznika(MessageForm message)
 	{
+		
+		myAgent().vymazZakaznikaZoSystemu(((MyMessage)message).getZakaznik());
 	}
 
 	//meta! sender="PlanovacPrichodu", id="24", type="Finish"
