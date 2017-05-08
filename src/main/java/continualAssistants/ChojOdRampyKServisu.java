@@ -35,7 +35,6 @@ public class ChojOdRampyKServisu extends Process
 		switch (message.code())
 		{
 		case Mc.koniecPreparkovaniaRampaServis:
-			((MyMessage)message).setCinnostZakaznika(Cinnosti.cakaNaZadanieObjednavky);
 			assistantFinished(message);
 		}
 	}

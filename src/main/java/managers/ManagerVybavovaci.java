@@ -5,6 +5,7 @@ import OSPABA.Manager;
 import OSPABA.MessageForm;
 import OSPABA.Simulation;
 import agents.AgentVybavovaci;
+import entity.Cinnosti;
 import simulation.Id;
 import simulation.Mc;
 import simulation.MyMessage;
@@ -58,7 +59,9 @@ public class ManagerVybavovaci extends Manager
 			((MyMessage)message).setRobotnik(myAgent().getVolnyRobotnik());
 			startContinualAssistant(message);
 		} else {
-			myAgent().getFrontaLudiNaZadavanieObjednavky().enqueue((MyMessage)message);;
+			((MyMessage)message).setCinnostZakaznika(Cinnosti.cakaNaZadanieObjednavky);
+			
+			myAgent().getFrontaLudiNaZadavanieObjednavky().enqueue((MyMessage)message);
 		}
 	}
 

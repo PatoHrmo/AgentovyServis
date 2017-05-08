@@ -24,7 +24,6 @@ public class AgentVybavovaci extends Agent
 	private List<Robotnik> vsetciPracovnici;
 	SimQueue<MyMessage> frontZakaznikovNaZadavanieObjednavky;
 	SimQueue<MyMessage> frontaZakaznikovSOpravenymAutom;
-	private int pocetAutNaParkovisku2;
 	public AgentVybavovaci(int id, Simulation mySim, Agent parent)
 	{
 		super(id, mySim, parent);
@@ -36,7 +35,6 @@ public class AgentVybavovaci extends Agent
 		addOwnMessage(Mc.koniecOdovzdaniaOpravenehoAuta);
 		volnyPracovnici = new LinkedList<>();
 		vsetciPracovnici = new LinkedList<>();
-		pocetAutNaParkovisku2 = 0;
 		frontZakaznikovNaZadavanieObjednavky = new SimQueue<>();
 		frontaZakaznikovSOpravenymAutom = new SimQueue<>();
 	}
@@ -99,12 +97,7 @@ public class AgentVybavovaci extends Agent
 		
 	}
 
-	public void zvysPocetAutNaParkovisku2() {
-		pocetAutNaParkovisku2++;
-	}
-	public void znizPocetAutNaParkovisku2() {
-		pocetAutNaParkovisku2--;
-	}
+	
 	public int getPocetLudiNaParkovisku2() {
 		return frontaZakaznikovSOpravenymAutom.size();
 	}
