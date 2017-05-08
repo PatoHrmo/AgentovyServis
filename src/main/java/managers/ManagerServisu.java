@@ -65,16 +65,7 @@ public class ManagerServisu extends Manager
 	//meta! sender="PrejazdRampou", id="37", type="Finish"
 	public void processFinishPrejazdRampou(MessageForm message)
 	{
-		((MyMessage)message).setCasZaciatkuJazdy(mySim().currentTime());
-		message.setAddressee(Id.prejazdRampaServis);
-		startContinualAssistant(message);
-		myAgent().setNaRampeSmeromDnuNiektoJe(false);
-		if(!myAgent().getFrontaPredRampou().isEmpty() && !myAgent().isNaRampeSmeromDnuNiektoJe()) {
-			MyMessage m = myAgent().getFrontaPredRampou().dequeue();
-			myAgent().setNaRampeSmeromDnuNiektoJe(true);
-			m.setAddressee(Id.prejazdRampou);
-			startContinualAssistant(m);
-		}
+		
 	}
 
 	//meta! sender="OdchodPoDlhomCakani", id="53", type="Finish"
@@ -94,7 +85,7 @@ public class ManagerServisu extends Manager
 	//meta! sender="AgentVybavovaci", id="62", type="Notice"
 	public void processAutoBoloPreparkovaneNaParkovisko1(MessageForm message)
 	{
-		myAgent().pridajAutoDoFrontyPredOpravovnou((MyMessage)message);
+		
 		message.setAddressee(Id.agentOpravary);
 		message.setCode(Mc.prichodAutaNaParkovisko1);
 		notice(message);

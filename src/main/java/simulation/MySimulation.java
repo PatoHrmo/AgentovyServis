@@ -126,6 +126,6 @@ public AgentPohybu agentPohybu()
 
 	public int getVelkostFrontuPredRampou() {
 		// TODO Auto-generated method stub
-		return agentServisu().getFrontaPredRampou().size();
+		return 0;
 	}
 }
