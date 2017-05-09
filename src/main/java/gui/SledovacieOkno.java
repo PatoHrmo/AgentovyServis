@@ -83,7 +83,7 @@ public class SledovacieOkno extends JDialog implements ISimDelegate {
 		getContentPane().add(lblas);
 		
 		lblCasSimulacie = new JLabel("");
-		lblCasSimulacie.setBounds(350, 61, 46, 14);
+		lblCasSimulacie.setBounds(350, 61, 141, 14);
 		getContentPane().add(lblCasSimulacie);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -152,7 +152,7 @@ public class SledovacieOkno extends JDialog implements ISimDelegate {
 	}
 
 	public void refresh(Simulation sim) {
-		lblCasSimulacie.setText(sim.currentTime()+"");
+		lblCasSimulacie.setText(sim.currentTime()+""+" "+sim.currentReplication());
 		lblPocetLudiCakajucichNaObsluhu.setText(((MySimulation)sim).getPocetLudiCakajucichNaObsluhu()+"");
 		lblVelkostFrontyPredRampou.setText(((MySimulation)sim).getVelkostFrontuPredRampou()+"");
 		

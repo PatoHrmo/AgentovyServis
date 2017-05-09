@@ -23,7 +23,6 @@ public class PlanovacPrichodu extends Scheduler
 	public void prepareReplication()
 	{
 		super.prepareReplication();
-		// Setup component for the next replication
 	}
 
 	//meta! sender="AgentOkolia", id="24", type="Start"
