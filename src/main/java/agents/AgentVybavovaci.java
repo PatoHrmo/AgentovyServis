@@ -8,6 +8,7 @@ import OSPABA.Simulation;
 import OSPDataStruct.SimQueue;
 import continualAssistants.OdchodPoDlhomCakani;
 import continualAssistants.OdovzdavanieHotoveho;
+import continualAssistants.PlanovacNovehoDna;
 import continualAssistants.PreberanieAuta;
 import continualAssistants.PreparkovanieNaPark1;
 import continualAssistants.PreparkovaniePredServis;
@@ -35,6 +36,8 @@ public class AgentVybavovaci extends Agent
 		addOwnMessage(Mc.koniecPreparkovaniaNaParkoviskoPredServisom);
 		addOwnMessage(Mc.koniecOdovzdaniaOpravenehoAuta);
 		addOwnMessage(Mc.koniecTolerancieCakania);
+		addOwnMessage(Mc.spustiPlanovacDna);
+		addOwnMessage(Mc.novyDen);
 		volnyPracovnici = new LinkedList<>();
 		vsetciPracovnici = new LinkedList<>();
 		frontZakaznikovNaZadavanieObjednavky = new SimQueue<>();
@@ -45,7 +48,14 @@ public class AgentVybavovaci extends Agent
 	public void prepareReplication()
 	{
 		super.prepareReplication();
-		// Setup component for the next replication
+		if(mySim().currentReplication()==0) {
+			
+			MyMessage sprava = new MyMessage(mySim(),null);
+			sprava.setAddressee(Id.agentVybavovaci);
+			sprava.setCode(Mc.spustiPlanovacDna);
+			manager().notice(sprava);
+		}
+		
 	}
 
 	//meta! userInfo="Generated code: do not modify", tag="begin"
@@ -58,6 +68,7 @@ public class AgentVybavovaci extends Agent
 		new PreparkovaniePredServis(Id.preparkovaniePredServis, mySim(), this);
 		new PreberanieAuta(Id.preberanieAuta, mySim(), this);
 		new OdchodPoDlhomCakani(Id.odchodPoDlhomCakani, mySim(), this);
+		new PlanovacNovehoDna(Id.planovacNovehoDna, mySim(), this);
 		addOwnMessage(Mc.dajAutoZParkoviska2);
 		addOwnMessage(Mc.prichodAutaNaParkovisko2);
 		addOwnMessage(Mc.prisielZakaznik);

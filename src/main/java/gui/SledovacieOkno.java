@@ -54,6 +54,8 @@ public class SledovacieOkno extends JDialog implements ISimDelegate {
 			public void actionPerformed(ActionEvent e) {
 				simulacia = new MySimulation(5,5);
 				simulacia.registerDelegate(self);
+				simulacia.simulateAsync(5,2000);
+				simulacia.setSimSpeed(1, 1);
 				btntart.setEnabled(false);
 			}
 		});
