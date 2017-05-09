@@ -38,4 +38,5 @@ public class Id extends IdList
 	public static final int preberanieAuta = 1010;
 	public static final int prechodRampouVon = 1015;
 	//meta! tag="end"
+	public static final int planovacNovehoDna = 20020;
 }

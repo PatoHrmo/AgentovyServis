@@ -8,15 +8,12 @@ import entity.Cinnosti;
 import entity.Zakaznik;
 
 //meta! id="23"
-public class PlanovacPrichodu extends Scheduler
+public class PlanovacNovehoDna extends Scheduler
 {
-	private double casPrichoduZakaznikov;
-	private ExponentialRNG dobaPrichodu;
-	public PlanovacPrichodu(int id, Simulation mySim, CommonAgent myAgent)
+	private final double dlzkaDnaVSekundach = 60*60*24;
+	public PlanovacNovehoDna(int id, Simulation mySim, CommonAgent myAgent)
 	{
 		super(id, mySim, myAgent);
-		casPrichoduZakaznikov = 18.5*60;
-		dobaPrichodu = new ExponentialRNG(casPrichoduZakaznikov);
 	}
 
 	@Override
@@ -28,8 +25,8 @@ public class PlanovacPrichodu extends Scheduler
 	//meta! sender="AgentOkolia", id="24", type="Start"
 	public void processStart(MessageForm message)
 	{
-		message.setCode(Mc.novyZakaznik);
-		hold(dobaPrichodu.sample(),message);
+		message.setCode(Mc.novyDen);
+		hold(dlzkaDnaVSekundach,message);
 	}
 
 	//meta! userInfo="Process messages defined in code", id="0"
@@ -37,14 +34,12 @@ public class PlanovacPrichodu extends Scheduler
 	{
 		switch (message.code())
 		{
-		case Mc.novyZakaznik:
-			MyMessage novaSprava = new MyMessage((MyMessage)message);
-			hold(dobaPrichodu.sample(),novaSprava);
-			
-			Zakaznik zak = new Zakaznik();
-			((MyMessage)message).setZakaznik(zak);
-			((MyMessage)message).setCinnostZakaznika(Cinnosti.cakaPredRampou);
+		case Mc.novyDen :
+			MyMessage sprava = new MyMessage((MyMessage)message);
+			hold(dlzkaDnaVSekundach,sprava);
 			assistantFinished(message);
+			break;
+		
 		}
 	}
 
@@ -66,9 +61,9 @@ public class PlanovacPrichodu extends Scheduler
 	//meta! tag="end"
 
 	@Override
-	public AgentOkolia myAgent()
+	public AgentVybavovaci myAgent()
 	{
-		return (AgentOkolia)super.myAgent();
+		return (AgentVybavovaci)super.myAgent();
 	}
 
 }

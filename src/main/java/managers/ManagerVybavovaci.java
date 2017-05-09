@@ -219,6 +219,9 @@ public class ManagerVybavovaci extends Manager
 			case Id.odchodPoDlhomCakani:
 				processFinishOdchodPoDlhomCakani(message);
 			break;
+			case Id.planovacNovehoDna:
+				processFinnishPlanovacNovehoDna(message);
+				break;
 			}
 		break;
 
@@ -241,6 +244,9 @@ public class ManagerVybavovaci extends Manager
 		case Mc.dajAutoZParkoviska2:
 			processDajAutoZParkoviska2(message);
 		break;
+		case Mc.spustiPlanovacDna:
+			processSpustiPlanovacDna(message);
+		break;
 
 		default:
 			processDefault(message);
@@ -250,6 +256,23 @@ public class ManagerVybavovaci extends Manager
 	//meta! tag="end"
 
 	
+
+	private void processFinnishPlanovacNovehoDna(MessageForm message) {
+		int pocetLudiCakajucichNaZadanieObjednavky = myAgent().getFrontaLudiNaZadavanieObjednavky().size();
+		for(int i = 0; i<pocetLudiCakajucichNaZadanieObjednavky;i++) {
+			MyMessage mess = myAgent().getFrontaLudiNaZadavanieObjednavky().dequeue();
+			mess.setAddressee(Id.agentServisu);
+			mess.setCode(Mc.odchodObsluzenehoZakaznika);
+			notice(mess);
+		}
+		
+	}
+
+	private void processSpustiPlanovacDna(MessageForm message) {
+		message.setAddressee(Id.planovacNovehoDna);
+		startContinualAssistant(message);
+		
+	}
 
 	@Override
 	public AgentVybavovaci myAgent()
