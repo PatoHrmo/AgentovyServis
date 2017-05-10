@@ -49,6 +49,12 @@ public class AgentVybavovaci extends Agent
 	{
 		super.prepareReplication();
 		spustiPlanovacDna();
+		int pocetPracovnikov = vsetciPracovnici.size();
+		vsetciPracovnici = new LinkedList<>();
+		volnyPracovnici = new LinkedList<>();
+		frontaZakaznikovSOpravenymAutom = new SimQueue<>();
+		frontZakaznikovNaZadavanieObjednavky = new SimQueue<>();
+		nastavPocetPracovnikov(pocetPracovnikov);
 	}
 
 	//meta! userInfo="Generated code: do not modify", tag="begin"

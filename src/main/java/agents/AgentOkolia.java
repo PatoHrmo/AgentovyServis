@@ -38,6 +38,7 @@ public class AgentOkolia extends Agent
 		super.prepareReplication();
 		pocetObsluzenychZakaznikov = 0;
 		pocetNeObsluzenychZakaznikov = 0;
+		vsetciZakazniciAktualneVSysteme = new ArrayList<>();
 		
 	}
 	public void koniecReplikacie() {

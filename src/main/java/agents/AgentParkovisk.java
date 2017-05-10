@@ -34,7 +34,11 @@ public class AgentParkovisk extends Agent
 	public void prepareReplication()
 	{
 		super.prepareReplication();
-		// Setup component for the next replication
+		frontaParkovisko1 = new SimQueue<>();
+		frontaCakajucichNaRezervaciuParkoviska1 = new SimQueue<>();
+		frontaCakajucichNaUvolnenieParkoviska2 = new SimQueue<>();
+		frontaParkovisko2 = new SimQueue<>();
+		pocetRezervovanychMiestParkoviska1 = 0;
 	}
 	public void pridajZakaznikaNaParkovisko(MyMessage sprava) {
 		frontaParkovisko1.add(sprava);

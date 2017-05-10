@@ -30,7 +30,10 @@ public class AgentRampy extends Agent
 	public void prepareReplication()
 	{
 		super.prepareReplication();
-		// Setup component for the next replication
+		frontaPredRampouDnu = new SimQueue<>();
+		frontaPredRampouVon = new SimQueue<>();
+		rampaDnuSaPouziva = false;
+		rampaVonSaPouziva = false;
 	}
 
 	//meta! userInfo="Generated code: do not modify", tag="begin"

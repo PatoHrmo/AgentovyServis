@@ -6,7 +6,6 @@ import OSPStat.WStat;
 public class Robotnik {
 	private WStat statVytazenosti;
 	private String cinnost;
-	
 	private final int id;
 	public Robotnik(Simulation sim, int cisloRobotnika) {
 		this.statVytazenosti = new WStat(sim);

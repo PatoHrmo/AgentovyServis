@@ -47,7 +47,11 @@ public class AgentOpravary extends Agent
 	public void prepareReplication()
 	{
 		super.prepareReplication();
-		// Setup component for the next replication
+		int pocetPracovnikov = vsetciPracovnici.size();
+		vsetciPracovnici = new LinkedList<>();
+		volnyPracovnici = new LinkedList<>();
+		zakazniciCakajuciNaOpravu = new SimQueue<>();
+		nastavPocetPracovnikov(pocetPracovnikov);
 	}
 
 	//meta! userInfo="Generated code: do not modify", tag="begin"
