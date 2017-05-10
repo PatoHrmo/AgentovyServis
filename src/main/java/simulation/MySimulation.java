@@ -5,11 +5,14 @@ import agents.*;
 
 public class MySimulation extends Simulation
 {
-	public MySimulation(int pocetPracovnikov1, int pocetPracovnikov2)
+	double cenaOdpisy;
+	public MySimulation(int pocetPracovnikov1, int pocetPracovnikov2, double investicia)
 	{
 		init();
 		((AgentVybavovaci)findAgent(Id.agentVybavovaci)).nastavPocetPracovnikov(pocetPracovnikov1);
 		((AgentOpravary)findAgent(Id.agentOpravary)).nastavPocetPracovnikov(pocetPracovnikov2);
+		agentOkolia().nastavInvesticiu(investicia);
+		cenaOdpisy = pocetPracovnikov1*1150 + pocetPracovnikov2*1600 + investicia + 7000;
 		
 	}
 
@@ -17,20 +20,31 @@ public class MySimulation extends Simulation
 	public void prepareSimulation()
 	{
 		super.prepareSimulation();
-		// Create global statistcis
+		
 	}
 
 	@Override
 	public void prepareReplication()
 	{
 		super.prepareReplication();
-		// Reset entities, queues, local statistics, etc...
+		setSimSpeed(Config.interval, Config.trvanie);
 	}
 
 	@Override
 	public void replicationFinished()
 	{
-		// Collect local statistics into global, update UI, etc...
+		if(currentReplication()!=0) {
+			agentOkolia().koniecReplikacie();
+			agentModelu().koniecReplikacie();
+//			agentServisu().koniecReplikacie();
+//			agentVybavovaci().koniecReplikacie();
+//			agentOpravary().koniecReplikacie();
+//			agentParkovisk().koniecReplikacie();
+//			agentPohybu().koniecReplikacie();
+//			agentRampy().koniecReplikacie();
+			
+		}
+		
 		super.replicationFinished();
 	}
 

@@ -26,7 +26,6 @@ public class PreparkujServisDoPark1 extends Process
 	{
 		((MyMessage)message).setCinnostRobotnika(Cinnosti.preparkuvavaPredParkovisko1);
 		((MyMessage)message).setCinnostZakaznika(Cinnosti.ideNaParkovisko1);
-		((MyMessage)message).setCasZaciatkuJazdy(mySim().currentTime());
 		message.setCode(Mc.koniecPreparkovaniaNaParkovisko1);
 		hold(myAgent().casPreparkovaniaServisParkovisko1(),message);
 	}

@@ -48,14 +48,7 @@ public class AgentVybavovaci extends Agent
 	public void prepareReplication()
 	{
 		super.prepareReplication();
-		if(mySim().currentReplication()==0) {
-			
-			MyMessage sprava = new MyMessage(mySim(),null);
-			sprava.setAddressee(Id.agentVybavovaci);
-			sprava.setCode(Mc.spustiPlanovacDna);
-			manager().notice(sprava);
-		}
-		
+		spustiPlanovacDna();
 	}
 
 	//meta! userInfo="Generated code: do not modify", tag="begin"
@@ -130,5 +123,11 @@ public class AgentVybavovaci extends Agent
 			}
 		}
 		return null;
+	}
+	public void spustiPlanovacDna() {
+		MyMessage sprava = new MyMessage(mySim(),null);
+		sprava.setAddressee(Id.agentVybavovaci);
+		sprava.setCode(Mc.spustiPlanovacDna);
+		manager().notice(sprava);
 	}
 }

@@ -24,7 +24,7 @@ public class PreparkovaniePredServis extends Process
 	//meta! sender="AgentVybavovaci", id="46", type="Start"
 	public void processStart(MessageForm message)
 	{
-		((MyMessage)message).setCasZaciatkuJazdy(mySim().currentTime());
+		
 		((MyMessage)message).setCinnostRobotnika(Cinnosti.preparkuvavaPredServis);
 		((MyMessage)message).setCinnostZakaznika(Cinnosti.idOdParkoviska2PredServis);
 		message.setCode(Mc.koniecPreparkovaniaNaParkoviskoPredServisom);

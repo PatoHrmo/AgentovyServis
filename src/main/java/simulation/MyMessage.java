@@ -8,7 +8,6 @@ public class MyMessage extends MessageForm
 {	
 	private Zakaznik zakaznik;
 	private Robotnik robotnik;
-	private double casZaciatkuJazdy;
 
 	public MyMessage(Simulation sim, Zakaznik zak)
 	{
@@ -51,9 +50,7 @@ public class MyMessage extends MessageForm
 		
 	}
 
-	public void setCasZaciatkuJazdy(double cas) {
-		casZaciatkuJazdy = cas;
-	}
+	
 
 	public Robotnik getRobotnik() {
 		return robotnik;

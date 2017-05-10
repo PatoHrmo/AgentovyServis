@@ -20,14 +20,12 @@ public class AgentModelu extends Agent
 	public void prepareReplication()
 	{
 		super.prepareReplication();
-		// Setup component for the next replication
-		if(mySim().currentReplication()==0) {
-			
-			MyMessage sprava = new MyMessage(mySim(),null);
-			sprava.setAddressee(Id.agentOkolia);
-			sprava.setCode(Mc.stustiTok);
-			manager().notice(sprava);
-		}
+	    spustiTok();
+		
+		
+	}
+	public void koniecReplikacie() {
+		// TODO Auto-generated method stub
 		
 	}
 
@@ -39,4 +37,14 @@ public class AgentModelu extends Agent
 		addOwnMessage(Mc.prichodZakaznika);
 	}
 	//meta! tag="end"
+
+	
+	public void spustiTok() {
+		MyMessage sprava = new MyMessage(mySim(),null);
+		sprava.setAddressee(Id.agentOkolia);
+		sprava.setCode(Mc.stustiTok);
+		manager().notice(sprava);
+	}
+
+	
 }

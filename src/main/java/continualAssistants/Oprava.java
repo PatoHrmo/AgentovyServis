@@ -43,10 +43,12 @@ public class Oprava extends Process
 		for(int i = 0; i<pocetOprav;i++) {
 			dlzkaOpravy+=genDobaJednejOpravy.nextDlzkaOpravy();
 		}
+		dlzkaOpravy*=60;
+		((MyMessage)message).getZakaznik().setDlzkaOpravy(dlzkaOpravy);
 		((MyMessage)message).setCinnostRobotnika(Cinnosti.opravujeAuto);
 		((MyMessage)message).setCinnostZakaznika(Cinnosti.jeVOpravovni);
 		message.setCode(Mc.koniecOpravy);
-		hold(dlzkaOpravy*60,message);
+		hold(dlzkaOpravy,message);
 	}
 
 	//meta! userInfo="Process messages defined in code", id="0"

@@ -31,6 +31,7 @@ public class ManagerPohybu extends Manager
 	public void processPreparkujNaParkovisko1(MessageForm message)
 	{
 		message.setAddressee(Id.preparkujServisDoPark1);
+		((MyMessage)message).getZakaznik().setJazdi(true);
 		startContinualAssistant(message);
 	}
 
@@ -47,6 +48,7 @@ public class ManagerPohybu extends Manager
 	public void processFinishPreparkujPark2PredServis(MessageForm message)
 	{
 		message.setCode(Mc.preparkujParkovisko2PredServis);
+		((MyMessage)message).getZakaznik().setJazdi(false);
 		response(message);
 	}
 
@@ -54,6 +56,7 @@ public class ManagerPohybu extends Manager
 	public void processFinishPreparkujServisDoPark1(MessageForm message)
 	{
 		message.setCode(Mc.preparkujNaParkovisko1);
+		((MyMessage)message).getZakaznik().setJazdi(false);
 		response(message);
 	}
 
@@ -61,6 +64,7 @@ public class ManagerPohybu extends Manager
 	public void processFinishChojOdRampyKServisu(MessageForm message)
 	{
 		message.setCode(Mc.preparkujRampaServis);
+		((MyMessage)message).getZakaznik().setJazdi(false);
 		response(message);
 	}
 
@@ -68,6 +72,7 @@ public class ManagerPohybu extends Manager
 	public void processFinishChojOdServisuKRampe(MessageForm message)
 	{
 		message.setCode(Mc.preparkujServisRampa);
+		((MyMessage)message).getZakaznik().setJazdi(false);
 		response(message);
 	}
 
@@ -75,6 +80,7 @@ public class ManagerPohybu extends Manager
 	public void processPreparkujRampaServis(MessageForm message)
 	{
 		message.setAddressee(Id.chojOdRampyKServisu);
+		((MyMessage)message).getZakaznik().setJazdi(true);
 		startContinualAssistant(message);
 	}
 
@@ -82,6 +88,7 @@ public class ManagerPohybu extends Manager
 	public void processPreparkujParkovisko2PredServis(MessageForm message)
 	{
 		message.setAddressee(Id.preparkujPark2PredServis);
+		((MyMessage)message).getZakaznik().setJazdi(true);
 		startContinualAssistant(message);
 	}
 
@@ -89,6 +96,7 @@ public class ManagerPohybu extends Manager
 	public void processPreparkujServisRampa(MessageForm message)
 	{
 		message.setAddressee(Id.chojOdServisuKRampe);
+		((MyMessage)message).getZakaznik().setJazdi(true);
 		startContinualAssistant(message);
 	}
 

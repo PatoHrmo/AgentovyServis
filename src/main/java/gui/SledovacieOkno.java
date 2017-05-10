@@ -7,6 +7,7 @@ import OSPABA.SimState;
 import OSPABA.Simulation;
 import entity.Robotnik;
 import entity.Zakaznik;
+import simulation.Config;
 import simulation.MyMessage;
 import simulation.MySimulation;
 
@@ -52,10 +53,12 @@ public class SledovacieOkno extends JDialog implements ISimDelegate {
 		btntart = new JButton("\u0160tart");
 		btntart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				simulacia = new MySimulation(5,5);
+				Config.interval = 2000;
+				Config.trvanie = 0.1;
+				simulacia = new MySimulation(5,5,1000000);
 				simulacia.registerDelegate(self);
-				simulacia.simulateAsync(5,2000);
-				simulacia.setSimSpeed(1, 1);
+				simulacia.simulateAsync(3,100000);
+				simulacia.setSimSpeed(Config.interval, Config.trvanie);
 				btntart.setEnabled(false);
 			}
 		});
@@ -67,15 +70,15 @@ public class SledovacieOkno extends JDialog implements ISimDelegate {
 		getContentPane().add(lblPoetLudPred);
 		
 		lblVelkostFrontyPredRampou = new JLabel("");
-		lblVelkostFrontyPredRampou.setBounds(510, 11, 46, 14);
+		lblVelkostFrontyPredRampou.setBounds(534, 11, 46, 14);
 		getContentPane().add(lblVelkostFrontyPredRampou);
 		
 		JLabel lblPoetZkaznkovakajcich = new JLabel("Po\u010Det z\u00E1kazn\u00EDkov \u010Dakaj\u00FAcich na obsluhu:");
-		lblPoetZkaznkovakajcich.setBounds(273, 36, 227, 14);
+		lblPoetZkaznkovakajcich.setBounds(273, 36, 251, 14);
 		getContentPane().add(lblPoetZkaznkovakajcich);
 		
 		lblPocetLudiCakajucichNaObsluhu = new JLabel("");
-		lblPocetLudiCakajucichNaObsluhu.setBounds(510, 36, 46, 14);
+		lblPocetLudiCakajucichNaObsluhu.setBounds(534, 36, 46, 14);
 		getContentPane().add(lblPocetLudiCakajucichNaObsluhu);
 		
 		JLabel lblas = new JLabel("\u010Das:");
@@ -87,7 +90,7 @@ public class SledovacieOkno extends JDialog implements ISimDelegate {
 		getContentPane().add(lblCasSimulacie);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(27, 108, 227, 225);
+		scrollPane.setBounds(27, 108, 360, 225);
 		getContentPane().add(scrollPane);
 		
 		textAreaZakaznici = new JTextArea();
@@ -98,25 +101,25 @@ public class SledovacieOkno extends JDialog implements ISimDelegate {
 		getContentPane().add(lblZkaznci);
 		
 		lblPracovnci = new JLabel("Pracovn\u00EDci 1:");
-		lblPracovnci.setBounds(265, 89, 101, 14);
+		lblPracovnci.setBounds(397, 89, 101, 14);
 		getContentPane().add(lblPracovnci);
 		
 		scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(264, 108, 227, 225);
+		scrollPane_1.setBounds(397, 108, 227, 225);
 		getContentPane().add(scrollPane_1);
 		
 		textAreaPracovnici1 = new JTextArea();
 		scrollPane_1.setViewportView(textAreaPracovnici1);
 		
 		scrollPane_2 = new JScrollPane();
-		scrollPane_2.setBounds(501, 108, 235, 225);
+		scrollPane_2.setBounds(648, 108, 235, 225);
 		getContentPane().add(scrollPane_2);
 		
 		textAreaPracovnici2 = new JTextArea();
 		scrollPane_2.setViewportView(textAreaPracovnici2);
 		
 		JLabel lblNewLabel = new JLabel("Pracovnici 2:");
-		lblNewLabel.setBounds(501, 89, 116, 14);
+		lblNewLabel.setBounds(648, 89, 116, 14);
 		getContentPane().add(lblNewLabel);
 		
 		btnPauza = new JButton("pauza");
@@ -176,7 +179,10 @@ public class SledovacieOkno extends JDialog implements ISimDelegate {
 	}
 
 	public void simStateChanged(Simulation sim, SimState state) {
-		// TODO Auto-generated method stub
+		if(SimState.stopped == state) {
+			btntart.setEnabled(true);
+		}
+		
 		
 	}
 }

@@ -134,6 +134,8 @@ public class ManagerVybavovaci extends Manager
 		cinnostPriUvolneniRobotnika();
 		message.setAddressee(Id.agentServisu);
 		message.setCode(Mc.odchodObsluzenehoZakaznika);
+		((MyMessage)message).getZakaznik().setKoniecCakaniaNaOpravu(mySim().currentTime());
+		((MyMessage)message).getZakaznik().setObsluzenyNormalne();
 		notice(message);
 		
 	}
@@ -181,6 +183,7 @@ public class ManagerVybavovaci extends Manager
 	{
 		message.setAddressee(Id.agentServisu);
 		message.setCode(Mc.preparkujNaParkovisko1);
+		((MyMessage)message).getZakaznik().setZaciatokCakaniaNaOpravu(mySim().currentTime());
 		request(message);
 	}
 
