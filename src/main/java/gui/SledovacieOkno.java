@@ -10,6 +10,7 @@ import entity.Zakaznik;
 import simulation.Config;
 import simulation.MyMessage;
 import simulation.MySimulation;
+import util.StringUtils;
 
 import javax.swing.JButton;
 import javax.swing.JTable;
@@ -46,7 +47,7 @@ public class SledovacieOkno extends JDialog implements ISimDelegate {
 	public SledovacieOkno() {
 		self = this;
 		setTitle("Sledovacie okno");
-		setBounds(100, 100, 1000, 500);
+		setBounds(100, 100, 1200, 700);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
 		
@@ -57,7 +58,7 @@ public class SledovacieOkno extends JDialog implements ISimDelegate {
 				Config.trvanie = 0.1;
 				simulacia = new MySimulation(5,5,1000000);
 				simulacia.registerDelegate(self);
-				simulacia.simulateAsync(3,100000);
+				simulacia.simulateAsync(3,Config.DlzkaReplikacie);
 				simulacia.setSimSpeed(Config.interval, Config.trvanie);
 				btntart.setEnabled(false);
 			}
@@ -66,19 +67,19 @@ public class SledovacieOkno extends JDialog implements ISimDelegate {
 		getContentPane().add(btntart);
 		
 		lblPoetLudPred = new JLabel("Ve\u013Ekos\u0165 fronty pred rampov:");
-		lblPoetLudPred.setBounds(273, 11, 227, 14);
+		lblPoetLudPred.setBounds(27, 362, 227, 14);
 		getContentPane().add(lblPoetLudPred);
 		
 		lblVelkostFrontyPredRampou = new JLabel("");
-		lblVelkostFrontyPredRampou.setBounds(534, 11, 46, 14);
+		lblVelkostFrontyPredRampou.setBounds(288, 362, 46, 14);
 		getContentPane().add(lblVelkostFrontyPredRampou);
 		
-		JLabel lblPoetZkaznkovakajcich = new JLabel("Po\u010Det z\u00E1kazn\u00EDkov \u010Dakaj\u00FAcich na obsluhu:");
-		lblPoetZkaznkovakajcich.setBounds(273, 36, 251, 14);
+		JLabel lblPoetZkaznkovakajcich = new JLabel("Po\u010Det z\u00E1kazn\u00EDkov pred servisom:");
+		lblPoetZkaznkovakajcich.setBounds(27, 387, 251, 14);
 		getContentPane().add(lblPoetZkaznkovakajcich);
 		
 		lblPocetLudiCakajucichNaObsluhu = new JLabel("");
-		lblPocetLudiCakajucichNaObsluhu.setBounds(534, 36, 46, 14);
+		lblPocetLudiCakajucichNaObsluhu.setBounds(288, 387, 46, 14);
 		getContentPane().add(lblPocetLudiCakajucichNaObsluhu);
 		
 		JLabel lblas = new JLabel("\u010Das:");
@@ -86,7 +87,7 @@ public class SledovacieOkno extends JDialog implements ISimDelegate {
 		getContentPane().add(lblas);
 		
 		lblCasSimulacie = new JLabel("");
-		lblCasSimulacie.setBounds(350, 61, 141, 14);
+		lblCasSimulacie.setBounds(350, 61, 307, 14);
 		getContentPane().add(lblCasSimulacie);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -152,10 +153,42 @@ public class SledovacieOkno extends JDialog implements ISimDelegate {
 		btnPokracuj.setBounds(109, 36, 89, 23);
 		getContentPane().add(btnPokracuj);
 		
+		JLabel lblPoetutNa = new JLabel("Po\u010Det \u00E1ut na parkovisku 1:");
+		lblPoetutNa.setBounds(27, 437, 212, 14);
+		getContentPane().add(lblPoetutNa);
+		
+		JLabel lblPoetutNa_1 = new JLabel("Po\u010Det \u00E1ut na parkovisku 2:");
+		lblPoetutNa_1.setBounds(27, 487, 171, 14);
+		getContentPane().add(lblPoetutNa_1);
+		
+		JLabel lblPercentulneVyaenieParkoviska = new JLabel("Percentu\u00E1lne vy\u0165a\u017Eenie parkoviska 1:");
+		lblPercentulneVyaenieParkoviska.setBounds(27, 462, 227, 14);
+		getContentPane().add(lblPercentulneVyaenieParkoviska);
+		
+		JLabel lblPercentulneVyaenieParkoviska_1 = new JLabel("Percentu\u00E1lne vy\u0165a\u017Eenie parkoviska 2:");
+		lblPercentulneVyaenieParkoviska_1.setBounds(27, 512, 227, 14);
+		getContentPane().add(lblPercentulneVyaenieParkoviska_1);
+		
+		JLabel lblPoetObslenchZkaznkov = new JLabel("Po\u010Det obsl\u00FA\u017Een\u00FDch z\u00E1kazn\u00EDkov:");
+		lblPoetObslenchZkaznkov.setBounds(27, 537, 227, 14);
+		getContentPane().add(lblPoetObslenchZkaznkov);
+		
+		JLabel lblPoetNeobslenchZkaznkov = new JLabel("Po\u010Det neobsl\u00FA\u017Een\u00FDch z\u00E1kazn\u00EDkov:");
+		lblPoetNeobslenchZkaznkov.setBounds(27, 562, 212, 14);
+		getContentPane().add(lblPoetNeobslenchZkaznkov);
+		
+		JLabel lblPriemernDkaakania = new JLabel("Priemern\u00E1 d\u013A\u017Eka \u010Dakania:");
+		lblPriemernDkaakania.setBounds(27, 412, 212, 14);
+		getContentPane().add(lblPriemernDkaakania);
+		
+		JLabel lblistZisk = new JLabel("\u010Dist\u00FD zisk:");
+		lblistZisk.setBounds(273, 36, 114, 14);
+		getContentPane().add(lblistZisk);
+		
 	}
 
 	public void refresh(Simulation sim) {
-		lblCasSimulacie.setText(sim.currentTime()+""+" "+sim.currentReplication());
+		lblCasSimulacie.setText(StringUtils.getCasVLudskejPodobe(sim.currentTime(), sim.currentReplication()+1));
 		lblPocetLudiCakajucichNaObsluhu.setText(((MySimulation)sim).getPocetLudiCakajucichNaObsluhu()+"");
 		lblVelkostFrontyPredRampou.setText(((MySimulation)sim).getVelkostFrontuPredRampou()+"");
 		

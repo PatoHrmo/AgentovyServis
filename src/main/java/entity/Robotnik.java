@@ -23,6 +23,13 @@ public class Robotnik {
 	}
 	@Override
 	public String toString() {
-		return "ID: "+id+" "+cinnost;
+		return "ID: "+id+" "+cinnost+" vyùaûenosù "+statVytazenosti.mean()*100+"%";
+	}
+	public void zacniPracovat() {
+		statVytazenosti.addSample(1);
+	}
+	public void prestanPracovat() {
+		statVytazenosti.addSample(0);
+		
 	}
 }

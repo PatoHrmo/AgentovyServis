@@ -6,6 +6,7 @@ import java.util.List;
 import OSPABA.Agent;
 import OSPABA.Simulation;
 import OSPDataStruct.SimQueue;
+import OSPStat.Stat;
 import continualAssistants.OdchodPoDlhomCakani;
 import continualAssistants.OdovzdavanieHotoveho;
 import continualAssistants.PlanovacNovehoDna;
@@ -26,6 +27,11 @@ public class AgentVybavovaci extends Agent
 	private List<Robotnik> vsetciPracovnici;
 	SimQueue<MyMessage> frontZakaznikovNaZadavanieObjednavky;
 	SimQueue<MyMessage> frontaZakaznikovSOpravenymAutom;
+	
+	private Stat statDlzkaCakaniaNaOpravuVozidla;
+	private Stat replStatDlzkaCakaniaNaOpravuVozidla;
+	private Stat statDlzkaCakaniaNaZadanieObjednavky;
+	private Stat replStatDlzkaCakaniaNaZadanieObjednavky;
 	public AgentVybavovaci(int id, Simulation mySim, Agent parent)
 	{
 		super(id, mySim, parent);
@@ -42,6 +48,9 @@ public class AgentVybavovaci extends Agent
 		vsetciPracovnici = new LinkedList<>();
 		frontZakaznikovNaZadavanieObjednavky = new SimQueue<>();
 		frontaZakaznikovSOpravenymAutom = new SimQueue<>();
+		replStatDlzkaCakaniaNaOpravuVozidla = new Stat();
+		replStatDlzkaCakaniaNaZadanieObjednavky = new Stat();
+		
 	}
 
 	@Override
@@ -55,6 +64,14 @@ public class AgentVybavovaci extends Agent
 		frontaZakaznikovSOpravenymAutom = new SimQueue<>();
 		frontZakaznikovNaZadavanieObjednavky = new SimQueue<>();
 		nastavPocetPracovnikov(pocetPracovnikov);
+		statDlzkaCakaniaNaOpravuVozidla = new Stat();
+		statDlzkaCakaniaNaZadanieObjednavky = new Stat();
+		
+	}
+	
+	public void koniecReplikacie() {
+		replStatDlzkaCakaniaNaOpravuVozidla.addSample(statDlzkaCakaniaNaOpravuVozidla.mean());
+		replStatDlzkaCakaniaNaZadanieObjednavky.addSample(statDlzkaCakaniaNaZadanieObjednavky.mean());
 	}
 
 	//meta! userInfo="Generated code: do not modify", tag="begin"
@@ -100,12 +117,13 @@ public class AgentVybavovaci extends Agent
 	 */
 	public Robotnik getVolnyRobotnik() {
 		Robotnik robotnik = volnyPracovnici.remove(0);
-		
+		robotnik.zacniPracovat();
 		return robotnik;
 	}
 
 	public void uvolnenieRobotnika(MyMessage myMessage) {
 		volnyPracovnici.add(myMessage.getRobotnik());
+		myMessage.getRobotnik().prestanPracovat();
 		myMessage.setRobotnik(null);
 		
 	}
@@ -136,4 +154,22 @@ public class AgentVybavovaci extends Agent
 		sprava.setCode(Mc.spustiPlanovacDna);
 		manager().notice(sprava);
 	}
+
+	
+	
+	//--------------------------------------------------------------
+	// statisticke veci
+	public double getReplPriemCasNaCakanieVozidla() {
+		return replStatDlzkaCakaniaNaOpravuVozidla.mean();
+	}
+
+	public void pridajCakanieNaOpravu(double dlzkaCakaniaNaOpravu) {
+		statDlzkaCakaniaNaOpravuVozidla.addSample(dlzkaCakaniaNaOpravu);
+		
+	}
+	public void pridajDlzkuCakaniaNaZadavanieObjednavky(double dlzkaCakaniaNaZadavanieObjednavky) {
+		statDlzkaCakaniaNaZadanieObjednavky.addSample(dlzkaCakaniaNaZadavanieObjednavky);
+	}
+
+	
 }

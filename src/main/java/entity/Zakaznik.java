@@ -11,6 +11,8 @@ public class Zakaznik {
 	private MySimulation mySim;
 	private double zaciatokCakaniaNaOpravu;
 	private double koniecCakaniaNaOpravu;
+	private double zaciatokCakaniaNaZadavanieObjednavky;
+	private double koniecCakaniaNaZadavanieObjednavky;
 	private boolean obsluzeny;
 	private double dlzkaOpravy;
 	public Zakaznik(MySimulation sim) {
@@ -74,6 +76,22 @@ public class Zakaznik {
 	}
 	public double getDlzkaCakaniaNaOpravu() {
 		return koniecCakaniaNaOpravu-zaciatokCakaniaNaOpravu;
+		
+	}
+	public double getKoniecCakaniaNaZadavanieObjednavky() {
+		return koniecCakaniaNaZadavanieObjednavky;
+	}
+	public void setKoniecCakaniaNaZadavanieObjednavky(double koniecCakaniaNaZadavanieObjednavky) {
+		this.koniecCakaniaNaZadavanieObjednavky = koniecCakaniaNaZadavanieObjednavky;
+	}
+	public double getZaciatokCakaniaNaZadavanieObjednavky() {
+		return zaciatokCakaniaNaZadavanieObjednavky;
+	}
+	public void setZaciatokCakaniaNaZadavanieObjednavky(double zaciatokCakaniaNaZadavanieObjednavky) {
+		this.zaciatokCakaniaNaZadavanieObjednavky = zaciatokCakaniaNaZadavanieObjednavky;
+	}
+	public double getDlzkaCakaniaNaZadavanieObjednavky() {
+		return koniecCakaniaNaZadavanieObjednavky - zaciatokCakaniaNaZadavanieObjednavky;
 		
 	}
 

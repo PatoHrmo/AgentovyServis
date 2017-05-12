@@ -25,7 +25,7 @@ public class AgentModelu extends Agent
 		
 	}
 	public void koniecReplikacie() {
-		// TODO Auto-generated method stub
+		
 		
 	}
 

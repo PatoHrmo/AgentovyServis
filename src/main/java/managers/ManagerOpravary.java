@@ -56,6 +56,7 @@ public class ManagerOpravary extends Manager
 	{
 		message.setAddressee(Id.agentServisu);
 		message.setCode(Mc.dajAutoNaParkovisko2);
+		myAgent().pridajZisk(((MyMessage)message).getZakaznik().getVyskaPlatby());
 		request(message);
 		
 		

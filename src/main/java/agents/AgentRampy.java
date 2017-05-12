@@ -35,6 +35,10 @@ public class AgentRampy extends Agent
 		rampaDnuSaPouziva = false;
 		rampaVonSaPouziva = false;
 	}
+	public void koniecReplikacie() {
+		// TODO Auto-generated method stub
+		
+	}
 
 	//meta! userInfo="Generated code: do not modify", tag="begin"
 	private void init()
@@ -86,4 +90,6 @@ public class AgentRampy extends Agent
 	public boolean predRampouDnuNiektoJe() {
 		return !frontaPredRampouDnu.isEmpty();
 	}
+
+	
 }

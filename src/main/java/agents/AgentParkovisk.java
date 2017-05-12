@@ -40,6 +40,10 @@ public class AgentParkovisk extends Agent
 		frontaParkovisko2 = new SimQueue<>();
 		pocetRezervovanychMiestParkoviska1 = 0;
 	}
+	public void koniecReplikacie() {
+		// TODO Auto-generated method stub
+		
+	}
 	public void pridajZakaznikaNaParkovisko(MyMessage sprava) {
 		frontaParkovisko1.add(sprava);
 		pocetRezervovanychMiestParkoviska1--;
@@ -113,4 +117,6 @@ public class AgentParkovisk extends Agent
 	public MyMessage getCakajucehoNaParkovisko2() {
 		return frontaCakajucichNaUvolnenieParkoviska2.dequeue();
 	}
+
+	
 }

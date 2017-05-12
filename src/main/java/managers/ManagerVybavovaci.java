@@ -54,9 +54,11 @@ public class ManagerVybavovaci extends Manager
 	//meta! sender="AgentServisu", id="39", type="Notice"
 	public void processPrisielZakaznik(MessageForm message)
 	{
+		((MyMessage)message).getZakaznik().setZaciatokCakaniaNaZadavanieObjednavky(mySim().currentTime());
 		if(myAgent().jeVolnyPracovnik()) {
 			message.setAddressee(Id.zadavanieObjednavky);
 			((MyMessage)message).setRobotnik(myAgent().getVolnyRobotnik());
+			((MyMessage)message).getZakaznik().setKoniecCakaniaNaZadavanieObjednavky(mySim().currentTime());
 			startContinualAssistant(message);
 		} else {
 			((MyMessage)message).setCinnostZakaznika(Cinnosti.cakaNaZadanieObjednavky);
@@ -107,6 +109,7 @@ public class ManagerVybavovaci extends Manager
 			MyMessage message = myAgent().getFrontaLudiNaZadavanieObjednavky().dequeue();
 			message.setAddressee(Id.zadavanieObjednavky);
 			((MyMessage)message).setRobotnik(myAgent().getVolnyRobotnik());
+			((MyMessage)message).getZakaznik().setKoniecCakaniaNaZadavanieObjednavky(mySim().currentTime());
 			startContinualAssistant(message);
 		}
 		
@@ -117,6 +120,8 @@ public class ManagerVybavovaci extends Manager
 	{
 		message.setAddressee(Id.agentServisu);
 		message.setCode(Mc.rezervujMiestoParkoviska1);
+		myAgent().pridajDlzkuCakaniaNaZadavanieObjednavky(
+				((MyMessage)message).getZakaznik().getDlzkaCakaniaNaZadavanieObjednavky());
 		request(message);
 	}
 
@@ -136,6 +141,7 @@ public class ManagerVybavovaci extends Manager
 		message.setCode(Mc.odchodObsluzenehoZakaznika);
 		((MyMessage)message).getZakaznik().setKoniecCakaniaNaOpravu(mySim().currentTime());
 		((MyMessage)message).getZakaznik().setObsluzenyNormalne();
+		myAgent().pridajCakanieNaOpravu(((MyMessage)message).getZakaznik().getDlzkaCakaniaNaOpravu());
 		notice(message);
 		
 	}

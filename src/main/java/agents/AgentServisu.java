@@ -31,6 +31,10 @@ public class AgentServisu extends Agent
 		super.prepareReplication();
 		// Setup component for the next replication
 	}
+	public void koniecReplikacie() {
+		// TODO Auto-generated method stub
+		
+	}
 
 	//meta! userInfo="Generated code: do not modify", tag="begin"
 	private void init()
@@ -51,4 +55,6 @@ public class AgentServisu extends Agent
 		addOwnMessage(Mc.preparkujParkovisko2PredServis);
 	}
 	//meta! tag="end"
+
+	
 }

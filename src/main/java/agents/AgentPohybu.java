@@ -29,6 +29,10 @@ public class AgentPohybu extends Agent
 		super.prepareReplication();
 		// Setup component for the next replication
 	}
+	public void koniecReplikacie() {
+		// TODO Auto-generated method stub
+		
+	}
 	public double getPocetSekundNaPrejdenieMetra() {
 		return pocetSekundNaPrejdenieMetra;
 	}
@@ -70,4 +74,6 @@ public class AgentPohybu extends Agent
 	public double casPrechoduRampaServis() {
 		return pocetSekundNaPrejdenieMetra*vzdialenostRampaPredServis;
 	}
+
+	
 }

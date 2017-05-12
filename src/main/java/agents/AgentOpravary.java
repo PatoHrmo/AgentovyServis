@@ -7,6 +7,7 @@ import OSPABA.Agent;
 import OSPABA.MessageForm;
 import OSPABA.Simulation;
 import OSPDataStruct.SimQueue;
+import OSPStat.Stat;
 import continualAssistants.Oprava;
 import entity.Cinnosti;
 import entity.Robotnik;
@@ -21,6 +22,9 @@ public class AgentOpravary extends Agent
 	private SimQueue<MyMessage> zakazniciCakajuciNaOpravu;
 	private List<Robotnik> volnyPracovnici; 
 	private List<Robotnik> vsetciPracovnici;
+	
+	private double zisk;
+	private Stat replStatZisk;
 	public AgentOpravary(int id, Simulation mySim, Agent parent)
 	{
 		super(id, mySim, parent);
@@ -29,6 +33,7 @@ public class AgentOpravary extends Agent
 		volnyPracovnici = new LinkedList<>();
 		vsetciPracovnici = new LinkedList<>();
 		zakazniciCakajuciNaOpravu = new SimQueue<>();
+		replStatZisk = new Stat();
 	}
 	public void nastavPocetPracovnikov(int pocetPracovnikov) {
 		for(int i = 0; i<pocetPracovnikov;i++) {
@@ -52,6 +57,12 @@ public class AgentOpravary extends Agent
 		volnyPracovnici = new LinkedList<>();
 		zakazniciCakajuciNaOpravu = new SimQueue<>();
 		nastavPocetPracovnikov(pocetPracovnikov);
+		zisk = 0;
+	}
+	
+	public void koniecReplikacie() {
+		replStatZisk.addSample(zisk);
+		
 	}
 
 	//meta! userInfo="Generated code: do not modify", tag="begin"
@@ -66,10 +77,13 @@ public class AgentOpravary extends Agent
 	//meta! tag="end"
 	
 	public Robotnik getVolnyPracovnik() {
-		return volnyPracovnici.remove(0);
+		Robotnik rob = volnyPracovnici.remove(0);
+		rob.zacniPracovat();
+		return rob;
 	}
 	public void uvolniPracovnika(MyMessage message) {
 		message.getRobotnik().setCinnost(Cinnosti.necinny);
+		message.getRobotnik().prestanPracovat();
 		message.getZakaznik().setCinnost(Cinnosti.cakaNaParkovisku2);
 		volnyPracovnici.add(message.getRobotnik());
 		message.setRobotnik(null);
@@ -83,4 +97,9 @@ public class AgentOpravary extends Agent
 	public MyMessage getZakaznikaCakajucehoNaOpravu() {
 		return zakazniciCakajuciNaOpravu.dequeue();
 	}
+	public void pridajZisk(double vyskaPlatby) {
+		zisk+= vyskaPlatby;
+		
+	}
+	
 }

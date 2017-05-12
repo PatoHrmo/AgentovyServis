@@ -82,6 +82,19 @@ public class AgentOkolia extends Agent
 	public double getInvesticia() {
 		return investicia;
 	}
+	
+	public Stat getStatPocetObsluzenych() {
+		return replStatpocetObsluzenychZakaznikov;
+	}
+	public Stat getStatPocetNeObsluzenych() {
+		return replStatpocetNeObsluzenychZakaznikov;
+	}
+	public int getPocetObsluzenych() {
+		return pocetObsluzenychZakaznikov;
+	}
+	public int getPocetNeObsluzenych() {
+		return pocetNeObsluzenychZakaznikov;
+	}
 
 	
 }
