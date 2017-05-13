@@ -2,6 +2,7 @@ package agents;
 
 import OSPABA.*;
 import OSPDataStruct.SimQueue;
+import OSPStat.WStat;
 import simulation.*;
 import managers.*;
 import continualAssistants.*;
@@ -23,10 +24,10 @@ public class AgentParkovisk extends Agent
 	{
 		super(id, mySim, parent);
 		init();
-		frontaParkovisko1 = new SimQueue<>();
-		frontaCakajucichNaRezervaciuParkoviska1 = new SimQueue<>();
-		frontaCakajucichNaUvolnenieParkoviska2 = new SimQueue<>();
-		frontaParkovisko2 = new SimQueue<>();
+		frontaParkovisko1 = new SimQueue<>(new WStat(mySim));
+		frontaCakajucichNaRezervaciuParkoviska1 = new SimQueue<>(new WStat(mySim));
+		frontaCakajucichNaUvolnenieParkoviska2 = new SimQueue<>(new WStat(mySim));
+		frontaParkovisko2 = new SimQueue<>(new WStat(mySim));
 		pocetRezervovanychMiestParkoviska1 = 0;
 	}
 
@@ -34,10 +35,10 @@ public class AgentParkovisk extends Agent
 	public void prepareReplication()
 	{
 		super.prepareReplication();
-		frontaParkovisko1 = new SimQueue<>();
-		frontaCakajucichNaRezervaciuParkoviska1 = new SimQueue<>();
-		frontaCakajucichNaUvolnenieParkoviska2 = new SimQueue<>();
-		frontaParkovisko2 = new SimQueue<>();
+		frontaParkovisko1 = new SimQueue<>(new WStat(mySim()));
+		frontaCakajucichNaRezervaciuParkoviska1 = new SimQueue<>(new WStat(mySim()));
+		frontaCakajucichNaUvolnenieParkoviska2 = new SimQueue<>(new WStat(mySim()));
+		frontaParkovisko2 = new SimQueue<>(new WStat(mySim()));
 		pocetRezervovanychMiestParkoviska1 = 0;
 	}
 	public void koniecReplikacie() {
@@ -116,6 +117,24 @@ public class AgentParkovisk extends Agent
 
 	public MyMessage getCakajucehoNaParkovisko2() {
 		return frontaCakajucichNaUvolnenieParkoviska2.dequeue();
+	}
+
+	public int getPocetAutPark1() {
+		// TODO Auto-generated method stub
+		return frontaParkovisko1.size();
+	}
+	public int getPocetAutPark2() {
+		// TODO Auto-generated method stub
+		return frontaParkovisko2.size();
+	}
+
+	public double getVytazenie1() {
+		
+		return (frontaParkovisko1.lengthStatistic().mean()/VELKOST_PARKOVISKA1)*100;
+	}
+	public double getVytazenie2() {
+		// TODO Auto-generated method stub
+		return (frontaParkovisko2.lengthStatistic().mean()/VELKOST_PARKOVISKA2)*100;
 	}
 
 	

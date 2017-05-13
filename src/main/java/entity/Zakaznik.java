@@ -21,6 +21,7 @@ public class Zakaznik {
 		setJazdi(false);
 		mySim = sim;
 		obsluzeny = false;
+		dlzkaOpravy = 0;
 	}
 	public String getCinnost() {
 		return cinnost;
@@ -70,9 +71,9 @@ public class Zakaznik {
 		this.dlzkaOpravy = dlzkaOpravy;
 	}
 	public double getVyskaPlatby() {
-		if(obsluzeny)
+		
 			return (dlzkaOpravy/3600)*25;
-		return 0;
+		
 	}
 	public double getDlzkaCakaniaNaOpravu() {
 		return koniecCakaniaNaOpravu-zaciatokCakaniaNaOpravu;

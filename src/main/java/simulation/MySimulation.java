@@ -14,6 +14,9 @@ public class MySimulation extends Simulation {
 		cenaOdpisy = pocetPracovnikov1 * 1150 + pocetPracovnikov2 * 1600 + investicia + 7000;
 
 	}
+	public MySimulation() {
+		init();
+	}
 
 	@Override
 	public void prepareSimulation() {
@@ -42,7 +45,7 @@ public class MySimulation extends Simulation {
 
 	@Override
 	public void simulationFinished() {
-		System.out.println(agentVybavovaci().getReplPriemCasNaCakanieVozidla());
+		
 		super.simulationFinished();
 	}
 
@@ -147,5 +150,16 @@ public class MySimulation extends Simulation {
 	public int getVelkostFrontuPredRampou() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+	public double getZisk() {
+		return agentOpravary().getZisk() - cenaOdpisy;
+	}
+
+	public void setParametre(int pocetPracovnikov1, int pocetPracovnikov2, double investicia, boolean najprvOdovzdavatOpravene) {
+		((AgentVybavovaci) findAgent(Id.agentVybavovaci)).nastavPocetPracovnikov(pocetPracovnikov1);
+		((AgentOpravary) findAgent(Id.agentOpravary)).nastavPocetPracovnikov(pocetPracovnikov2);
+		agentOkolia().nastavInvesticiu(investicia);
+		cenaOdpisy = pocetPracovnikov1 * 1150 + pocetPracovnikov2 * 1600 + investicia + 7000;
+		agentVybavovaci().nastavNajprvZadavanieObjednavky(najprvOdovzdavatOpravene);
 	}
 }

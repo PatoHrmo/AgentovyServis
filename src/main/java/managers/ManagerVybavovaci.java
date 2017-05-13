@@ -99,19 +99,36 @@ public class ManagerVybavovaci extends Manager
 //			((MyMessage)message).setRobotnik(myAgent().getVolnyRobotnik());
 //			request(message);
 //		}
-		if(myAgent().getPocetLudiNaParkovisku2()>0) {
-			MyMessage message = myAgent().getZakaznikaCakajucehoSOpravenymAutom();
-			((MyMessage)message).setRobotnik(myAgent().getVolnyRobotnik());
-			message.setAddressee(Id.agentServisu);
-			message.setCode(Mc.dajAutoZParkoviska2);
-			request(message);
-		} else if(myAgent().getFrontaLudiNaZadavanieObjednavky().size()>0) {
-			MyMessage message = myAgent().getFrontaLudiNaZadavanieObjednavky().dequeue();
-			message.setAddressee(Id.zadavanieObjednavky);
-			((MyMessage)message).setRobotnik(myAgent().getVolnyRobotnik());
-			((MyMessage)message).getZakaznik().setKoniecCakaniaNaZadavanieObjednavky(mySim().currentTime());
-			startContinualAssistant(message);
+		if(myAgent().getSposobPrace()) {
+			if(myAgent().getPocetLudiNaParkovisku2()>0) {
+				MyMessage message = myAgent().getZakaznikaCakajucehoSOpravenymAutom();
+				((MyMessage)message).setRobotnik(myAgent().getVolnyRobotnik());
+				message.setAddressee(Id.agentServisu);
+				message.setCode(Mc.dajAutoZParkoviska2);
+				request(message);
+			} else if(myAgent().getFrontaLudiNaZadavanieObjednavky().size()>0) {
+				MyMessage message = myAgent().getFrontaLudiNaZadavanieObjednavky().dequeue();
+				message.setAddressee(Id.zadavanieObjednavky);
+				((MyMessage)message).setRobotnik(myAgent().getVolnyRobotnik());
+				((MyMessage)message).getZakaznik().setKoniecCakaniaNaZadavanieObjednavky(mySim().currentTime());
+				startContinualAssistant(message);
+			}
+		} else {
+			if(myAgent().getFrontaLudiNaZadavanieObjednavky().size()>0) {
+				MyMessage message = myAgent().getFrontaLudiNaZadavanieObjednavky().dequeue();
+				message.setAddressee(Id.zadavanieObjednavky);
+				((MyMessage)message).setRobotnik(myAgent().getVolnyRobotnik());
+				((MyMessage)message).getZakaznik().setKoniecCakaniaNaZadavanieObjednavky(mySim().currentTime());
+				startContinualAssistant(message);
+			} else if(myAgent().getPocetLudiNaParkovisku2()>0) {
+				MyMessage message = myAgent().getZakaznikaCakajucehoSOpravenymAutom();
+				((MyMessage)message).setRobotnik(myAgent().getVolnyRobotnik());
+				message.setAddressee(Id.agentServisu);
+				message.setCode(Mc.dajAutoZParkoviska2);
+				request(message);
+			}
 		}
+		
 		
 	}
 

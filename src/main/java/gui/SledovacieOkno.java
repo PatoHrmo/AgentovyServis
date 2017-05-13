@@ -16,10 +16,19 @@ import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.JSlider;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
+import javax.swing.JCheckBox;
 
 public class SledovacieOkno extends JDialog implements ISimDelegate {
 	
@@ -27,7 +36,6 @@ public class SledovacieOkno extends JDialog implements ISimDelegate {
 	private JButton btntart;
 	private JLabel lblPoetLudPred;
 	private JLabel lblVelkostFrontyPredRampou;
-	private JLabel lblPocetLudiCakajucichNaObsluhu;
 	private JLabel lblCasSimulacie;
 	private JTextArea textAreaZakaznici;
 	private JLabel lblZkaznci;
@@ -40,6 +48,21 @@ public class SledovacieOkno extends JDialog implements ISimDelegate {
 	private JButton btnPauza;
 	private JButton btnPokracuj;
 	private JButton btnStop;
+	private JLabel lblZisk;
+	private JLabel lblPocetNeobsluzenych;
+	private JLabel lblPocetObsluzenych;
+	private JLabel lblPercentualneVytazeniePark2;
+	private JLabel lblPocetAutNaPark2;
+	private JLabel lblPercentualneVytazeniePark1;
+	private JLabel lblPocetAutPark1;
+	private JLabel lblPriemDlzkaCakania;
+	private JLabel lblPocetLudiPredServisom;
+	private JLabel lblPoetPracovnkov;
+	private JTextField textFieldPocet1;
+	private JTextField textFieldPocet2;
+	private JTextField textFieldInvesticia;
+	private JSlider slider;
+	private JCheckBox chckbxNajprvOdovzdvaHotov;
 
 	/**
 	 * Create the dialog.
@@ -51,14 +74,19 @@ public class SledovacieOkno extends JDialog implements ISimDelegate {
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
 		
+		simulacia = new MySimulation();
+		simulacia.registerDelegate(self);
 		btntart = new JButton("\u0160tart");
 		btntart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Config.interval = 2000;
-				Config.trvanie = 0.1;
-				simulacia = new MySimulation(5,5,1000000);
-				simulacia.registerDelegate(self);
-				simulacia.simulateAsync(3,Config.DlzkaReplikacie);
+				getRychlost();
+				Config.trvanie = 0.2;
+				int pocetPracovnikov1 = Integer.parseInt(textFieldPocet1.getText());
+				int pocetPracovnikov2 = Integer.parseInt(textFieldPocet2.getText());
+				double investicia = Double.parseDouble(textFieldInvesticia.getText());
+				boolean najprvOdovzdavatOpravene = chckbxNajprvOdovzdvaHotov.isSelected();
+				simulacia.setParametre(pocetPracovnikov1,pocetPracovnikov2,investicia, najprvOdovzdavatOpravene);
+				simulacia.simulateAsync(1,Config.DlzkaReplikacie);
 				simulacia.setSimSpeed(Config.interval, Config.trvanie);
 				btntart.setEnabled(false);
 			}
@@ -78,16 +106,12 @@ public class SledovacieOkno extends JDialog implements ISimDelegate {
 		lblPoetZkaznkovakajcich.setBounds(27, 387, 251, 14);
 		getContentPane().add(lblPoetZkaznkovakajcich);
 		
-		lblPocetLudiCakajucichNaObsluhu = new JLabel("");
-		lblPocetLudiCakajucichNaObsluhu.setBounds(288, 387, 46, 14);
-		getContentPane().add(lblPocetLudiCakajucichNaObsluhu);
-		
 		JLabel lblas = new JLabel("\u010Das:");
-		lblas.setBounds(273, 61, 46, 14);
+		lblas.setBounds(380, 387, 46, 14);
 		getContentPane().add(lblas);
 		
 		lblCasSimulacie = new JLabel("");
-		lblCasSimulacie.setBounds(350, 61, 307, 14);
+		lblCasSimulacie.setBounds(457, 387, 307, 14);
 		getContentPane().add(lblCasSimulacie);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -182,16 +206,127 @@ public class SledovacieOkno extends JDialog implements ISimDelegate {
 		getContentPane().add(lblPriemernDkaakania);
 		
 		JLabel lblistZisk = new JLabel("\u010Dist\u00FD zisk:");
-		lblistZisk.setBounds(273, 36, 114, 14);
+		lblistZisk.setBounds(380, 362, 114, 14);
 		getContentPane().add(lblistZisk);
 		
+		lblZisk = new JLabel("New label");
+		lblZisk.setBounds(457, 362, 46, 14);
+		getContentPane().add(lblZisk);
+		
+		lblPriemDlzkaCakania = new JLabel("New label");
+		lblPriemDlzkaCakania.setBounds(288, 412, 138, 14);
+		getContentPane().add(lblPriemDlzkaCakania);
+		
+		lblPocetAutPark1 = new JLabel("New label");
+		lblPocetAutPark1.setBounds(288, 437, 46, 14);
+		getContentPane().add(lblPocetAutPark1);
+		
+		lblPercentualneVytazeniePark1 = new JLabel("New label");
+		lblPercentualneVytazeniePark1.setBounds(288, 462, 46, 14);
+		getContentPane().add(lblPercentualneVytazeniePark1);
+		
+		lblPocetAutNaPark2 = new JLabel("New label");
+		lblPocetAutNaPark2.setBounds(288, 487, 46, 14);
+		getContentPane().add(lblPocetAutNaPark2);
+		
+		lblPercentualneVytazeniePark2 = new JLabel("New label");
+		lblPercentualneVytazeniePark2.setBounds(288, 512, 46, 14);
+		getContentPane().add(lblPercentualneVytazeniePark2);
+		
+		lblPocetObsluzenych = new JLabel("New label");
+		lblPocetObsluzenych.setBounds(288, 537, 46, 14);
+		getContentPane().add(lblPocetObsluzenych);
+		
+		lblPocetNeobsluzenych = new JLabel("New label");
+		lblPocetNeobsluzenych.setBounds(288, 562, 46, 14);
+		getContentPane().add(lblPocetNeobsluzenych);
+		
+		lblPocetLudiPredServisom = new JLabel("New label");
+		lblPocetLudiPredServisom.setBounds(288, 387, 46, 14);
+		getContentPane().add(lblPocetLudiPredServisom);
+		
+		lblPoetPracovnkov = new JLabel("Po\u010Det pracovn\u00EDkov 1:");
+		lblPoetPracovnkov.setBounds(243, 15, 144, 14);
+		getContentPane().add(lblPoetPracovnkov);
+		
+		textFieldPocet1 = new JTextField();
+		textFieldPocet1.setBounds(243, 37, 86, 20);
+		getContentPane().add(textFieldPocet1);
+		textFieldPocet1.setColumns(10);
+		
+		JLabel lblPoetPracovnkov_1 = new JLabel("Po\u010Det pracovn\u00EDkov 2:");
+		lblPoetPracovnkov_1.setBounds(416, 15, 161, 14);
+		getContentPane().add(lblPoetPracovnkov_1);
+		
+		textFieldPocet2 = new JTextField();
+		textFieldPocet2.setBounds(416, 37, 86, 20);
+		getContentPane().add(textFieldPocet2);
+		textFieldPocet2.setColumns(10);
+		
+		JLabel lblInvestcia = new JLabel("Invest\u00EDcia:");
+		lblInvestcia.setBounds(578, 15, 150, 14);
+		getContentPane().add(lblInvestcia);
+		
+		textFieldInvesticia = new JTextField();
+		textFieldInvesticia.setBounds(578, 37, 86, 20);
+		getContentPane().add(textFieldInvesticia);
+		textFieldInvesticia.setColumns(10);
+		
+		JLabel lblRchlos = new JLabel("R\u00FDchlos\u0165:");
+		lblRchlos.setBounds(714, 15, 126, 14);
+		getContentPane().add(lblRchlos);
+		
+		slider = new JSlider();
+		slider.setMaximum(1000);
+		slider.setValue(1);
+		slider.setMinimum(1);
+		slider.setBounds(714, 36, 200, 23);
+		getContentPane().add(slider);
+		
+		chckbxNajprvOdovzdvaHotov = new JCheckBox("Najprv odovzd\u00E1va\u0165 hotov\u00E9 aut\u00E1");
+		chckbxNajprvOdovzdvaHotov.setSelected(true);
+		chckbxNajprvOdovzdvaHotov.setBounds(920, 36, 256, 23);
+		getContentPane().add(chckbxNajprvOdovzdvaHotov);
+		slider.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				getRychlost();
+				simulacia.setSimSpeed(Config.interval, Config.trvanie);
+			}
+		});
+		addWindowListener(new WindowAdapter()
+        {
+            @Override
+            public void windowClosing(WindowEvent e)
+            {
+                simulacia.stopSimulation();
+                btntart.setEnabled(true);
+            }
+        });
+	}
+	
+	private void getRychlost() {
+		Config.interval = slider.getValue();
+		if(Config.interval==slider.getMaximum()) {
+			Config.interval = 100000;
+		}
+		if(Config.interval == slider.getMinimum()) {
+			Config.interval = 0.2;
+		}
 	}
 
 	public void refresh(Simulation sim) {
 		lblCasSimulacie.setText(StringUtils.getCasVLudskejPodobe(sim.currentTime(), sim.currentReplication()+1));
-		lblPocetLudiCakajucichNaObsluhu.setText(((MySimulation)sim).getPocetLudiCakajucichNaObsluhu()+"");
+		lblPocetLudiPredServisom.setText(((MySimulation)sim).getPocetLudiCakajucichNaObsluhu()+"");
 		lblVelkostFrontyPredRampou.setText(((MySimulation)sim).getVelkostFrontuPredRampou()+"");
-		
+		lblZisk.setText(StringUtils.getCislo(((MySimulation)sim).getZisk()));
+		lblPocetLudiPredServisom.setText(((MySimulation)sim).agentVybavovaci().getFrontaLudiNaZadavanieObjednavky().size()+"");
+		lblPriemDlzkaCakania.setText(StringUtils.getCislo(((MySimulation)sim).agentVybavovaci().getPriemDlzkaCakania())+" sekúnd");
+		lblPocetAutPark1.setText(((MySimulation)sim).agentParkovisk().getPocetAutPark1()+"");
+		lblPocetAutNaPark2.setText(((MySimulation)sim).agentParkovisk().getPocetAutPark2()+"");
+		lblPercentualneVytazeniePark1.setText(StringUtils.getCislo(((MySimulation)sim).agentParkovisk().getVytazenie1())+"%");
+		lblPercentualneVytazeniePark2.setText(StringUtils.getCislo(((MySimulation)sim).agentParkovisk().getVytazenie2())+"%");
+		lblPocetObsluzenych.setText(((MySimulation)sim).agentOkolia().getPocetObsluzenych()+"");
+		lblPocetNeobsluzenych.setText(((MySimulation)sim).agentOkolia().getPocetNeObsluzenych()+"");
 		List<Zakaznik> zoznamZakaznikov = ((MySimulation)sim).agentOkolia().getZakaznikovVSysteme();
 		textAreaZakaznici.setText("");
 		for(Zakaznik zak : zoznamZakaznikov) {

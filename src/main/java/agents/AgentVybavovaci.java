@@ -27,7 +27,7 @@ public class AgentVybavovaci extends Agent
 	private List<Robotnik> vsetciPracovnici;
 	SimQueue<MyMessage> frontZakaznikovNaZadavanieObjednavky;
 	SimQueue<MyMessage> frontaZakaznikovSOpravenymAutom;
-	
+	private boolean najprvZadavanie;
 	private Stat statDlzkaCakaniaNaOpravuVozidla;
 	private Stat replStatDlzkaCakaniaNaOpravuVozidla;
 	private Stat statDlzkaCakaniaNaZadanieObjednavky;
@@ -50,7 +50,7 @@ public class AgentVybavovaci extends Agent
 		frontaZakaznikovSOpravenymAutom = new SimQueue<>();
 		replStatDlzkaCakaniaNaOpravuVozidla = new Stat();
 		replStatDlzkaCakaniaNaZadanieObjednavky = new Stat();
-		
+		najprvZadavanie = true;
 	}
 
 	@Override
@@ -94,11 +94,16 @@ public class AgentVybavovaci extends Agent
 	//meta! tag="end"
 
 	public void nastavPocetPracovnikov(int pocetPracovnikov) {
+		volnyPracovnici.clear();
+		vsetciPracovnici.clear();
 		for(int i = 0; i<pocetPracovnikov;i++) {
 			Robotnik rob = new Robotnik(mySim(),i);
 			volnyPracovnici.add(rob);
 			vsetciPracovnici.add(rob);
 		}
+	}
+	public void nastavNajprvZadavanieObjednavky(boolean zadavanie) {
+		this.najprvZadavanie = zadavanie;
 	}
 	public List<Robotnik> getVsetciPracovnici() {
 		return vsetciPracovnici;
@@ -169,6 +174,14 @@ public class AgentVybavovaci extends Agent
 	}
 	public void pridajDlzkuCakaniaNaZadavanieObjednavky(double dlzkaCakaniaNaZadavanieObjednavky) {
 		statDlzkaCakaniaNaZadanieObjednavky.addSample(dlzkaCakaniaNaZadavanieObjednavky);
+	}
+
+	public double getPriemDlzkaCakania() {
+		// TODO Auto-generated method stub
+		return statDlzkaCakaniaNaZadanieObjednavky.mean();
+	}
+	public boolean getSposobPrace() {
+		return najprvZadavanie;
 	}
 
 	

@@ -19,4 +19,8 @@ public class StringUtils {
 	public String getIsSekundy(double[] Is) {
 		return "< "+Math.round(Is[0]*100)/100+" ; "+Math.round(Is[0]*100)/100+" >";
 	}
+	public static String getCislo(double zisk) {
+		// TODO Auto-generated method stub
+		return (Math.round(zisk*100)/100)+"";
+	}
 }

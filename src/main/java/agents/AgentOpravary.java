@@ -36,6 +36,8 @@ public class AgentOpravary extends Agent
 		replStatZisk = new Stat();
 	}
 	public void nastavPocetPracovnikov(int pocetPracovnikov) {
+		volnyPracovnici.clear();
+		vsetciPracovnici.clear();
 		for(int i = 0; i<pocetPracovnikov;i++) {
 			Robotnik rob = new Robotnik(mySim(),i);
 			volnyPracovnici.add(rob);
@@ -100,6 +102,9 @@ public class AgentOpravary extends Agent
 	public void pridajZisk(double vyskaPlatby) {
 		zisk+= vyskaPlatby;
 		
+	}
+	public double getZisk() {
+		return zisk;
 	}
 	
 }
