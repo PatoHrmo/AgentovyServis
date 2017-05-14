@@ -5,6 +5,7 @@ import agents.*;
 
 public class MySimulation extends Simulation {
 	double cenaOdpisy;
+	private boolean maxSpeed;
 
 	public MySimulation(int pocetPracovnikov1, int pocetPracovnikov2, double investicia) {
 		init();
@@ -12,10 +13,11 @@ public class MySimulation extends Simulation {
 		((AgentOpravary) findAgent(Id.agentOpravary)).nastavPocetPracovnikov(pocetPracovnikov2);
 		agentOkolia().nastavInvesticiu(investicia);
 		cenaOdpisy = pocetPracovnikov1 * 1150 + pocetPracovnikov2 * 1600 + investicia + 7000;
-
+		
 	}
 	public MySimulation() {
 		init();
+		maxSpeed = false;
 	}
 
 	@Override
@@ -27,6 +29,7 @@ public class MySimulation extends Simulation {
 	@Override
 	public void prepareReplication() {
 		super.prepareReplication();
+		if(!maxSpeed)
 		setSimSpeed(Config.interval, Config.trvanie);
 	}
 
@@ -154,12 +157,17 @@ public class MySimulation extends Simulation {
 	public double getZisk() {
 		return agentOpravary().getZisk() - cenaOdpisy;
 	}
-
+	public double getPriemernyZisk() {
+		return agentOpravary().getPriemernyZisk()-cenaOdpisy;
+	}
 	public void setParametre(int pocetPracovnikov1, int pocetPracovnikov2, double investicia, boolean najprvOdovzdavatOpravene) {
 		((AgentVybavovaci) findAgent(Id.agentVybavovaci)).nastavPocetPracovnikov(pocetPracovnikov1);
 		((AgentOpravary) findAgent(Id.agentOpravary)).nastavPocetPracovnikov(pocetPracovnikov2);
 		agentOkolia().nastavInvesticiu(investicia);
 		cenaOdpisy = pocetPracovnikov1 * 1150 + pocetPracovnikov2 * 1600 + investicia + 7000;
 		agentVybavovaci().nastavNajprvZadavanieObjednavky(najprvOdovzdavatOpravene);
+	}
+	public void setMaxSpeed() {
+		maxSpeed = true;
 	}
 }

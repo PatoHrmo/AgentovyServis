@@ -14,7 +14,7 @@ public class StringUtils {
 		cas -= minuty*60;
 		long sekundy = cas;
 		LocalTime lCas = LocalTime.of((int)hodiny+7, (int)minuty, (int)sekundy);
-		return "Replikácia èíslo: "+(replikacia)+" deò: "+(dni+1)+" èas : "+lCas.toString();
+		return "Deò: "+(dni+1)+" èas : "+lCas.toString();
 	}
 	public String getIsSekundy(double[] Is) {
 		return "< "+Math.round(Is[0]*100)/100+" ; "+Math.round(Is[0]*100)/100+" >";

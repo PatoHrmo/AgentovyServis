@@ -42,8 +42,8 @@ public class AgentParkovisk extends Agent
 		pocetRezervovanychMiestParkoviska1 = 0;
 	}
 	public void koniecReplikacie() {
-		// TODO Auto-generated method stub
-		
+		frontaParkovisko2.lengthStatistic().addSample(frontaParkovisko2.size());
+		frontaParkovisko1.lengthStatistic().addSample(frontaParkovisko1.size());
 	}
 	public void pridajZakaznikaNaParkovisko(MyMessage sprava) {
 		frontaParkovisko1.add(sprava);

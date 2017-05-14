@@ -106,5 +106,8 @@ public class AgentOpravary extends Agent
 	public double getZisk() {
 		return zisk;
 	}
+	public double getPriemernyZisk() {
+		return replStatZisk.mean();
+	}
 	
 }

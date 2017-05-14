@@ -10,7 +10,7 @@ import entity.Zakaznik;
 //meta! id="23"
 public class PlanovacNovehoDna extends Scheduler
 {
-	private final double dlzkaDnaVSekundach = 60*60*24;
+	private final double dlzkaDnaVSekundach = 60*60*8;
 	public PlanovacNovehoDna(int id, Simulation mySim, CommonAgent myAgent)
 	{
 		super(id, mySim, myAgent);
