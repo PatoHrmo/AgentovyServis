@@ -25,6 +25,7 @@ public class AgentOpravary extends Agent
 	
 	private double zisk;
 	private Stat replStatZisk;
+	private Stat replStatPriemernyPocetPracujucich;
 	public AgentOpravary(int id, Simulation mySim, Agent parent)
 	{
 		super(id, mySim, parent);
@@ -34,6 +35,7 @@ public class AgentOpravary extends Agent
 		vsetciPracovnici = new LinkedList<>();
 		zakazniciCakajuciNaOpravu = new SimQueue<>();
 		replStatZisk = new Stat();
+		replStatPriemernyPocetPracujucich = new Stat();
 	}
 	public void nastavPocetPracovnikov(int pocetPracovnikov) {
 		volnyPracovnici.clear();
@@ -64,7 +66,11 @@ public class AgentOpravary extends Agent
 	
 	public void koniecReplikacie() {
 		replStatZisk.addSample(zisk);
-		
+		double pocetPracujucich = 0;
+		for(Robotnik rob : vsetciPracovnici) {
+			pocetPracujucich+=rob.getVytazenost();
+		}
+		replStatPriemernyPocetPracujucich.addSample(pocetPracujucich);
 	}
 
 	//meta! userInfo="Generated code: do not modify", tag="begin"
@@ -120,7 +126,10 @@ public class AgentOpravary extends Agent
 	}
 	public void resetujReplikacneStatistiky() {
 		replStatZisk.clear();
-		
+		replStatPriemernyPocetPracujucich.clear();
+	}
+	public double getReplPriemPocetPracujucich() {
+		return replStatPriemernyPocetPracujucich.mean();
 	}
 	
 }

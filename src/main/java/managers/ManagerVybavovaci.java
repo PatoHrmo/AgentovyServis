@@ -82,51 +82,54 @@ public class ManagerVybavovaci extends Manager
 		message.setCode(Mc.autoBoloPreparkovaneNaParkovisko1);
 		notice(message);
 	}
-
+	private void obsluzZakaznikaPredServisom() {
+		MyMessage message = myAgent().getFrontaLudiNaZadavanieObjednavky().dequeue();
+		message.setAddressee(Id.zadavanieObjednavky);
+		((MyMessage)message).setRobotnik(myAgent().getVolnyRobotnik());
+		((MyMessage)message).getZakaznik().setKoniecCakaniaNaZadavanieObjednavky(mySim().currentTime());
+		startContinualAssistant(message);
+	}
+	private void odovzdajOpraveneAuto() {
+		MyMessage message = myAgent().getZakaznikaCakajucehoSOpravenymAutom();
+		((MyMessage)message).setRobotnik(myAgent().getVolnyRobotnik());
+		message.setAddressee(Id.agentServisu);
+		message.setCode(Mc.dajAutoZParkoviska2);
+		request(message);
+	}
 	private void cinnostPriUvolneniRobotnika() {
-//		if(myAgent().niektoCakaNaZadanieObjednavky()) {
-//			myAgent().znizPocetLudiCakajucichNaZadanieObjednavky();
-//			MyMessage message = new MyMessage(_mySim, null);
-//			message.setAddressee(Id.agentServisu);
-//			message.setCode(Mc.dajZakaznikaCakajucehoNaZadanieObjeddnavky);
-//			((MyMessage)message).setRobotnik(myAgent().getVolnyRobotnik());
-//			request(message);
-//		} else if(myAgent().getPocetLudiNaParkovisku2()>0) {
-//			myAgent().znizPocetAutNaParkovisku2();
-//			MyMessage message = new MyMessage(_mySim, null);
-//			message.setAddressee(Id.agentServisu);
-//			message.setCode(Mc.dajAutoZParkoviska2);
-//			((MyMessage)message).setRobotnik(myAgent().getVolnyRobotnik());
-//			request(message);
-//		}
+		// ak nikto nikde necaka, nerobi nic
+		if(myAgent().getPocetLudiNaParkovisku2()==0 && myAgent().getFrontaLudiNaZadavanieObjednavky().size()==0) {
+			return;
+		}
+		// ak nie su hotove auta a vo fronte pred servusim som su ludia, zadavaj objednavku
+        if(myAgent().getPocetLudiNaParkovisku2()==0 && myAgent().getFrontaLudiNaZadavanieObjednavky().size()>0) {
+        	obsluzZakaznikaPredServisom();
+        	return;
+        }
+        // ak su auta na parkovisku 2 ale na zadanie objednavky nikto necaka, zadavaj objednavku
+        if(myAgent().getPocetLudiNaParkovisku2()>0 && myAgent().getFrontaLudiNaZadavanieObjednavky().size()==0) {
+        	odovzdajOpraveneAuto();
+        	return;
+        }	
+        // teraz viem ze aj niekto caka  opravenym autom aj pred servisom
 		if(myAgent().getSposobPrace()) {
-			if(myAgent().getPocetLudiNaParkovisku2()>0) {
-				MyMessage message = myAgent().getZakaznikaCakajucehoSOpravenymAutom();
-				((MyMessage)message).setRobotnik(myAgent().getVolnyRobotnik());
-				message.setAddressee(Id.agentServisu);
-				message.setCode(Mc.dajAutoZParkoviska2);
-				request(message);
-			} else if(myAgent().getFrontaLudiNaZadavanieObjednavky().size()>0) {
-				MyMessage message = myAgent().getFrontaLudiNaZadavanieObjednavky().dequeue();
-				message.setAddressee(Id.zadavanieObjednavky);
-				((MyMessage)message).setRobotnik(myAgent().getVolnyRobotnik());
-				((MyMessage)message).getZakaznik().setKoniecCakaniaNaZadavanieObjednavky(mySim().currentTime());
-				startContinualAssistant(message);
+			if(!myAgent().cakaVelaLudiNaOdovzdanie()) {
+				obsluzZakaznikaPredServisom();
+				return;
+			} else {
+				odovzdajOpraveneAuto();
+				return;
 			}
 		} else {
-			if(myAgent().getFrontaLudiNaZadavanieObjednavky().size()>0) {
-				MyMessage message = myAgent().getFrontaLudiNaZadavanieObjednavky().dequeue();
-				message.setAddressee(Id.zadavanieObjednavky);
-				((MyMessage)message).setRobotnik(myAgent().getVolnyRobotnik());
-				((MyMessage)message).getZakaznik().setKoniecCakaniaNaZadavanieObjednavky(mySim().currentTime());
-				startContinualAssistant(message);
-			} else if(myAgent().getPocetLudiNaParkovisku2()>0) {
-				MyMessage message = myAgent().getZakaznikaCakajucehoSOpravenymAutom();
-				((MyMessage)message).setRobotnik(myAgent().getVolnyRobotnik());
-				message.setAddressee(Id.agentServisu);
-				message.setCode(Mc.dajAutoZParkoviska2);
-				request(message);
+			if(!myAgent().vBlizkejDobeNiektoOdide()) {
+				odovzdajOpraveneAuto();
+				return;
+			} else  if(!myAgent().cakaVelaLudiNaOdovzdanie()){
+				obsluzZakaznikaPredServisom();
+				return;
 			}
+			odovzdajOpraveneAuto();
+			return;
 		}
 		
 		

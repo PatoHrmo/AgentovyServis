@@ -63,36 +63,6 @@ public class UrcovacieOkno extends JDialog implements ISimDelegate {
 				int pocetPracovnikov2;
 				int pocetOdskusanych=0;
 				double investicia;
-				boolean najprvOdovzdavatOpravene;
-				double najZisk=-5000;
-				int pocetReplikacii = Integer.parseInt(textFieldPocetReplikacii.getText());
-				simulacia.setMaxSpeed();
-				for(int percentoToku=0; percentoToku<78;percentoToku++) {
-					investicia = percentoToku*62.5;
-					for(pocetPracovnikov1 = 1; pocetPracovnikov1<6;pocetPracovnikov1++) {
-						for(pocetPracovnikov2 = 10; pocetPracovnikov2<30;pocetPracovnikov2++) {
-							for(int i = 0; i<2;i++) {
-								if(i==0) {
-									najprvOdovzdavatOpravene = true;
-								} else {
-									najprvOdovzdavatOpravene = false;
-								}
-								simulacia.setParametre(pocetPracovnikov1,pocetPracovnikov2,investicia, najprvOdovzdavatOpravene);
-								simulacia.simulate(pocetReplikacii,Config.DlzkaReplikacie);
-								pocetOdskusanych++;
-								if(pocetOdskusanych%100==0) {
-									System.out.println("zisk");
-								}
-								if(simulacia.getPriemernyZisk()>najZisk) {
-									najZisk = simulacia.getPriemernyZisk();
-									System.out.println(najZisk);
-								}
-							}
-						}
-					}
-				}
-				
-				
 				btntart.setEnabled(false);
 			}
 		});

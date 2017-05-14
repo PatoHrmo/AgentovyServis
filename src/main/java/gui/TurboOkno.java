@@ -43,6 +43,11 @@ public class TurboOkno extends JDialog implements ISimDelegate {
 	private JCheckBox chckbxNajprvOdovzdvaHotov;
 	private JTextField textFieldPocetReplikacii;
 	private JLabel lblPoetReplikci;
+	private JLabel lblDlzkaOpravy;
+	private JLabel lblPriemernPoetPracujcich;
+	private JLabel lblPriemPocetPracujucich1;
+	private JLabel lblPriemernPoetPracujcich_1;
+	private JLabel lblPriemPocetPracujucich2;
 
 	/**
 	 * Create the dialog.
@@ -124,7 +129,7 @@ public class TurboOkno extends JDialog implements ISimDelegate {
 		lblPoetNeobslenchZkaznkov.setBounds(10, 360, 212, 14);
 		getContentPane().add(lblPoetNeobslenchZkaznkov);
 
-		JLabel lblPriemernDkaakania = new JLabel("Priemern\u00E1 d\u013A\u017Eka \u010Dakania na zadanie objedn\u00E1vky:");
+		JLabel lblPriemernDkaakania = new JLabel("D\u013A\u017Eka \u010Dakania na zadanie objedn\u00E1vky:");
 		lblPriemernDkaakania.setBounds(10, 210, 257, 14);
 		getContentPane().add(lblPriemernDkaakania);
 
@@ -133,31 +138,31 @@ public class TurboOkno extends JDialog implements ISimDelegate {
 		getContentPane().add(lblistZisk);
 
 		lblZisk = new JLabel("New label");
-		lblZisk.setBounds(271, 160, 212, 14);
+		lblZisk.setBounds(253, 163, 212, 14);
 		getContentPane().add(lblZisk);
 
 		lblPriemDlzkaCakania = new JLabel("New label");
-		lblPriemDlzkaCakania.setBounds(271, 210, 212, 14);
+		lblPriemDlzkaCakania.setBounds(253, 213, 212, 14);
 		getContentPane().add(lblPriemDlzkaCakania);
 
 		lblPercentualneVytazeniePark1 = new JLabel("New label");
-		lblPercentualneVytazeniePark1.setBounds(271, 260, 212, 14);
+		lblPercentualneVytazeniePark1.setBounds(253, 263, 212, 14);
 		getContentPane().add(lblPercentualneVytazeniePark1);
 
 		lblPercentualneVytazeniePark2 = new JLabel("New label");
-		lblPercentualneVytazeniePark2.setBounds(271, 310, 212, 14);
+		lblPercentualneVytazeniePark2.setBounds(253, 313, 212, 14);
 		getContentPane().add(lblPercentualneVytazeniePark2);
 
 		lblPocetObsluzenych = new JLabel("New label");
-		lblPocetObsluzenych.setBounds(271, 335, 212, 14);
+		lblPocetObsluzenych.setBounds(253, 338, 212, 14);
 		getContentPane().add(lblPocetObsluzenych);
 
 		lblPocetNeobsluzenych = new JLabel("New label");
-		lblPocetNeobsluzenych.setBounds(271, 360, 212, 14);
+		lblPocetNeobsluzenych.setBounds(253, 363, 212, 14);
 		getContentPane().add(lblPocetNeobsluzenych);
 
 		lblPocetLudiPredServisom = new JLabel("New label");
-		lblPocetLudiPredServisom.setBounds(271, 185, 251, 14);
+		lblPocetLudiPredServisom.setBounds(253, 188, 251, 14);
 		getContentPane().add(lblPocetLudiPredServisom);
 
 		lblPoetPracovnkov = new JLabel("Po\u010Det pracovn\u00EDkov 1:");
@@ -187,7 +192,7 @@ public class TurboOkno extends JDialog implements ISimDelegate {
 		getContentPane().add(textFieldInvesticia);
 		textFieldInvesticia.setColumns(10);
 
-		chckbxNajprvOdovzdvaHotov = new JCheckBox("Najprv odovzd\u00E1va\u0165 hotov\u00E9 aut\u00E1");
+		chckbxNajprvOdovzdvaHotov = new JCheckBox("Najprv zad\u00E1va\u0165 objedn\u00E1vku");
 		chckbxNajprvOdovzdvaHotov.setSelected(true);
 		chckbxNajprvOdovzdvaHotov.setBounds(670, 36, 256, 23);
 		getContentPane().add(chckbxNajprvOdovzdvaHotov);
@@ -200,6 +205,30 @@ public class TurboOkno extends JDialog implements ISimDelegate {
 		lblPoetReplikci = new JLabel("Po\u010Det replik\u00E1ci\u00ED");
 		lblPoetReplikci.setBounds(243, 74, 107, 14);
 		getContentPane().add(lblPoetReplikci);
+		
+		JLabel lblDkaakaniaNa = new JLabel("D\u013A\u017Eka \u010Dakania na opravu:");
+		lblDkaakaniaNa.setBounds(10, 235, 188, 14);
+		getContentPane().add(lblDkaakaniaNa);
+		
+		lblDlzkaOpravy = new JLabel("New label");
+		lblDlzkaOpravy.setBounds(253, 235, 251, 14);
+		getContentPane().add(lblDlzkaOpravy);
+		
+		lblPriemernPoetPracujcich = new JLabel("Priemern\u00FD po\u010Det pracuj\u00FAcich 1:");
+		lblPriemernPoetPracujcich.setBounds(10, 389, 227, 14);
+		getContentPane().add(lblPriemernPoetPracujcich);
+		
+		lblPriemPocetPracujucich1 = new JLabel("New label");
+		lblPriemPocetPracujucich1.setBounds(253, 388, 46, 14);
+		getContentPane().add(lblPriemPocetPracujucich1);
+		
+		lblPriemernPoetPracujcich_1 = new JLabel("Priemern\u00FD po\u010Det pracuj\u00FAcich 2:");
+		lblPriemernPoetPracujcich_1.setBounds(10, 414, 235, 14);
+		getContentPane().add(lblPriemernPoetPracujcich_1);
+		
+		lblPriemPocetPracujucich2 = new JLabel("New label");
+		lblPriemPocetPracujucich2.setBounds(253, 413, 46, 14);
+		getContentPane().add(lblPriemPocetPracujucich2);
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -221,14 +250,16 @@ public class TurboOkno extends JDialog implements ISimDelegate {
 					.setText(StringUtils.getIsSekundy(((MySimulation) sim).getPocetLudiCakajucichNaObsluhuRepl()) + "");
 			lblZisk.setText(StringUtils.getIsSekundy(((MySimulation) sim).getReplZisk())+" eur");
 			lblPriemDlzkaCakania.setText(
-					StringUtils.getIsSekundy(((MySimulation) sim).agentVybavovaci().getReplPriemDlzkaCakania()) + " sekúnd");
+					StringUtils.getIsSekundy(((MySimulation) sim).agentVybavovaci().getIsDlzkaCakania()) + " sekúnd");
+			lblDlzkaOpravy.setText(StringUtils.getIsSekundy(((MySimulation) sim).agentVybavovaci().getIsCakanieNaOpravu()));
 			lblPercentualneVytazeniePark1
 					.setText(StringUtils.getIsSekundy(((MySimulation) sim).agentParkovisk().getReplVytazenie1()) + "%");
 			lblPercentualneVytazeniePark2
 				.setText(StringUtils.getIsSekundy(((MySimulation) sim).agentParkovisk().getReplVytazenie2()) + "%");
 			lblPocetObsluzenych.setText(StringUtils.getIsSekundy(((MySimulation)sim).agentOkolia().getReplPocetObsluzenych()));
 			lblPocetNeobsluzenych.setText(StringUtils.getIsSekundy(((MySimulation)sim).agentOkolia().getReplPocetNeObsluzenych()));
-
+			lblPriemPocetPracujucich2.setText(((MySimulation)sim).agentOpravary().getReplPriemPocetPracujucich()+"");
+			lblPriemPocetPracujucich1.setText(((MySimulation)sim).agentVybavovaci().getReplPriemPocetPracujucich()+"");
 		}
 
 	}

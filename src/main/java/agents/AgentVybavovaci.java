@@ -34,6 +34,7 @@ public class AgentVybavovaci extends Agent
 	private Stat replStatDlzkaCakaniaNaOpravuVozidla;
 	private Stat statDlzkaCakaniaNaZadanieObjednavky;
 	private Stat replStatDlzkaCakaniaNaZadanieObjednavky;
+	private Stat replStatPriemernyPocetPracujucich;
 	public AgentVybavovaci(int id, Simulation mySim, Agent parent)
 	{
 		super(id, mySim, parent);
@@ -53,6 +54,7 @@ public class AgentVybavovaci extends Agent
 		replStatDlzkaCakaniaNaOpravuVozidla = new Stat();
 		replStatDlzkaCakaniaNaZadanieObjednavky = new Stat();
 		replStatDlzkaFrontuNaObsluhu = new Stat();
+		replStatPriemernyPocetPracujucich = new Stat();
 		najprvZadavanie = true;
 	}
 
@@ -78,6 +80,11 @@ public class AgentVybavovaci extends Agent
 		replStatDlzkaCakaniaNaZadanieObjednavky.addSample(statDlzkaCakaniaNaZadanieObjednavky.mean());
 		replStatDlzkaFrontuNaObsluhu.addSample(frontZakaznikovNaZadavanieObjednavky.lengthStatistic().mean());
 		//System.out.println(replStatDlzkaFrontuNaObsluhu.sampleSize());
+		double pocetPracujucich = 0;
+		for(Robotnik rob : vsetciPracovnici) {
+			pocetPracujucich+=rob.getVytazenost();
+		}
+		replStatPriemernyPocetPracujucich.addSample(pocetPracujucich);
 	}
 
 	//meta! userInfo="Generated code: do not modify", tag="begin"
@@ -196,7 +203,7 @@ public class AgentVybavovaci extends Agent
 		return new double[2];
 	}
 
-	public double[] getReplPriemDlzkaCakania() {
+	public double[] getIsDlzkaCakania() {
 		if(replStatDlzkaCakaniaNaZadanieObjednavky.sampleSize()>2) 
 			return replStatDlzkaCakaniaNaZadanieObjednavky.confidenceInterval_90();
 		return new double[2];
@@ -206,7 +213,39 @@ public class AgentVybavovaci extends Agent
 		replStatDlzkaCakaniaNaOpravuVozidla.clear();
 		replStatDlzkaCakaniaNaZadanieObjednavky.clear();
 		replStatDlzkaFrontuNaObsluhu.clear();
+		replStatPriemernyPocetPracujucich.clear();
 		
+	}
+
+	public double[] getIsCakanieNaOpravu() {
+		if(replStatDlzkaCakaniaNaOpravuVozidla.sampleSize()>2) {
+			return replStatDlzkaCakaniaNaOpravuVozidla.confidenceInterval_90();
+		}
+		return new double[2];
+	}
+
+	public double getPriemCakanieNaOpravu() {
+		return statDlzkaCakaniaNaOpravuVozidla.mean();
+	}
+
+	public boolean vBlizkejDobeNiektoOdide() {
+		for(MyMessage sprava : frontZakaznikovNaZadavanieObjednavky) {
+			if((mySim().currentTime()-sprava.getZakaznik().getZaciatokCakaniaNaZadavanieObjednavky())>400) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean cakaVelaLudiNaOdovzdanie() {
+		if(frontaZakaznikovSOpravenymAutom.size()>3) {
+			return true;
+		}
+		return false;
+	}
+
+	public double getReplPriemPocetPracujucich() {
+		return replStatPriemernyPocetPracujucich.mean();
 	}
 
 	

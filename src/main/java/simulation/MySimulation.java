@@ -160,12 +160,12 @@ public class MySimulation extends Simulation {
 	public double getPriemernyZisk() {
 		return agentOpravary().getPriemernyZisk()-cenaOdpisy;
 	}
-	public void setParametre(int pocetPracovnikov1, int pocetPracovnikov2, double investicia, boolean najprvOdovzdavatOpravene) {
+	public void setParametre(int pocetPracovnikov1, int pocetPracovnikov2, double investicia, boolean najprvZadavanieObjednavky) {
 		((AgentVybavovaci) findAgent(Id.agentVybavovaci)).nastavPocetPracovnikov(pocetPracovnikov1);
 		((AgentOpravary) findAgent(Id.agentOpravary)).nastavPocetPracovnikov(pocetPracovnikov2);
 		agentOkolia().nastavInvesticiu(investicia);
 		cenaOdpisy = pocetPracovnikov1 * 1150 + pocetPracovnikov2 * 1600 + investicia + 7000;
-		agentVybavovaci().nastavNajprvZadavanieObjednavky(najprvOdovzdavatOpravene);
+		agentVybavovaci().nastavNajprvZadavanieObjednavky(najprvZadavanieObjednavky);
 		resetujReplikacneStatistiky();
 	}
 	private void resetujReplikacneStatistiky() {
