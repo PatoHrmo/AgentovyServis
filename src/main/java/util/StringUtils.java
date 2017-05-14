@@ -16,8 +16,8 @@ public class StringUtils {
 		LocalTime lCas = LocalTime.of((int)hodiny+7, (int)minuty, (int)sekundy);
 		return "Deò: "+(dni+1)+" èas : "+lCas.toString();
 	}
-	public String getIsSekundy(double[] Is) {
-		return "< "+Math.round(Is[0]*100)/100+" ; "+Math.round(Is[0]*100)/100+" >";
+	public static String getIsSekundy(double[] Is) {
+		return "< "+Math.round(Is[0]*100)/100d+" ; "+Math.round(Is[1]*100)/100d+" >";
 	}
 	public static String getCislo(double zisk) {
 		// TODO Auto-generated method stub

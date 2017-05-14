@@ -101,13 +101,26 @@ public class AgentOpravary extends Agent
 	}
 	public void pridajZisk(double vyskaPlatby) {
 		zisk+= vyskaPlatby;
-		
 	}
 	public double getZisk() {
 		return zisk;
 	}
 	public double getPriemernyZisk() {
 		return replStatZisk.mean();
+	}
+	public double[] getIsZisk(double cenaOdpisy) {
+		double is[] = new double[2];
+		if(replStatZisk.sampleSize()>2) {
+			is = replStatZisk.confidenceInterval_90();
+			is[0] -=cenaOdpisy;
+			is[1] -=cenaOdpisy;
+		}
+			
+		return is;
+	}
+	public void resetujReplikacneStatistiky() {
+		replStatZisk.clear();
+		
 	}
 	
 }

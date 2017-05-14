@@ -166,8 +166,26 @@ public class MySimulation extends Simulation {
 		agentOkolia().nastavInvesticiu(investicia);
 		cenaOdpisy = pocetPracovnikov1 * 1150 + pocetPracovnikov2 * 1600 + investicia + 7000;
 		agentVybavovaci().nastavNajprvZadavanieObjednavky(najprvOdovzdavatOpravene);
+		resetujReplikacneStatistiky();
+	}
+	private void resetujReplikacneStatistiky() {
+		agentModelu().resetujReplikacneStatistiky();
+		agentOkolia().resetujReplikacneStatistiky();
+		agentOpravary().resetujReplikacneStatistiky();
+		agentParkovisk().resetujReplikacneStatistiky();
+		agentPohybu().resetujReplikacneStatistiky();
+		agentRampy().resetujReplikacneStatistiky();
+		agentServisu().resetujReplikacneStatistiky();
+		agentVybavovaci().resetujReplikacneStatistiky();
+		
 	}
 	public void setMaxSpeed() {
 		maxSpeed = true;
+	}
+	public double[] getPocetLudiCakajucichNaObsluhuRepl() {
+		return agentVybavovaci().getIsPocetLudiCakajucichNaObsluhu();
+	}
+	public double[] getReplZisk() {
+		return agentOpravary().getIsZisk(cenaOdpisy);
 	}
 }

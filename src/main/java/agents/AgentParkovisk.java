@@ -2,6 +2,7 @@ package agents;
 
 import OSPABA.*;
 import OSPDataStruct.SimQueue;
+import OSPStat.Stat;
 import OSPStat.WStat;
 import simulation.*;
 import managers.*;
@@ -19,7 +20,8 @@ public class AgentParkovisk extends Agent
 	private int pocetRezervovanychMiestParkoviska1;
 	private final int VELKOST_PARKOVISKA1 = 6;
 	private final int VELKOST_PARKOVISKA2 = 10;
-	
+	private Stat replStatFrontaParkovisko1;
+	private Stat replStatFrontaParkovisko2;
 	public AgentParkovisk(int id, Simulation mySim, Agent parent)
 	{
 		super(id, mySim, parent);
@@ -29,6 +31,8 @@ public class AgentParkovisk extends Agent
 		frontaCakajucichNaUvolnenieParkoviska2 = new SimQueue<>(new WStat(mySim));
 		frontaParkovisko2 = new SimQueue<>(new WStat(mySim));
 		pocetRezervovanychMiestParkoviska1 = 0;
+		replStatFrontaParkovisko1 = new Stat();
+		replStatFrontaParkovisko2 = new Stat();
 	}
 
 	@Override
@@ -44,6 +48,8 @@ public class AgentParkovisk extends Agent
 	public void koniecReplikacie() {
 		frontaParkovisko2.lengthStatistic().addSample(frontaParkovisko2.size());
 		frontaParkovisko1.lengthStatistic().addSample(frontaParkovisko1.size());
+		replStatFrontaParkovisko1.addSample(frontaParkovisko1.lengthStatistic().mean());
+		replStatFrontaParkovisko2.addSample(frontaParkovisko2.lengthStatistic().mean());
 	}
 	public void pridajZakaznikaNaParkovisko(MyMessage sprava) {
 		frontaParkovisko1.add(sprava);
@@ -135,6 +141,31 @@ public class AgentParkovisk extends Agent
 	public double getVytazenie2() {
 		// TODO Auto-generated method stub
 		return (frontaParkovisko2.lengthStatistic().mean()/VELKOST_PARKOVISKA2)*100;
+	}
+
+	public double[] getReplVytazenie1() {
+		double is[] = new double[2];
+		if(replStatFrontaParkovisko1.sampleSize()>2) {
+			is= replStatFrontaParkovisko1.confidenceInterval_90();
+			is[0] = (is[0]/VELKOST_PARKOVISKA1)*100;
+			is[1] = (is[1]/VELKOST_PARKOVISKA1)*100;
+		}
+		return is;
+	}
+	public double[] getReplVytazenie2() {
+		double is[] = new double[2];
+		if(replStatFrontaParkovisko2.sampleSize()>2) {
+			is= replStatFrontaParkovisko2.confidenceInterval_90();
+			is[0] = (is[0]/VELKOST_PARKOVISKA2)*100;
+			is[1] = (is[1]/VELKOST_PARKOVISKA2)*100;
+		}
+		return is;
+	}
+
+	public void resetujReplikacneStatistiky() {
+		replStatFrontaParkovisko1.clear();
+		replStatFrontaParkovisko2.clear();
+		
 	}
 
 	

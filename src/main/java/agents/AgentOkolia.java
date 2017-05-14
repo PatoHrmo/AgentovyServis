@@ -96,5 +96,23 @@ public class AgentOkolia extends Agent
 		return pocetNeObsluzenychZakaznikov;
 	}
 
+	public double[] getReplPocetObsluzenych() {
+		if(replStatpocetObsluzenychZakaznikov.sampleSize()>2)
+			return replStatpocetObsluzenychZakaznikov.confidenceInterval_90();
+		return new double[2];
+	}
+
+	public double[] getReplPocetNeObsluzenych() {
+		if(replStatpocetNeObsluzenychZakaznikov.sampleSize()>2)
+			return replStatpocetNeObsluzenychZakaznikov.confidenceInterval_90();
+		return new double[2];
+	}
+
+	public void resetujReplikacneStatistiky() {
+		replStatpocetNeObsluzenychZakaznikov.clear();
+		replStatpocetObsluzenychZakaznikov.clear();
+		
+	}
+
 	
 }

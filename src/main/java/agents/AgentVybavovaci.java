@@ -7,6 +7,7 @@ import OSPABA.Agent;
 import OSPABA.Simulation;
 import OSPDataStruct.SimQueue;
 import OSPStat.Stat;
+import OSPStat.WStat;
 import continualAssistants.OdchodPoDlhomCakani;
 import continualAssistants.OdovzdavanieHotoveho;
 import continualAssistants.PlanovacNovehoDna;
@@ -26,6 +27,7 @@ public class AgentVybavovaci extends Agent
 	private List<Robotnik> volnyPracovnici;
 	private List<Robotnik> vsetciPracovnici;
 	SimQueue<MyMessage> frontZakaznikovNaZadavanieObjednavky;
+	private Stat replStatDlzkaFrontuNaObsluhu;
 	SimQueue<MyMessage> frontaZakaznikovSOpravenymAutom;
 	private boolean najprvZadavanie;
 	private Stat statDlzkaCakaniaNaOpravuVozidla;
@@ -46,10 +48,11 @@ public class AgentVybavovaci extends Agent
 		addOwnMessage(Mc.novyDen);
 		volnyPracovnici = new LinkedList<>();
 		vsetciPracovnici = new LinkedList<>();
-		frontZakaznikovNaZadavanieObjednavky = new SimQueue<>();
-		frontaZakaznikovSOpravenymAutom = new SimQueue<>();
+		frontZakaznikovNaZadavanieObjednavky = new SimQueue<>(new WStat(mySim));
+		frontaZakaznikovSOpravenymAutom = new SimQueue<>(new WStat(mySim));
 		replStatDlzkaCakaniaNaOpravuVozidla = new Stat();
 		replStatDlzkaCakaniaNaZadanieObjednavky = new Stat();
+		replStatDlzkaFrontuNaObsluhu = new Stat();
 		najprvZadavanie = true;
 	}
 
@@ -61,8 +64,8 @@ public class AgentVybavovaci extends Agent
 		int pocetPracovnikov = vsetciPracovnici.size();
 		vsetciPracovnici = new LinkedList<>();
 		volnyPracovnici = new LinkedList<>();
-		frontaZakaznikovSOpravenymAutom = new SimQueue<>();
-		frontZakaznikovNaZadavanieObjednavky = new SimQueue<>();
+		frontaZakaznikovSOpravenymAutom = new SimQueue<>(new WStat(_mySim));
+		frontZakaznikovNaZadavanieObjednavky = new SimQueue<>(new WStat(_mySim));
 		nastavPocetPracovnikov(pocetPracovnikov);
 		statDlzkaCakaniaNaOpravuVozidla = new Stat();
 		statDlzkaCakaniaNaZadanieObjednavky = new Stat();
@@ -70,8 +73,11 @@ public class AgentVybavovaci extends Agent
 	}
 	
 	public void koniecReplikacie() {
+		
 		replStatDlzkaCakaniaNaOpravuVozidla.addSample(statDlzkaCakaniaNaOpravuVozidla.mean());
 		replStatDlzkaCakaniaNaZadanieObjednavky.addSample(statDlzkaCakaniaNaZadanieObjednavky.mean());
+		replStatDlzkaFrontuNaObsluhu.addSample(frontZakaznikovNaZadavanieObjednavky.lengthStatistic().mean());
+		//System.out.println(replStatDlzkaFrontuNaObsluhu.sampleSize());
 	}
 
 	//meta! userInfo="Generated code: do not modify", tag="begin"
@@ -182,6 +188,25 @@ public class AgentVybavovaci extends Agent
 	}
 	public boolean getSposobPrace() {
 		return najprvZadavanie;
+	}
+
+	public double[] getIsPocetLudiCakajucichNaObsluhu() {
+		if(replStatDlzkaFrontuNaObsluhu.sampleSize()>2)
+			return replStatDlzkaFrontuNaObsluhu.confidenceInterval_90();
+		return new double[2];
+	}
+
+	public double[] getReplPriemDlzkaCakania() {
+		if(replStatDlzkaCakaniaNaZadanieObjednavky.sampleSize()>2) 
+			return replStatDlzkaCakaniaNaZadanieObjednavky.confidenceInterval_90();
+		return new double[2];
+	}
+
+	public void resetujReplikacneStatistiky() {
+		replStatDlzkaCakaniaNaOpravuVozidla.clear();
+		replStatDlzkaCakaniaNaZadanieObjednavky.clear();
+		replStatDlzkaFrontuNaObsluhu.clear();
+		
 	}
 
 	

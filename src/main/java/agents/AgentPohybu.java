@@ -75,5 +75,9 @@ public class AgentPohybu extends Agent
 		return pocetSekundNaPrejdenieMetra*vzdialenostRampaPredServis;
 	}
 
+	public void resetujReplikacneStatistiky() {
+		
+	}
+
 	
 }

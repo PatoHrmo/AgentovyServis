@@ -46,5 +46,9 @@ public class AgentModelu extends Agent
 		manager().notice(sprava);
 	}
 
+	public void resetujReplikacneStatistiky() {
+		
+	}
+
 	
 }

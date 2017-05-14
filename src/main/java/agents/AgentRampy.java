@@ -91,5 +91,9 @@ public class AgentRampy extends Agent
 		return !frontaPredRampouDnu.isEmpty();
 	}
 
+	public void resetujReplikacneStatistiky() {
+		
+	}
+
 	
 }

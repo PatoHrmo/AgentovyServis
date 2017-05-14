@@ -56,5 +56,10 @@ public class AgentServisu extends Agent
 	}
 	//meta! tag="end"
 
+	public void resetujReplikacneStatistiky() {
+		
+		
+	}
+
 	
 }
