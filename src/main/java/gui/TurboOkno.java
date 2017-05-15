@@ -251,15 +251,15 @@ public class TurboOkno extends JDialog implements ISimDelegate {
 			lblZisk.setText(StringUtils.getIsSekundy(((MySimulation) sim).getReplZisk())+" eur");
 			lblPriemDlzkaCakania.setText(
 					StringUtils.getIsSekundy(((MySimulation) sim).agentVybavovaci().getIsDlzkaCakania()) + " sekúnd");
-			lblDlzkaOpravy.setText(StringUtils.getIsSekundy(((MySimulation) sim).agentVybavovaci().getIsCakanieNaOpravu()));
+			lblDlzkaOpravy.setText(StringUtils.getIsSekundy(((MySimulation) sim).agentVybavovaci().getIsCakanieNaOpravu())+ " sekúnd");
 			lblPercentualneVytazeniePark1
 					.setText(StringUtils.getIsSekundy(((MySimulation) sim).agentParkovisk().getReplVytazenie1()) + "%");
 			lblPercentualneVytazeniePark2
 				.setText(StringUtils.getIsSekundy(((MySimulation) sim).agentParkovisk().getReplVytazenie2()) + "%");
 			lblPocetObsluzenych.setText(StringUtils.getIsSekundy(((MySimulation)sim).agentOkolia().getReplPocetObsluzenych()));
 			lblPocetNeobsluzenych.setText(StringUtils.getIsSekundy(((MySimulation)sim).agentOkolia().getReplPocetNeObsluzenych()));
-			lblPriemPocetPracujucich2.setText(((MySimulation)sim).agentOpravary().getReplPriemPocetPracujucich()+"");
-			lblPriemPocetPracujucich1.setText(((MySimulation)sim).agentVybavovaci().getReplPriemPocetPracujucich()+"");
+			lblPriemPocetPracujucich2.setText(StringUtils.dveDesatinne(((MySimulation)sim).agentOpravary().getReplPriemPocetPracujucich()));
+			lblPriemPocetPracujucich1.setText(StringUtils.dveDesatinne(((MySimulation)sim).agentVybavovaci().getReplPriemPocetPracujucich()));
 		}
 
 	}

@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -11,6 +13,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
+import javax.swing.SwingWorker;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -44,7 +47,7 @@ public class UrcovacieOkno extends JDialog implements ISimDelegate {
 	private JLabel lblPocetLudiPredServisom;
 	private JProgressBar progressBar;
 	private JTextField textFieldPocetReplikacii;
-
+	private SwingWorker<Void, Void> worker;
 	/**
 	 * Create the dialog.
 	 */
@@ -56,14 +59,88 @@ public class UrcovacieOkno extends JDialog implements ISimDelegate {
 		getContentPane().setLayout(null);
 		
 		simulacia = new MySimulation();
+		simulacia.setMaxSpeed();
 		btntart = new JButton("\u0160tart");
 		btntart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int pocetPracovnikov1;
-				int pocetPracovnikov2;
-				int pocetOdskusanych=0;
-				double investicia;
+				
+				boolean sposop[] = new boolean[]{true, false};
 				btntart.setEnabled(false);
+				btnPauza.setEnabled(true);
+				worker = new SwingWorker<Void, Void>() {
+					double investicia;
+					double minInvesticia = 4875;
+					double maxInvesticia = 4876;
+					double inkrementaciaInvesticie = 487.5;
+					int pocetAktualizacii = ((int)Math.ceil((maxInvesticia-minInvesticia)/inkrementaciaInvesticie))*2;
+					int pocetPracovnikov1;
+					int pocetPracovnikov2;
+					int pocetReplikacii = 50;
+					double maxDlzkaCakaniaNaOpravu = 6*3600;
+					List<double[]> vektoryPoctov = new LinkedList<>();
+					double maxZiskPriInvesticii;
+					boolean nasielSaPocet1;
+					boolean nasielSaPocet2;
+					double priemPocetPracujucich;
+					int pocetPracujucichNaDalsiPokus;
+					@Override
+					protected Void doInBackground() throws Exception {
+						for(investicia =minInvesticia;investicia<=maxInvesticia;investicia+=inkrementaciaInvesticie) {
+							maxZiskPriInvesticii = 0;
+							double vektorParametrov[] = new double[4];
+							for(boolean sposobPrace : sposop) {
+								pocetPracovnikov1 = 2;
+								pocetPracovnikov2 = 45;
+								nasielSaPocet1 = false;
+								nasielSaPocet2 = false;
+								while(!nasielSaPocet1) {
+									simulacia.setParametre(pocetPracovnikov1, pocetPracovnikov2, investicia, sposobPrace);
+									simulacia.simulate(pocetReplikacii,Config.DlzkaReplikacie);
+									priemPocetPracujucich  = simulacia.agentVybavovaci().getReplPriemPocetPracujucich();
+									pocetPracujucichNaDalsiPokus = (int)Math.round(Math.ceil(priemPocetPracujucich));
+									if(pocetPracujucichNaDalsiPokus==pocetPracovnikov1) {
+										nasielSaPocet1=true;
+									} else {
+										pocetPracovnikov1=pocetPracujucichNaDalsiPokus;
+									}
+								}
+								while(!nasielSaPocet2) {
+									simulacia.setParametre(pocetPracovnikov1, pocetPracovnikov2, investicia, sposobPrace);
+									simulacia.simulate(pocetReplikacii,Config.DlzkaReplikacie);
+									if(simulacia.agentVybavovaci().getReplPriemCakanieNaOpravu()<maxDlzkaCakaniaNaOpravu
+											&& simulacia.getPriemernyZisk()>maxZiskPriInvesticii) {
+										maxZiskPriInvesticii = simulacia.getPriemernyZisk();
+										vektorParametrov[0] = pocetPracovnikov1;
+										vektorParametrov[1] = pocetPracovnikov2;
+										vektorParametrov[2] = investicia;
+										if(sposobPrace) {
+											vektorParametrov[3] = 1;
+										} else vektorParametrov[3] = 0;
+									}
+									priemPocetPracujucich  = simulacia.agentOpravary().getReplPriemPocetPracujucich();
+									pocetPracujucichNaDalsiPokus = (int)Math.round(Math.ceil(priemPocetPracujucich));
+									if(pocetPracujucichNaDalsiPokus==pocetPracovnikov2) {
+										nasielSaPocet2 = true;
+									}
+									else {
+										pocetPracovnikov2=pocetPracujucichNaDalsiPokus;
+									}
+								}
+								
+							}
+							vektoryPoctov.add(vektorParametrov);
+						}
+						return null;
+					}
+					@Override
+					protected void done() {
+						btnPauza.setEnabled(false);
+						btnStop.setEnabled(false);
+						btnPokracuj.setEnabled(false);
+						btntart.setEnabled(true);
+					}
+				};
+				worker.execute();
 			}
 		});
 		btntart.setBounds(10, 11, 89, 23);

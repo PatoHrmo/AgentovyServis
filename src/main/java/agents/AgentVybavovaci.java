@@ -227,6 +227,9 @@ public class AgentVybavovaci extends Agent
 	public double getPriemCakanieNaOpravu() {
 		return statDlzkaCakaniaNaOpravuVozidla.mean();
 	}
+	public double getReplPriemCakanieNaOpravu() {
+		return replStatDlzkaCakaniaNaOpravuVozidla.mean();
+	}
 
 	public boolean vBlizkejDobeNiektoOdide() {
 		for(MyMessage sprava : frontZakaznikovNaZadavanieObjednavky) {

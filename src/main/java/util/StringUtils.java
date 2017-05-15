@@ -23,4 +23,7 @@ public class StringUtils {
 		// TODO Auto-generated method stub
 		return (Math.round(zisk*100)/100)+"";
 	}
+	public static String dveDesatinne(double cislo) {
+		return Math.round(cislo*100)/100d+"";
+	}
 }
