@@ -38,7 +38,7 @@ public class Main extends JFrame {
 	public Main() {
 		setTitle("Simul\u00E1cia servisu");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 310, 454);
+		setBounds(100, 100, 287, 341);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -53,7 +53,7 @@ public class Main extends JFrame {
 				sledovacieOkno.setVisible(true);
 			}
 		});
-		btnSledovanie.setBounds(44, 11, 197, 84);
+		btnSledovanie.setBounds(20, 11, 234, 84);
 		contentPane.add(btnSledovanie);
 		
 		JButton btnTurboMd = new JButton("Turbo m\u00F3d");
@@ -64,7 +64,7 @@ public class Main extends JFrame {
 				turboOkno.setVisible(true);
 			}
 		});
-		btnTurboMd.setBounds(44, 106, 199, 87);
+		btnTurboMd.setBounds(20, 106, 234, 87);
 		contentPane.add(btnTurboMd);
 		
 		JButton btnUrcovacie = new JButton("Zis\u0165ovanie optim\u00E1lnej kombin\u00E1cie");
@@ -75,7 +75,7 @@ public class Main extends JFrame {
 				urcovacieOkno.setVisible(true);
 			}
 		});
-		btnUrcovacie.setBounds(44, 204, 197, 87);
+		btnUrcovacie.setBounds(20, 204, 234, 87);
 		contentPane.add(btnUrcovacie);
 	}
 }

@@ -54,7 +54,7 @@ public class TurboOkno extends JDialog implements ISimDelegate {
 	 */
 	public TurboOkno() {
 		self = this;
-		setTitle("Sledovacie okno");
+		setTitle("Turbo okno");
 		setBounds(100, 100, 1200, 700);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
@@ -64,6 +64,10 @@ public class TurboOkno extends JDialog implements ISimDelegate {
 		btntart = new JButton("\u0160tart");
 		btntart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				btntart.setEnabled(false);
+				btnStop.setEnabled(true);
+				btnPokracuj.setEnabled(false);
+				btnPauza.setEnabled(true);
 				int pocetPracovnikov1 = Integer.parseInt(textFieldPocet1.getText());
 				int pocetPracovnikov2 = Integer.parseInt(textFieldPocet2.getText());
 				double investicia = Double.parseDouble(textFieldInvesticia.getText());
@@ -73,7 +77,7 @@ public class TurboOkno extends JDialog implements ISimDelegate {
 				simulacia.setMaxSpeed();
 				simulacia.simulateAsync(pocetReplikacii, Config.DlzkaReplikacie);
 
-				btntart.setEnabled(false);
+				
 			}
 		});
 		btntart.setBounds(10, 11, 89, 23);
@@ -97,6 +101,10 @@ public class TurboOkno extends JDialog implements ISimDelegate {
 		btnStop = new JButton("stop");
 		btnStop.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				simulacia.stopSimulation();
+				btnPauza.setEnabled(false);
+				btnPokracuj.setEnabled(false);
+				btntart.setEnabled(true);
 			}
 		});
 		btnStop.setBounds(10, 61, 89, 23);
@@ -137,31 +145,31 @@ public class TurboOkno extends JDialog implements ISimDelegate {
 		lblistZisk.setBounds(10, 160, 114, 14);
 		getContentPane().add(lblistZisk);
 
-		lblZisk = new JLabel("New label");
+		lblZisk = new JLabel("");
 		lblZisk.setBounds(253, 163, 212, 14);
 		getContentPane().add(lblZisk);
 
-		lblPriemDlzkaCakania = new JLabel("New label");
+		lblPriemDlzkaCakania = new JLabel("");
 		lblPriemDlzkaCakania.setBounds(253, 213, 212, 14);
 		getContentPane().add(lblPriemDlzkaCakania);
 
-		lblPercentualneVytazeniePark1 = new JLabel("New label");
+		lblPercentualneVytazeniePark1 = new JLabel("");
 		lblPercentualneVytazeniePark1.setBounds(253, 263, 212, 14);
 		getContentPane().add(lblPercentualneVytazeniePark1);
 
-		lblPercentualneVytazeniePark2 = new JLabel("New label");
+		lblPercentualneVytazeniePark2 = new JLabel("");
 		lblPercentualneVytazeniePark2.setBounds(253, 313, 212, 14);
 		getContentPane().add(lblPercentualneVytazeniePark2);
 
-		lblPocetObsluzenych = new JLabel("New label");
+		lblPocetObsluzenych = new JLabel("");
 		lblPocetObsluzenych.setBounds(253, 338, 212, 14);
 		getContentPane().add(lblPocetObsluzenych);
 
-		lblPocetNeobsluzenych = new JLabel("New label");
+		lblPocetNeobsluzenych = new JLabel("");
 		lblPocetNeobsluzenych.setBounds(253, 363, 212, 14);
 		getContentPane().add(lblPocetNeobsluzenych);
 
-		lblPocetLudiPredServisom = new JLabel("New label");
+		lblPocetLudiPredServisom = new JLabel("");
 		lblPocetLudiPredServisom.setBounds(253, 188, 251, 14);
 		getContentPane().add(lblPocetLudiPredServisom);
 
@@ -210,7 +218,7 @@ public class TurboOkno extends JDialog implements ISimDelegate {
 		lblDkaakaniaNa.setBounds(10, 235, 188, 14);
 		getContentPane().add(lblDkaakaniaNa);
 		
-		lblDlzkaOpravy = new JLabel("New label");
+		lblDlzkaOpravy = new JLabel("");
 		lblDlzkaOpravy.setBounds(253, 235, 251, 14);
 		getContentPane().add(lblDlzkaOpravy);
 		
@@ -218,7 +226,7 @@ public class TurboOkno extends JDialog implements ISimDelegate {
 		lblPriemernPoetPracujcich.setBounds(10, 389, 227, 14);
 		getContentPane().add(lblPriemernPoetPracujcich);
 		
-		lblPriemPocetPracujucich1 = new JLabel("New label");
+		lblPriemPocetPracujucich1 = new JLabel("");
 		lblPriemPocetPracujucich1.setBounds(253, 388, 46, 14);
 		getContentPane().add(lblPriemPocetPracujucich1);
 		
@@ -226,7 +234,7 @@ public class TurboOkno extends JDialog implements ISimDelegate {
 		lblPriemernPoetPracujcich_1.setBounds(10, 414, 235, 14);
 		getContentPane().add(lblPriemernPoetPracujcich_1);
 		
-		lblPriemPocetPracujucich2 = new JLabel("New label");
+		lblPriemPocetPracujucich2 = new JLabel("");
 		lblPriemPocetPracujucich2.setBounds(253, 413, 46, 14);
 		getContentPane().add(lblPriemPocetPracujucich2);
 		addWindowListener(new WindowAdapter() {

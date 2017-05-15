@@ -24,37 +24,29 @@ import simulation.Config;
 import simulation.MySimulation;
 import util.StringUtils;
 import javax.swing.JProgressBar;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 public class UrcovacieOkno extends JDialog implements ISimDelegate {
 	
 	private MySimulation simulacia;
 	private JButton btntart;
-	private JLabel lblPoetLudPred;
-	private JLabel lblVelkostFrontyPredRampou;
 	private JLabel lblCasSimulacie;
 	private UrcovacieOkno self;
-	private JButton btnPauza;
-	private JButton btnPokracuj;
 	private JButton btnStop;
-	private JLabel lblZisk;
-	private JLabel lblPocetNeobsluzenych;
-	private JLabel lblPocetObsluzenych;
-	private JLabel lblPercentualneVytazeniePark2;
-	private JLabel lblPocetAutNaPark2;
-	private JLabel lblPercentualneVytazeniePark1;
-	private JLabel lblPocetAutPark1;
-	private JLabel lblPriemDlzkaCakania;
-	private JLabel lblPocetLudiPredServisom;
-	private JProgressBar progressBar;
 	private JTextField textFieldPocetReplikacii;
-	private SwingWorker<Void, Void> worker;
+	private SwingWorker<Void, double[]> worker;
+	private JTextField textFieldInvesticiaOd;
+	private JTextField textFieldIvesticiaDo;
+	private JTextField textFieldInkrementacia;
+	private JTextArea textAreaVysledky;
 	/**
 	 * Create the dialog.
 	 */
 	public UrcovacieOkno() {
 		self = this;
-		setTitle("Sledovacie okno");
-		setBounds(100, 100, 1200, 700);
+		setTitle("Ur\u010Dovacie okno");
+		setBounds(100, 100, 868, 441);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
 		
@@ -66,16 +58,16 @@ public class UrcovacieOkno extends JDialog implements ISimDelegate {
 				
 				boolean sposop[] = new boolean[]{true, false};
 				btntart.setEnabled(false);
-				btnPauza.setEnabled(true);
-				worker = new SwingWorker<Void, Void>() {
+				btnStop.setEnabled(true);
+				textAreaVysledky.setText("");
+				worker = new SwingWorker<Void, double[]>() {
 					double investicia;
-					double minInvesticia = 4875;
-					double maxInvesticia = 4876;
-					double inkrementaciaInvesticie = 487.5;
-					int pocetAktualizacii = ((int)Math.ceil((maxInvesticia-minInvesticia)/inkrementaciaInvesticie))*2;
+					double minInvesticia = Double.parseDouble(textFieldInvesticiaOd.getText());
+					double maxInvesticia = Double.parseDouble(textFieldIvesticiaDo.getText())+1;
+					double inkrementaciaInvesticie = Double.parseDouble(textFieldInkrementacia.getText());
 					int pocetPracovnikov1;
 					int pocetPracovnikov2;
-					int pocetReplikacii = 50;
+					int pocetReplikacii = Integer.parseInt(textFieldPocetReplikacii.getText());;
 					double maxDlzkaCakaniaNaOpravu = 6*3600;
 					List<double[]> vektoryPoctov = new LinkedList<>();
 					double maxZiskPriInvesticii;
@@ -87,13 +79,13 @@ public class UrcovacieOkno extends JDialog implements ISimDelegate {
 					protected Void doInBackground() throws Exception {
 						for(investicia =minInvesticia;investicia<=maxInvesticia;investicia+=inkrementaciaInvesticie) {
 							maxZiskPriInvesticii = 0;
-							double vektorParametrov[] = new double[4];
+							double vektorParametrov[] = new double[5];
 							for(boolean sposobPrace : sposop) {
 								pocetPracovnikov1 = 2;
-								pocetPracovnikov2 = 45;
+								pocetPracovnikov2 = 44;
 								nasielSaPocet1 = false;
 								nasielSaPocet2 = false;
-								while(!nasielSaPocet1) {
+								while(!nasielSaPocet1 && !worker.isCancelled()) {
 									simulacia.setParametre(pocetPracovnikov1, pocetPracovnikov2, investicia, sposobPrace);
 									simulacia.simulate(pocetReplikacii,Config.DlzkaReplikacie);
 									priemPocetPracujucich  = simulacia.agentVybavovaci().getReplPriemPocetPracujucich();
@@ -104,7 +96,7 @@ public class UrcovacieOkno extends JDialog implements ISimDelegate {
 										pocetPracovnikov1=pocetPracujucichNaDalsiPokus;
 									}
 								}
-								while(!nasielSaPocet2) {
+								while(!nasielSaPocet2 && !worker.isCancelled()) {
 									simulacia.setParametre(pocetPracovnikov1, pocetPracovnikov2, investicia, sposobPrace);
 									simulacia.simulate(pocetReplikacii,Config.DlzkaReplikacie);
 									if(simulacia.agentVybavovaci().getReplPriemCakanieNaOpravu()<maxDlzkaCakaniaNaOpravu
@@ -115,7 +107,10 @@ public class UrcovacieOkno extends JDialog implements ISimDelegate {
 										vektorParametrov[2] = investicia;
 										if(sposobPrace) {
 											vektorParametrov[3] = 1;
-										} else vektorParametrov[3] = 0;
+										} else {
+											vektorParametrov[3] = 0;
+										}
+										vektorParametrov[4] = maxZiskPriInvesticii;
 									}
 									priemPocetPracujucich  = simulacia.agentOpravary().getReplPriemPocetPracujucich();
 									pocetPracujucichNaDalsiPokus = (int)Math.round(Math.ceil(priemPocetPracujucich));
@@ -128,16 +123,31 @@ public class UrcovacieOkno extends JDialog implements ISimDelegate {
 								}
 								
 							}
+							publish(vektorParametrov);
 							vektoryPoctov.add(vektorParametrov);
 						}
 						return null;
 					}
 					@Override
 					protected void done() {
-						btnPauza.setEnabled(false);
 						btnStop.setEnabled(false);
-						btnPokracuj.setEnabled(false);
 						btntart.setEnabled(true);
+					}
+					@Override
+					protected void process(List<double[]> kombinacie) {
+						for(double[] pole : kombinacie) {
+							String sprava = "Investícia: "+ pole[2]+" eur. Zisk "+StringUtils.getCislo(pole[4])+System.lineSeparator();
+							 sprava += "Pracovníci 1 : "+StringUtils.getCislo(pole[0])+System.lineSeparator()+
+									 " Pracovníci 2: "+
+									StringUtils.getCislo(pole[1])+System.lineSeparator();
+							 if(Math.round(pole[3])==1) {
+								 sprava+="Spôsob práce: pokus o zadávanie objednávky";
+							 } else {
+								 sprava+="Spôsob práce: pokus o odovzdávanie opraveného auta";
+							 }
+							 textAreaVysledky.append(sprava+System.lineSeparator()+System.lineSeparator());		
+									
+						}
 					}
 				};
 				worker.execute();
@@ -146,131 +156,19 @@ public class UrcovacieOkno extends JDialog implements ISimDelegate {
 		btntart.setBounds(10, 11, 89, 23);
 		getContentPane().add(btntart);
 		
-		lblPoetLudPred = new JLabel("Ve\u013Ekos\u0165 fronty pred rampov:");
-		lblPoetLudPred.setBounds(27, 362, 227, 14);
-		getContentPane().add(lblPoetLudPred);
-		
-		lblVelkostFrontyPredRampou = new JLabel("");
-		lblVelkostFrontyPredRampou.setBounds(288, 362, 46, 14);
-		getContentPane().add(lblVelkostFrontyPredRampou);
-		
-		JLabel lblPoetZkaznkovakajcich = new JLabel("Po\u010Det z\u00E1kazn\u00EDkov pred servisom:");
-		lblPoetZkaznkovakajcich.setBounds(27, 387, 251, 14);
-		getContentPane().add(lblPoetZkaznkovakajcich);
-		
-		JLabel lblas = new JLabel("\u010Das:");
-		lblas.setBounds(380, 387, 46, 14);
-		getContentPane().add(lblas);
-		
 		lblCasSimulacie = new JLabel("");
 		lblCasSimulacie.setBounds(457, 387, 307, 14);
 		getContentPane().add(lblCasSimulacie);
 		
-		btnPauza = new JButton("pauza");
-		btnPauza.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				simulacia.pauseSimulation();
-				btnPauza.setEnabled(false);
-				btnPokracuj.setEnabled(true);
-			}
-		});
-		btnPauza.setBounds(10, 36, 89, 23);
-		getContentPane().add(btnPauza);
-		
 		btnStop = new JButton("stop");
 		btnStop.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				worker.cancel(true);
+				btnStop.setEnabled(false);
 			}
 		});
-		btnStop.setBounds(10, 61, 89, 23);
+		btnStop.setBounds(10, 45, 89, 23);
 		getContentPane().add(btnStop);
-		
-		btnPokracuj = new JButton("pokracuj");
-		btnPokracuj.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				btnPauza.setEnabled(true);
-				btnPokracuj.setEnabled(false);
-				simulacia.resumeSimulation();
-			}
-		});
-		btnPokracuj.setBounds(109, 36, 89, 23);
-		getContentPane().add(btnPokracuj);
-		
-		JLabel lblPoetutNa = new JLabel("Po\u010Det \u00E1ut na parkovisku 1:");
-		lblPoetutNa.setBounds(27, 437, 212, 14);
-		getContentPane().add(lblPoetutNa);
-		
-		JLabel lblPoetutNa_1 = new JLabel("Po\u010Det \u00E1ut na parkovisku 2:");
-		lblPoetutNa_1.setBounds(27, 487, 171, 14);
-		getContentPane().add(lblPoetutNa_1);
-		
-		JLabel lblPercentulneVyaenieParkoviska = new JLabel("Percentu\u00E1lne vy\u0165a\u017Eenie parkoviska 1:");
-		lblPercentulneVyaenieParkoviska.setBounds(27, 462, 227, 14);
-		getContentPane().add(lblPercentulneVyaenieParkoviska);
-		
-		JLabel lblPercentulneVyaenieParkoviska_1 = new JLabel("Percentu\u00E1lne vy\u0165a\u017Eenie parkoviska 2:");
-		lblPercentulneVyaenieParkoviska_1.setBounds(27, 512, 227, 14);
-		getContentPane().add(lblPercentulneVyaenieParkoviska_1);
-		
-		JLabel lblPoetObslenchZkaznkov = new JLabel("Po\u010Det obsl\u00FA\u017Een\u00FDch z\u00E1kazn\u00EDkov:");
-		lblPoetObslenchZkaznkov.setBounds(27, 537, 227, 14);
-		getContentPane().add(lblPoetObslenchZkaznkov);
-		
-		JLabel lblPoetNeobslenchZkaznkov = new JLabel("Po\u010Det neobsl\u00FA\u017Een\u00FDch z\u00E1kazn\u00EDkov:");
-		lblPoetNeobslenchZkaznkov.setBounds(27, 562, 212, 14);
-		getContentPane().add(lblPoetNeobslenchZkaznkov);
-		
-		JLabel lblPriemernDkaakania = new JLabel("Priemern\u00E1 d\u013A\u017Eka \u010Dakania:");
-		lblPriemernDkaakania.setBounds(27, 412, 212, 14);
-		getContentPane().add(lblPriemernDkaakania);
-		
-		JLabel lblistZisk = new JLabel("\u010Dist\u00FD zisk:");
-		lblistZisk.setBounds(380, 362, 114, 14);
-		getContentPane().add(lblistZisk);
-		
-		lblZisk = new JLabel("New label");
-		lblZisk.setBounds(457, 362, 46, 14);
-		getContentPane().add(lblZisk);
-		
-		lblPriemDlzkaCakania = new JLabel("New label");
-		lblPriemDlzkaCakania.setBounds(288, 412, 138, 14);
-		getContentPane().add(lblPriemDlzkaCakania);
-		
-		lblPocetAutPark1 = new JLabel("New label");
-		lblPocetAutPark1.setBounds(288, 437, 46, 14);
-		getContentPane().add(lblPocetAutPark1);
-		
-		lblPercentualneVytazeniePark1 = new JLabel("New label");
-		lblPercentualneVytazeniePark1.setBounds(288, 462, 46, 14);
-		getContentPane().add(lblPercentualneVytazeniePark1);
-		
-		lblPocetAutNaPark2 = new JLabel("New label");
-		lblPocetAutNaPark2.setBounds(288, 487, 46, 14);
-		getContentPane().add(lblPocetAutNaPark2);
-		
-		lblPercentualneVytazeniePark2 = new JLabel("New label");
-		lblPercentualneVytazeniePark2.setBounds(288, 512, 46, 14);
-		getContentPane().add(lblPercentualneVytazeniePark2);
-		
-		lblPocetObsluzenych = new JLabel("New label");
-		lblPocetObsluzenych.setBounds(288, 537, 46, 14);
-		getContentPane().add(lblPocetObsluzenych);
-		
-		lblPocetNeobsluzenych = new JLabel("New label");
-		lblPocetNeobsluzenych.setBounds(288, 562, 46, 14);
-		getContentPane().add(lblPocetNeobsluzenych);
-		
-		lblPocetLudiPredServisom = new JLabel("New label");
-		lblPocetLudiPredServisom.setBounds(288, 387, 46, 14);
-		getContentPane().add(lblPocetLudiPredServisom);
-		
-		progressBar = new JProgressBar();
-		progressBar.setBounds(10, 135, 406, 14);
-		getContentPane().add(progressBar);
-		
-		JLabel lblProgresTestov = new JLabel("Progres testov:");
-		lblProgresTestov.setBounds(10, 110, 114, 14);
-		getContentPane().add(lblProgresTestov);
 		
 		textFieldPocetReplikacii = new JTextField();
 		textFieldPocetReplikacii.setBounds(268, 37, 86, 20);
@@ -280,12 +178,47 @@ public class UrcovacieOkno extends JDialog implements ISimDelegate {
 		JLabel lblPoetReplikciNa = new JLabel("Po\u010Det replik\u00E1ci\u00ED na test: ");
 		lblPoetReplikciNa.setBounds(268, 15, 148, 14);
 		getContentPane().add(lblPoetReplikciNa);
+		
+		JLabel lblInvestciaOd = new JLabel("Invest\u00EDcia od: ");
+		lblInvestciaOd.setBounds(426, 15, 114, 14);
+		getContentPane().add(lblInvestciaOd);
+		
+		textFieldInvesticiaOd = new JTextField();
+		textFieldInvesticiaOd.setBounds(426, 37, 86, 20);
+		getContentPane().add(textFieldInvesticiaOd);
+		textFieldInvesticiaOd.setColumns(10);
+		
+		JLabel lblIvestciaDo = new JLabel("Ivest\u00EDcia do:");
+		lblIvestciaDo.setBounds(550, 15, 147, 14);
+		getContentPane().add(lblIvestciaDo);
+		
+		textFieldIvesticiaDo = new JTextField();
+		textFieldIvesticiaDo.setBounds(550, 37, 86, 20);
+		getContentPane().add(textFieldIvesticiaDo);
+		textFieldIvesticiaDo.setColumns(10);
+		
+		textFieldInkrementacia = new JTextField();
+		textFieldInkrementacia.setBounds(678, 37, 86, 20);
+		getContentPane().add(textFieldInkrementacia);
+		textFieldInkrementacia.setColumns(10);
+		
+		JLabel lblInkremetovaInvestciuPo = new JLabel("Inkremetova\u0165 invest\u00EDciu po:");
+		lblInkremetovaInvestciuPo.setBounds(678, 15, 197, 14);
+		getContentPane().add(lblInkremetovaInvestciuPo);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(27, 119, 513, 232);
+		getContentPane().add(scrollPane);
+		
+		textAreaVysledky = new JTextArea();
+		scrollPane.setViewportView(textAreaVysledky);
 		addWindowListener(new WindowAdapter()
         {
             @Override
             public void windowClosing(WindowEvent e)
             {
-                simulacia.stopSimulation();
+            	if(worker!=null)
+                worker.cancel(true);
                 btntart.setEnabled(true);
             }
         });

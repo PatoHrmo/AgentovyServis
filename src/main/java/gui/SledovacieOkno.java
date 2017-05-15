@@ -81,6 +81,10 @@ public class SledovacieOkno extends JDialog implements ISimDelegate {
 		btntart = new JButton("\u0160tart");
 		btntart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				btntart.setEnabled(false);
+				btnStop.setEnabled(true);
+				btnPokracuj.setEnabled(false);
+				btnPauza.setEnabled(true);
 				getRychlost();
 				Config.trvanie = 0.2;
 				int pocetPracovnikov1 = Integer.parseInt(textFieldPocet1.getText());
@@ -90,7 +94,6 @@ public class SledovacieOkno extends JDialog implements ISimDelegate {
 				simulacia.setParametre(pocetPracovnikov1,pocetPracovnikov2,investicia, najprvOdovzdavatOpravene);
 				simulacia.simulateAsync(1,Config.DlzkaReplikacie);
 				simulacia.setSimSpeed(Config.interval, Config.trvanie);
-				btntart.setEnabled(false);
 			}
 		});
 		btntart.setBounds(10, 11, 89, 23);
@@ -163,6 +166,10 @@ public class SledovacieOkno extends JDialog implements ISimDelegate {
 		btnStop = new JButton("stop");
 		btnStop.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				simulacia.stopSimulation();
+				btnPauza.setEnabled(false);
+				btnPokracuj.setEnabled(false);
+				btntart.setEnabled(true);
 			}
 		});
 		btnStop.setBounds(10, 61, 89, 23);
@@ -211,39 +218,39 @@ public class SledovacieOkno extends JDialog implements ISimDelegate {
 		lblistZisk.setBounds(380, 362, 114, 14);
 		getContentPane().add(lblistZisk);
 		
-		lblZisk = new JLabel("New label");
+		lblZisk = new JLabel("");
 		lblZisk.setBounds(457, 362, 46, 14);
 		getContentPane().add(lblZisk);
 		
-		lblPriemDlzkaCakania = new JLabel("New label");
+		lblPriemDlzkaCakania = new JLabel("");
 		lblPriemDlzkaCakania.setBounds(288, 412, 138, 14);
 		getContentPane().add(lblPriemDlzkaCakania);
 		
-		lblPocetAutPark1 = new JLabel("New label");
+		lblPocetAutPark1 = new JLabel("");
 		lblPocetAutPark1.setBounds(288, 462, 46, 14);
 		getContentPane().add(lblPocetAutPark1);
 		
-		lblPercentualneVytazeniePark1 = new JLabel("New label");
+		lblPercentualneVytazeniePark1 = new JLabel("");
 		lblPercentualneVytazeniePark1.setBounds(288, 487, 46, 14);
 		getContentPane().add(lblPercentualneVytazeniePark1);
 		
-		lblPocetAutNaPark2 = new JLabel("New label");
+		lblPocetAutNaPark2 = new JLabel("");
 		lblPocetAutNaPark2.setBounds(288, 512, 46, 14);
 		getContentPane().add(lblPocetAutNaPark2);
 		
-		lblPercentualneVytazeniePark2 = new JLabel("New label");
+		lblPercentualneVytazeniePark2 = new JLabel("");
 		lblPercentualneVytazeniePark2.setBounds(288, 537, 46, 14);
 		getContentPane().add(lblPercentualneVytazeniePark2);
 		
-		lblPocetObsluzenych = new JLabel("New label");
+		lblPocetObsluzenych = new JLabel("");
 		lblPocetObsluzenych.setBounds(288, 562, 46, 14);
 		getContentPane().add(lblPocetObsluzenych);
 		
-		lblPocetNeobsluzenych = new JLabel("New label");
+		lblPocetNeobsluzenych = new JLabel("");
 		lblPocetNeobsluzenych.setBounds(288, 587, 46, 14);
 		getContentPane().add(lblPocetNeobsluzenych);
 		
-		lblPocetLudiPredServisom = new JLabel("New label");
+		lblPocetLudiPredServisom = new JLabel("");
 		lblPocetLudiPredServisom.setBounds(288, 387, 46, 14);
 		getContentPane().add(lblPocetLudiPredServisom);
 		
@@ -294,7 +301,7 @@ public class SledovacieOkno extends JDialog implements ISimDelegate {
 		lblNewLabel_1.setBounds(27, 437, 229, 14);
 		getContentPane().add(lblNewLabel_1);
 		
-		lblCakanieNaOpravu = new JLabel("New label");
+		lblCakanieNaOpravu = new JLabel("");
 		lblCakanieNaOpravu.setBounds(288, 437, 46, 14);
 		getContentPane().add(lblCakanieNaOpravu);
 		slider.addChangeListener(new ChangeListener() {
